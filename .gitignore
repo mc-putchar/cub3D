@@ -2,3 +2,4 @@ a.out
 *.tgz
 */*.o
 en.subject.pdf
+lib/MLX42/build
