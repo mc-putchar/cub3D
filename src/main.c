@@ -14,6 +14,5 @@
 
 int	main(void)
 {
-	write(1, "Cub test", 9);
-	return (0);
+	return (EXIT_SUCCESS);
 }
