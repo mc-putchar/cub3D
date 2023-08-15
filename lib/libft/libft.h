@@ -41,6 +41,9 @@ ssize_t	ft_putendl_fd(char *s, int fd);
 int	ft_printf(const char *format, ...);
 int	ft_dprintf(int fd, const char *format, ...);
 
+/* READS */
+char	*get_next_line(int fd);
+
 /* NUMBERS */
 int		ft_abs(int n);
 int		ft_atoi(const char *nptr);
@@ -75,6 +78,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+void	*ft_memgrow(void *ptr, size_t old_size, size_t new_size);
 
 /* LIST */
 typedef struct s_list

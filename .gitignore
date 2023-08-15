@@ -1,5 +1,8 @@
 a.out
+cub3D
 *.tgz
 */*.o
+*/*/*/*.o
+*/*/*.a
 en.subject.pdf
 lib/MLX42/build
