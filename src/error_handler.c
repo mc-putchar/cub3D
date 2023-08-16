@@ -12,3 +12,5 @@
 
 #include "cub3D.h"
 
+void	error_handler()
+{}
