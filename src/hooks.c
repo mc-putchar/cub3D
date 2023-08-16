@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-int		fps_calc(t_cub *cub)
+int	fps_calc(t_cub *cub)
 {
 	return (1 / cub->mlx->delta_time);
 }

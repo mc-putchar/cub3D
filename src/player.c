@@ -14,7 +14,6 @@
 
 void	move_player(t_cub *cub, int forward, int sideways)
 {
-
 	if (forward)
 	{
 		cub->player.position.x += cub->player.pdir.x * forward * PLAYER_STEP;

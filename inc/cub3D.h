@@ -55,8 +55,10 @@ int		init_data(t_cub *cub);
 void	put_pixel(mlx_image_t *img, int x, int y, int color);
 void	draw_line(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
 void	bresenham(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
-void	draw_square(mlx_image_t *img, t_pointInt *position, int size, int color);
-void	draw_circle(mlx_image_t *img, t_pointInt *center, int radius, int color);
+void	draw_square(mlx_image_t *img, t_pointInt *position, \
+		int size, int color);
+void	draw_circle(mlx_image_t *img, t_pointInt *center, \
+		int radius, int color);
 int		draw_map(t_cub *cub);
 void	draw_player(t_cub *cub);
 

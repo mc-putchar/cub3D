@@ -32,11 +32,8 @@ int	draw_map(t_cub *cub)
 		i = 0;
 		while (i < cub->map_width)
 		{
-			if (cub->map[j][i] != '0')
+			if (cub->map[j][i] != '0' && ft_isdigit(cub->map[j][i]))
 			{
-				if ((cub->map[j][i] == 'N' || cub->map[j][i] == 'S' \
-					|| cub->map[j][i] == 'E' || cub->map[j][i] == 'W') && ++i)
-					continue ;
 				p.x = i * MAP_SQUARE;
 				p.y = j * MAP_SQUARE;
 				draw_square(cub->img, &p, MAP_SQUARE, 0xFF00FFFF);

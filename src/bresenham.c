@@ -25,18 +25,18 @@ static void	get_quadrant(t_pointInt *p1, t_pointInt *p2, t_pointInt	*quad)
 		quad->y = -1;
 }
 
-static void	get_next_point(t_pointInt *cur, t_pointInt *d, t_pointInt *quad, int e[2])
+static void	next_point(t_pointInt *cur, t_pointInt *d, t_pointInt *q, int e[2])
 {
 	e[1] = e[0] * 2;
 	if (e[1] > -d->y)
 	{
 		e[0] -= d->y;
-		cur->x += quad->x;
+		cur->x += q->x;
 	}
 	if (e[1] < d->x)
 	{
 		e[0] += d->x;
-		cur->y += quad->y;
+		cur->y += q->y;
 	}
 }
 
@@ -55,7 +55,7 @@ void	bresenham(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2)
 	while (cur.x != p2->x || cur.y != p2->y)
 	{
 		put_pixel(img, cur.x, cur.y, get_gradient(&cur, p1, p2, &delta));
-		get_next_point(&cur, &delta, &quad, error);
+		next_point(&cur, &delta, &quad, error);
 	}
 	put_pixel(img, cur.x, cur.y, get_gradient(&cur, p1, p2, &delta));
 }
