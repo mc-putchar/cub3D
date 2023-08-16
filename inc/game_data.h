@@ -15,13 +15,13 @@
 
 # include "point.h"
 
+# define PLAYER_STEP	4
+
 typedef struct s_player
 {
-	t_point	position;
-	float	orientation;
+	t_pointInt	position;
+	t_point		pdir;
+	float		direction;
 }	t_player;
-
-void	set_player_position(t_player *player, float x, float y);
-void	set_player_orientation(t_player *player, float direction);
 
 #endif

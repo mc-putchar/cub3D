@@ -14,17 +14,16 @@
 
 #define MAP_PATH	"./maps/map1.cub"
 
-int	init_map(t_cub *cub)
+int	load_map(t_cub *cub, char const *filepath)
 {
 	int		fd;
 	char	*line;
 	int		len;
 	int		i;
 
-	i = 0;
-	(void)get_file_size(MAP_PATH, &i);
-	cub->map_height = i;
-	fd = open(MAP_PATH, O_RDONLY);
+	cub->map_height = 0;
+	(void)get_file_size(filepath, &cub->map_height);
+	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
 		return (EXIT_FAILURE);
 	cub->map_width = 0;
@@ -43,12 +42,41 @@ int	init_map(t_cub *cub)
 	return (0);
 }
 
+float	read_player_orientation(char *c)
+{
+	if (*c == 'N' )
+		return (M_PI_2);
+	if (*c == 'S')
+		return (M_PI_2 + M_PI);
+	if (*c == 'E')
+		return (0);
+	if (*c == 'W')
+		return (M_PI);
+	return (-1);
+}
+
 int	init_player(t_cub *cub)
 {
-	cub->player.position.x = 0.0f;
-	cub->player.position.y = 0.0f;
-	cub->player.orientation = 0.0f;
-	return (EXIT_SUCCESS);
+	int		i;
+	int		j;
+
+	j = -1;
+	while (++j < cub->map_height)
+	{
+		i = -1;
+		while (++i < cub->map_width)
+		{
+			cub->player.direction = read_player_orientation(&cub->map[j][i]);
+			if (cub->player.direction == -1)
+				continue ;
+			cub->player.position.x = (i + 0.5) * MAP_SQUARE;
+			cub->player.position.y = (j + 0.5) * MAP_SQUARE;
+			cub->player.pdir.x = cos(cub->player.direction);
+			cub->player.pdir.y = sin(cub->player.direction);
+			return (EXIT_SUCCESS);
+		}
+	}
+	return (EXIT_FAILURE);
 }
 
 void	init_hooks(t_cub *cub)
@@ -63,12 +91,15 @@ int	init_data(t_cub *cub)
 	cub->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
-	if (init_map(cub))
+	if (load_map(cub, MAP_PATH))
 	{
 		mlx_terminate(cub->mlx);
 		return (EXIT_FAILURE);
 	}
-	init_player(cub);
+	ft_printf("Map loaded\n");
+	if (init_player(cub))
+		error_handler("Init player failed\n");
+	ft_printf("Player initialized\n");
 	init_hooks(cub);
 	return (EXIT_SUCCESS);
 }

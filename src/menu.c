@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_player.c                                      :+:      :+:    :+:   */
+/*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 08:26:03 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/15 08:26:03 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/16 17:09:45 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/16 17:09:45 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-#define PLAYER_SIZE		8
-#define PLAYER_COLOR	0xFFFF22FF
-
-void	draw_player(t_cub *cub)
+void	draw_menu(void)
 {
-	t_pointInt	p;
+	return ;
+}
 
-	p.x = cub->player.position.x;
-	p.y = cub->player.position.y;
-	draw_circle(cub->img, &p, PLAYER_SIZE, PLAYER_COLOR);
-	p.x += cub->player.pdir.x * PLAYER_SIZE * 2;
-	p.y += cub->player.pdir.y * PLAYER_SIZE * 2;
-	draw_line(cub->img, &cub->player.position, &p);
+void	init_menu(t_cub *cub)
+{
+	cub->menu.img = mlx_new_image(cub->mlx, MENU_WIDTH, MENU_HEIGHT);
+	cub->menu.title = ft_strdup("Cub 3D: Episode 1: The Cubbing");
+	cub->menu.items = malloc(sizeof(char *) * 5);
+	if (!cub->menu.items)
+		error_handler(strerror(errno));
 }

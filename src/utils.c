@@ -14,7 +14,7 @@
 
 #define READ_BLOCK	4096
 
-ssize_t	get_file_size(char *filepath, int *line_count)
+ssize_t	get_file_size(char const *filepath, int *line_count)
 {
 	ssize_t	size;
 	ssize_t	r;

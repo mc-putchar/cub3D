@@ -12,5 +12,8 @@
 
 #include "cub3D.h"
 
-void	error_handler()
-{}
+void	error_handler(char const *message)
+{
+	ft_dprintf(STDERR_FILENO, "ERROR: %s\n", message);
+	exit(EXIT_FAILURE);
+}
