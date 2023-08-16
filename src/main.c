@@ -14,6 +14,20 @@
 
 int	main(void)
 {
-	write(1, "Cub test", 9);
-	return (0);
+	t_cub	cub;
+
+	if (init_data(&cub))
+		error_handler("Init failure.");
+	cub.img = mlx_new_image(cub.mlx, 768, 768);
+	if (!cub.img || (mlx_image_to_window(cub.mlx, cub.img, 16, 16) < 0))
+	{
+		error_handler(mlx_strerror(mlx_errno));
+		return (EXIT_FAILURE);
+	}
+	ft_printf("Initialized\n");
+	mlx_loop(cub.mlx);
+	free_map(cub.map, cub.map_height);
+	mlx_delete_image(cub.mlx, cub.img);
+	mlx_terminate(cub.mlx);
+	return (EXIT_SUCCESS);
 }

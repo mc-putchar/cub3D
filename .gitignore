@@ -1,3 +1,7 @@
 a.out
-*.tgz
-*/*.o
+cub3D
+.vscode
+*.o
+*.a
+en.subject.pdf
+lib/MLX42/build
