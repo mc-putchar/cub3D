@@ -66,6 +66,6 @@ int		get_color(int r, int g, int b, int a);
 void	free_map(char **map, int size);
 
 /* UTILS */
-ssize_t	get_file_size(int fd, int *line_count);
+ssize_t	get_file_size(char *filepath, int *line_count);
 
 #endif

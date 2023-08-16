@@ -18,7 +18,7 @@ void	draw_square(mlx_image_t *img, t_pointInt position, int size, int color)
 	int	j;
 
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
 		j = 0;
 		while (j < size)

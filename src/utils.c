@@ -14,13 +14,17 @@
 
 #define READ_BLOCK	4096
 
-ssize_t	get_file_size(int fd, int *line_count)
+ssize_t	get_file_size(char *filepath, int *line_count)
 {
 	ssize_t	size;
 	ssize_t	r;
 	char	buf[READ_BLOCK];
 	int		i;
+	int		fd;
 
+	fd = open(filepath, O_RDONLY);
+	if (fd == -1)
+		return (-1);
 	size = 0;
 	*line_count = 0;
 	r = read(fd, buf, READ_BLOCK);
@@ -35,7 +39,6 @@ ssize_t	get_file_size(int fd, int *line_count)
 	}
 	if (r < 0)
 		return (-1);
-	if (fd > 2)
-		close(fd);
+	close(fd);
 	return (size);
 }

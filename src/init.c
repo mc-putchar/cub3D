@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-"Icon made by Freepik from www.flaticon.com"
-*/
-
 #include "cub3D.h"
 
 #define MAP_PATH	"./maps/map1.cub"
-#define ICON		"./res/icon.png"
 
 int	init_map(t_cub *cub)
 {
@@ -26,11 +21,8 @@ int	init_map(t_cub *cub)
 	int		len;
 	int		i;
 
-	fd = open(MAP_PATH, O_RDONLY);
-	if (fd == -1)
-		return (EXIT_FAILURE);
 	i = 0;
-	(void)get_file_size(fd, &i);
+	(void)get_file_size(MAP_PATH, &i);
 	cub->map_height = i;
 	fd = open(MAP_PATH, O_RDONLY);
 	if (fd == -1)
@@ -41,13 +33,13 @@ int	init_map(t_cub *cub)
 	line = get_next_line(fd);
 	while (line && i < cub->map_height)
 	{
-		// ft_printf("%s", line);
 		cub->map[i++] = line;
 		len = (int)ft_strlen(line);
 		if (len > cub->map_width)
 			cub->map_width = len;
 		line = get_next_line(fd);
 	}
+	close(fd);
 	return (0);
 }
 
@@ -68,18 +60,9 @@ void	init_hooks(t_cub *cub)
 
 int	init_data(t_cub *cub)
 {
-	// mlx_texture_t	*icon_tex;
-
-	// mlx_set_setting(MLX_MAXIMIZED, true);
-	// mlx_set_setting(MLX_FULLSCREEN, true);
-	// mlx_set_setting(MLX_DECORATED, true);
-	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	cub->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
-	// icon_tex = mlx_load_png(ICON);
-	// if (icon_tex)
-	// 	mlx_set_icon(cub->mlx, icon_tex);
 	if (init_map(cub))
 	{
 		mlx_terminate(cub->mlx);

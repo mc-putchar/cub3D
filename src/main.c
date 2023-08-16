@@ -29,11 +29,9 @@ int	main(void)
 	}
 	ft_printf("Initialized\nDrawing map\n");
 	draw_map(&cub);
-
 	mlx_loop(cub.mlx);
 	free_map(cub.map, cub.map_height);
 	mlx_delete_image(cub.mlx, cub.img);
 	mlx_terminate(cub.mlx);
-
 	return (EXIT_SUCCESS);
 }
