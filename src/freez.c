@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   freez.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 00:07:44 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/15 00:07:44 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/16 10:11:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	get_color(int r, int g, int b, int a)
+void	free_map(char **map, int size)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	while (size--)
+		free(map[size]);
+	free(map);
 }

@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   game_data.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 00:07:44 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/15 00:07:44 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/14 23:53:34 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#ifndef GAME_DATA_H
+# define GAME_DATA_H
 
-int	get_color(int r, int g, int b, int a)
+# include "point.h"
+
+typedef struct s_player
 {
-	return (r << 24 | g << 16 | b << 8 | a);
-}
+	t_point	position;
+	float	orientation;
+}	t_player;
+
+void	set_player_position(t_player *player, float x, float y);
+void	set_player_orientation(t_player *player, float direction);
+
+#endif

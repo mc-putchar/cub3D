@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawPlayer.c                                       :+:      :+:    :+:   */
+/*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 08:26:03 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/15 08:26:03 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/16 09:43:46 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/16 09:43:46 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-#define PLAYER_SIZE		8
-#define PLAYER_COLOR	0xFF3322FF
-
-void	drawPlayer(t_cub *cub)
+void	ft_hook(void *param)
 {
-	t_pointInt	p;
+	draw_player(param);
+}
 
-	p.x = (int)cub->player.position.x * 32;
-	p.y = (int)cub->player.position.y * 32;
-	drawSquare(cub->img, p, PLAYER_SIZE, PLAYER_COLOR);
+void	keys_hook(mlx_key_data_t keydata, void *param)
+{
+	if (keydata.key == MLX_KEY_ESCAPE)
+		close_hook(param);
+}
+
+void	close_hook(void *param)
+{
+	t_cub	*cub;
+
+	cub = param;
+	free_map(cub->map, cub->map_height);
+	mlx_delete_image(cub->mlx, cub->img);
+	mlx_terminate(cub->mlx);
+	exit(EXIT_SUCCESS);
 }

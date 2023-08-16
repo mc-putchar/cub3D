@@ -18,30 +18,31 @@ NAME	:=	cub3D
 
 SRCDIR		:=	src
 INCDIR		:=	inc
-RESDIR		:=	res
 OBJDIR		:=	obj
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/MLX42
 
-#--- LIBRARIES ---
-
-LIBFT	:=	$(LIBFTDIR)/libft.a
-LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
-
 #--- SOURCES ---
 
-SRC		:=	main.c colors.c init.c drawMap.c drawPlayer.c
+SRC		:=	main.c init.c utils.c error_handler.c
+SRC		+=	hooks.c freez.c colors.c
+SRC		+=	draw_lines.c draw_shapes.c draw_map.c draw_player.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
+
+#--- HEADERS ---
+
+_HEADERS	:=	cub3D.h point.h game_data.h
+HEADERS		:=	$(addprefix $(INCDIR)/, $(_HEADERS))
+INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR) -I$(LIBMLXDIR)/include
 
 #--- OBJECTS ---
 
 OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
-#--- HEADERS ---
+#--- LIBRARIES ---
 
-_HEADERS	:=	cub3D.h point.h
-HEADERS		:=	$(addprefix $(INCDIR)/, $(_HEADERS))
-INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR) -I$(LIBMLXDIR)/include
+LIBFT	:=	$(LIBFTDIR)/libft.a
+LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
 
 #--- FLAGS ---
 

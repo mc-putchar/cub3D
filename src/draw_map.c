@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawMap.c                                          :+:      :+:    :+:   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,34 +12,7 @@
 
 #include "cub3D.h"
 
-void	drawSquare(mlx_image_t *img, t_pointInt position, int size, int color)
-{
-	int const			x = (int)position.x;
-	int const			y = (int)position.y;
-	int					i;
-	int					j;
-	long unsigned int	pix;
-
-	i = 0;
-	while(i < size)
-	{
-		j = 0;
-		while (j < size)
-		{
-			pix = (x + i) * img->width * BPP + ((y + j) * BPP);
-			if (pix > img->width * img->height * BPP)
-				break ;
-			img->pixels[pix++] = (color >> 24) & 0xFF;
-			img->pixels[pix++] = (color >> 16) & 0xFF;
-			img->pixels[pix++] = (color >> 8) & 0xFF;
-			img->pixels[pix] = color & 0xFF;
-			++j;
-		}
-		++i;
-	}
-}
-
-int	drawMap(t_cub *cub)
+int	draw_map(t_cub *cub)
 {
 	int			i;
 	int			j;
@@ -47,7 +20,8 @@ int	drawMap(t_cub *cub)
 
 	p.x = 0;
 	p.y = 0;
-	ft_memset(cub->img->pixels, getColor(255, 255, 255, 255), cub->img->width * cub->img->height * BPP);
+	ft_printf("Setting background\n");
+	ft_memset(cub->img->pixels, get_color(255, 255, 255, 255), cub->img->width * cub->img->height * BPP); // Set background color
 	i = 0;
 	while (i < cub->map_height)
 	{
@@ -56,9 +30,25 @@ int	drawMap(t_cub *cub)
 		{
 			if (cub->map[i][j] != '0')
 			{
+				if (cub->map[i][j] == 'N' || cub->map[i][j] == 'S' || cub->map[i][j] == 'E' || cub->map[i][j] == 'W')
+				{
+					ft_printf("Found player: %c", cub->map[i][j]);
+					cub->player.position.x = i;
+					cub->player.position.y = j;
+					if (cub->map[i][j] == 'N' )
+						cub->player.orientation = M_PI_2;
+					else if (cub->map[i][j] == 'S')
+						cub->player.orientation = M_PI_2 + M_PI;
+					else if (cub->map[i][j] == 'E')
+						cub->player.orientation = 0;
+					else if (cub->map[i][j] == 'W')
+						cub->player.orientation = M_PI;
+					++j;
+					continue;
+				}
 				p.x = i * MAP_SQUARE;
 				p.y = j * MAP_SQUARE;
-				drawSquare(cub->img, p, MAP_SQUARE, getColor(0x0, 0x0, 0xFF, 0xFF));
+				draw_square(cub->img, p, MAP_SQUARE, get_color(0x0, 0x0, 0xFF, 0xFF));
 			}
 			++j;
 		}

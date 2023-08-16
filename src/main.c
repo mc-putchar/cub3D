@@ -12,30 +12,9 @@
 
 #include "cub3D.h"
 
-static void	ft_hook(void *param)
-{
-	drawPlayer(param);
-}
-
-void	free_map(char **map, int size)
-{
-	while (size--)
-		free(map[size]);
-	free(map);
-}
-
 int	main(void)
 {
 	t_cub	cub;
-
-	// mlx_t	*mlx;
-	// mlx_set_setting(MLX_MAXIMIZED, true);
-	// mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
-	// if (!mlx)
-	// {
-	// 	ft_dprintf(STDERR_FILENO, "%s", mlx_strerror(mlx_errno));
-	// 	return (EXIT_FAILURE);
-	// }
 
 	if (init_data(&cub))
 	{
@@ -48,15 +27,13 @@ int	main(void)
 		ft_dprintf(STDERR_FILENO, "%s", mlx_strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
-	drawMap(&cub);
+	ft_printf("Initialized\nDrawing map\n");
+	draw_map(&cub);
 
-	mlx_loop_hook(cub.mlx, ft_hook, &cub);
 	mlx_loop(cub.mlx);
-
+	free_map(cub.map, cub.map_height);
 	mlx_delete_image(cub.mlx, cub.img);
 	mlx_terminate(cub.mlx);
-
-	free_map(cub.map, cub.map_height);
 
 	return (EXIT_SUCCESS);
 }

@@ -10,35 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+"Icon made by Freepik from www.flaticon.com"
+*/
+
 #include "cub3D.h"
 
 #define MAP_PATH	"./maps/map1.cub"
-#define READ_BLOCK	4096
-
-static ssize_t	get_file_size(int fd, int *line_count)
-{
-	ssize_t	size;
-	ssize_t	r;
-	char	buf[READ_BLOCK];
-	int		i;
-
-	size = 0;
-	r = read(fd, buf, READ_BLOCK);
-	while (r > 0)
-	{
-		size += r;
-		i = 0;
-		while (i < r)
-			if (buf[i++] == '\n')
-				(*line_count)++;
-		r = read(fd, buf, READ_BLOCK);
-	}
-	if (r < 0)
-		return (-1);
-	if (fd > 2)
-		close(fd);
-	return (size);
-}
+#define ICON		"./res/icon.png"
 
 int	init_map(t_cub *cub)
 {
@@ -74,22 +53,39 @@ int	init_map(t_cub *cub)
 
 int	init_player(t_cub *cub)
 {
-	cub->player.position.x = 12.0f;
-	cub->player.position.y = 12.0f;
+	cub->player.position.x = 0.0f;
+	cub->player.position.y = 0.0f;
 	cub->player.orientation = 0.0f;
 	return (EXIT_SUCCESS);
 }
 
+void	init_hooks(t_cub *cub)
+{
+	mlx_key_hook(cub->mlx, keys_hook, cub);
+	mlx_close_hook(cub->mlx, close_hook, cub);
+	mlx_loop_hook(cub->mlx, ft_hook, cub);
+}
+
 int	init_data(t_cub *cub)
 {
+	// mlx_texture_t	*icon_tex;
+
+	// mlx_set_setting(MLX_MAXIMIZED, true);
+	// mlx_set_setting(MLX_FULLSCREEN, true);
+	// mlx_set_setting(MLX_DECORATED, true);
+	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	cub->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
+	// icon_tex = mlx_load_png(ICON);
+	// if (icon_tex)
+	// 	mlx_set_icon(cub->mlx, icon_tex);
 	if (init_map(cub))
 	{
 		mlx_terminate(cub->mlx);
 		return (EXIT_FAILURE);
 	}
 	init_player(cub);
+	init_hooks(cub);
 	return (EXIT_SUCCESS);
 }
