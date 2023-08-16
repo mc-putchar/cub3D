@@ -1,0 +1,24 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: make
+      run: make
+    - name: 42 Norminette Linter
+    # You may pin to the exact commit or the version.
+    # uses: hanshazairi/42-norminette-action@e28e38dcc5036ebca969d65a310aa75e49e587be
+      uses: hanshazairi/42-norminette-action@v1.1.0
+      with:
+      # Directory to exclude from Norminette check
+        exclude-dir: lib/MLX42
