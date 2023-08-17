@@ -12,17 +12,13 @@
 
 #include "cub3D.h"
 
-#define PLAYER_SIZE		8
-#define PLAYER_COLOR	0xFFFF22FF
-
 void	draw_player(t_cub *cub)
 {
-	t_pointInt	p;
+	t_point	p;
 
-	p.x = cub->player.position.x;
-	p.y = cub->player.position.y;
-	draw_circle(cub->img, &p, PLAYER_SIZE, PLAYER_COLOR);
-	p.x += cub->player.pdir.x * PLAYER_SIZE * 2;
-	p.y += cub->player.pdir.y * PLAYER_SIZE * 2;
+	draw_circle(cub->img, &cub->player.position, PLAYER_SIZE, PLAYER_COLOR);
+	p.x = cub->player.position.x + cub->player.pdir.x * PLAYER_SIZE * 2;
+	p.y = cub->player.position.y + cub->player.pdir.y * PLAYER_SIZE * 2;
+	p.color = PLAYER_COLOR;
 	draw_line(cub->img, &cub->player.position, &p);
 }

@@ -42,12 +42,12 @@ int	load_map(t_cub *cub, char const *filepath)
 	return (0);
 }
 
-float	read_player_orientation(char *c)
+double	read_player_orientation(char *c)
 {
 	if (*c == 'N' )
-		return (M_PI_2);
-	if (*c == 'S')
 		return (M_PI_2 + M_PI);
+	if (*c == 'S')
+		return (M_PI_2);
 	if (*c == 'E')
 		return (0);
 	if (*c == 'W')
@@ -71,8 +71,10 @@ int	init_player(t_cub *cub)
 				continue ;
 			cub->player.position.x = (i + 0.5) * MAP_SQUARE;
 			cub->player.position.y = (j + 0.5) * MAP_SQUARE;
-			cub->player.pdir.x = cos(cub->player.direction);
+			cub->player.position.color = PLAYER_COLOR;
+			cub->player.pdir.x = -cos(cub->player.direction);
 			cub->player.pdir.y = sin(cub->player.direction);
+			printf("Player x:%d y:%d dir:%f\npDir x:%f y:%f\n", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
 			return (EXIT_SUCCESS);
 		}
 	}
@@ -86,11 +88,31 @@ void	init_hooks(t_cub *cub)
 	mlx_loop_hook(cub->mlx, ft_hook, cub);
 }
 
+int	ray_test(t_cub *cub)
+{
+	cub->img2 = mlx_new_image(cub->mlx, 768, 768);
+	if (!cub->img2 || (mlx_image_to_window(cub->mlx, cub->img2, 16, 816) < 0))
+	{
+		error_handler(mlx_strerror(mlx_errno));
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	init_image(t_cub *cub)
+{
+	cub->img = mlx_new_image(cub->mlx, 768, 768);
+	if (!cub->img || (mlx_image_to_window(cub->mlx, cub->img, 16, 16) < 0))
+		error_handler(mlx_strerror(mlx_errno));
+	return (EXIT_SUCCESS);
+}
+
 int	init_data(t_cub *cub)
 {
 	cub->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
+	init_image(cub);
 	if (load_map(cub, MAP_PATH))
 	{
 		mlx_terminate(cub->mlx);
@@ -100,6 +122,9 @@ int	init_data(t_cub *cub)
 	if (init_player(cub))
 		error_handler("Init player failed\n");
 	ft_printf("Player initialized\n");
+	// ray_test(cub);
+	// ft_printf("Ray test image set\n");
 	init_hooks(cub);
+	ft_printf("Hooks set\n");
 	return (EXIT_SUCCESS);
 }

@@ -18,13 +18,7 @@ int	main(void)
 
 	if (init_data(&cub))
 		error_handler("Init failure.");
-	cub.img = mlx_new_image(cub.mlx, 768, 768);
-	if (!cub.img || (mlx_image_to_window(cub.mlx, cub.img, 16, 16) < 0))
-	{
-		error_handler(mlx_strerror(mlx_errno));
-		return (EXIT_FAILURE);
-	}
-	ft_printf("Initialized\n");
+	ft_printf("Init complete\n");
 	mlx_loop(cub.mlx);
 	free_map(cub.map, cub.map_height);
 	mlx_delete_image(cub.mlx, cub.img);

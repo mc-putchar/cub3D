@@ -47,8 +47,8 @@ static int	get_mix(int start, int end, double percent)
 	return ((red << 24) | (green << 16) | (blue << 8) | alpha);
 }
 
-int	get_gradient(t_pointInt *curr, t_pointInt *start, t_pointInt *end, \
-	t_pointInt *delta)
+int	get_gradient(t_point *curr, t_point *start, t_point *end, \
+	t_point *delta)
 {
 	double	percent;
 

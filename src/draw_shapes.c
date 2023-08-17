@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-void	draw_square(mlx_image_t *img, t_pointInt *position, int size, int color)
+void	draw_square(mlx_image_t *img, t_point *position, int size, int color)
 {
 	int	i;
 	int	j;
@@ -30,7 +30,7 @@ void	draw_square(mlx_image_t *img, t_pointInt *position, int size, int color)
 	}
 }
 
-void	draw_circle(mlx_image_t *img, t_pointInt *center, int radius, int color)
+void	draw_circle(mlx_image_t *img, t_point *center, int radius, int color)
 {
 	int		i;
 	int		j;

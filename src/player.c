@@ -21,8 +21,8 @@ void	move_player(t_cub *cub, int forward, int sideways)
 	}
 	if (sideways)
 	{
-		cub->player.position.x -= cub->player.pdir.y * sideways * PLAYER_STEP;
-		cub->player.position.y -= cub->player.pdir.x * sideways * PLAYER_STEP;
+		cub->player.position.x += cub->player.pdir.y * sideways * PLAYER_STEP;
+		cub->player.position.y += cub->player.pdir.x * sideways * PLAYER_STEP;
 	}
 }
 
@@ -33,6 +33,6 @@ void	turn_player(t_cub *cub, int rotation)
 		cub->player.direction -= M_PI * 2;
 	if (cub->player.direction < 0)
 		cub->player.direction += M_PI * 2;
-	cub->player.pdir.x = cos(cub->player.direction);
+	cub->player.pdir.x = -cos(cub->player.direction);
 	cub->player.pdir.y = sin(cub->player.direction);
 }

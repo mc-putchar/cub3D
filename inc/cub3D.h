@@ -30,17 +30,21 @@
 # include "libft.h"
 
 # include "point.h"
+# include "vector.h"
 # include "game_data.h"
 
 # define WIN_HEIGHT		800
-# define WIN_WIDTH		1400
+# define WIN_WIDTH		1600
 # define BPP			4
 # define MAP_SQUARE		32
+# define MAP_BINDIV		5
+# define MAP_COLOR		0xFF00FFFF
 
 typedef struct s_cub
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t	*img2;
 	double		runtime;
 	t_player	player;
 	int			map_width;
@@ -53,14 +57,18 @@ int		init_data(t_cub *cub);
 
 /* DRAW */
 void	put_pixel(mlx_image_t *img, int x, int y, int color);
-void	draw_line(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
-void	bresenham(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
-void	draw_square(mlx_image_t *img, t_pointInt *position, \
+void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2);
+void	bresenham(mlx_image_t *img, t_point *p1, t_point *p2);
+void	draw_square(mlx_image_t *img, t_point *position, \
 		int size, int color);
-void	draw_circle(mlx_image_t *img, t_pointInt *center, \
+void	draw_circle(mlx_image_t *img, t_point *center, \
 		int radius, int color);
+void	clear_image(mlx_image_t *img);
 int		draw_map(t_cub *cub);
 void	draw_player(t_cub *cub);
+
+/* RAYCASTER */
+void	cast_rays(t_cub *cub);
 
 /* HOOKS */
 void	ft_hook(void *param);
@@ -69,8 +77,8 @@ void	close_hook(void *param);
 
 /* COLORS */
 int		get_color(int r, int g, int b, int a);
-int		get_gradient(t_pointInt *curr, t_pointInt *start, t_pointInt *end, \
-		t_pointInt *delta);
+int		get_gradient(t_point *curr, t_point *start, t_point *end, \
+		t_point *delta);
 
 /* FREEZ */
 void	free_map(char **map, int size);

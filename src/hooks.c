@@ -14,13 +14,30 @@
 
 int	fps_calc(t_cub *cub)
 {
+	static mlx_image_t	*img;
+	char				*str;
+	char				*tmp;
+
+	if (img)
+		mlx_delete_image(cub->mlx, img);
+	tmp = ft_itoa(1 / cub->mlx->delta_time);
+	str = ft_strjoin("FPS: ", tmp);
+	free(tmp);
+	img = mlx_put_string(cub->mlx, str, 800, 20);
+	free(str);
 	return (1 / cub->mlx->delta_time);
 }
 
 void	ft_hook(void *param)
 {
-	draw_map(param);
-	draw_player(param);
+	t_cub	*cub;
+
+	cub = param;
+	clear_image(cub->img);
+	draw_map(cub);
+	draw_player(cub);
+	cast_rays(param);
+	fps_calc(cub);
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)
@@ -43,9 +60,9 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_D)
 		sideways = -1;
 	if (keydata.key == MLX_KEY_LEFT)
-		rotation = -1;
-	if (keydata.key == MLX_KEY_RIGHT)
 		rotation = 1;
+	if (keydata.key == MLX_KEY_RIGHT)
+		rotation = -1;
 	if (forward || sideways)
 		move_player(param, forward, sideways);
 	if (rotation)

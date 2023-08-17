@@ -13,7 +13,7 @@
 #include "cub3D.h"
 #include "point.h"
 
-static void	get_quadrant(t_pointInt *p1, t_pointInt *p2, t_pointInt	*quad)
+static void	get_quadrant(t_point *p1, t_point *p2, t_point	*quad)
 {
 	if (p1->x < p2->x)
 		quad->x = 1;
@@ -25,7 +25,7 @@ static void	get_quadrant(t_pointInt *p1, t_pointInt *p2, t_pointInt	*quad)
 		quad->y = -1;
 }
 
-static void	next_point(t_pointInt *cur, t_pointInt *d, t_pointInt *q, int e[2])
+static void	next_point(t_point *cur, t_point *d, t_point *q, int e[2])
 {
 	e[1] = e[0] * 2;
 	if (e[1] > -d->y)
@@ -40,11 +40,11 @@ static void	next_point(t_pointInt *cur, t_pointInt *d, t_pointInt *q, int e[2])
 	}
 }
 
-void	bresenham(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2)
+void	bresenham(mlx_image_t *img, t_point *p1, t_point *p2)
 {
-	t_pointInt	delta;
-	t_pointInt	quad;
-	t_pointInt	cur;
+	t_point	delta;
+	t_point	quad;
+	t_point	cur;
 	int			error[2];
 
 	delta.x = ft_abs(p2->x - p1->x);

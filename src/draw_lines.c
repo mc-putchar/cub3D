@@ -16,9 +16,9 @@ void	put_pixel(mlx_image_t *img, int x, int y, int color)
 {
 	int	pix;
 
-	if (x < 0 || (uint32_t)x > img->width)
+	if (x < 0 || (uint32_t)x >= img->width)
 		return ;
-	if (y < 0 || (uint32_t)y > img->height)
+	if (y < 0 || (uint32_t)y >= img->height)
 		return ;
 	pix = (x + img->width * y) * BPP;
 	img->pixels[pix++] = (color >> 24) & 0xFF;
@@ -27,7 +27,7 @@ void	put_pixel(mlx_image_t *img, int x, int y, int color)
 	img->pixels[pix] = color & 0xFF;
 }
 
-void	draw_line(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2)
+void	draw_line(mlx_image_t *img, t_point *p1, t_point *p2)
 {
 	bresenham(img, p1, p2);
 }
