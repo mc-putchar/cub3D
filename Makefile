@@ -28,6 +28,7 @@ SRC		:=	main.c init.c utils.c error_handler.c
 SRC		+=	hooks.c freez.c colors.c
 SRC		+=	draw_lines.c bresenham.c draw_shapes.c draw_map.c draw_player.c
 SRC		+=	player.c
+SRC		+=	raycaster.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 #--- HEADERS ---
