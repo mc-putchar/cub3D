@@ -30,6 +30,10 @@ int					ft_isspace(int c);
 /* CONVERTERS */
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+int					ft_atoi(const char *nptr);
+int					ft_atoi_base(char *str, char *base);
+char				*ft_itoa(int n);
+char				*ft_uitoa(unsigned int n);
 
 /* PUTS */
 ssize_t				ft_putchar_fd(char c, int fd);
@@ -46,10 +50,6 @@ char				*get_next_line(int fd);
 
 /* NUMBERS */
 int					ft_abs(int n);
-int					ft_atoi(const char *nptr);
-int					ft_atoi_base(char *str, char *base);
-char				*ft_itoa(int n);
-char				*ft_uitoa(unsigned int n);
 double				ft_clampd(double d, double min, double max);
 void				ft_swap(int *a, int *b);
 
