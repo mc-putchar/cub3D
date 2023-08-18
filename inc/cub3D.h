@@ -47,6 +47,7 @@ typedef struct s_cub
 	mlx_image_t	*img2;
 	double		runtime;
 	t_player	player;
+	t_precalc	meth;
 	int			map_width;
 	int			map_height;
 	char		**map;
@@ -85,6 +86,9 @@ void	free_map(char **map, int size);
 
 /* UTILS */
 ssize_t	get_file_size(char const *filepath, int *line_count);
+int		angle_todeg(double angle);
+double	angle_torad(int angle);
+void	precalculate_meth(t_cub *cub);
 
 void	error_handler(char const *message);
 void	move_player(t_cub *cub, int forward, int sideways);

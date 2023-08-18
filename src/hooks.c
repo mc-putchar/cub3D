@@ -38,6 +38,7 @@ void	ft_hook(void *param)
 	draw_player(cub);
 	cast_rays(param);
 	fps_calc(cub);
+	printf("\rPlayer x:%d y:%d dir:%d | pDir x:%f y:%f", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)
@@ -60,9 +61,9 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_D)
 		sideways = -1;
 	if (keydata.key == MLX_KEY_LEFT)
-		rotation = 1;
-	if (keydata.key == MLX_KEY_RIGHT)
 		rotation = -1;
+	if (keydata.key == MLX_KEY_RIGHT)
+		rotation = 1;
 	if (forward || sideways)
 		move_player(param, forward, sideways);
 	if (rotation)
@@ -77,5 +78,6 @@ void	close_hook(void *param)
 	free_map(cub->map, cub->map_height);
 	mlx_delete_image(cub->mlx, cub->img);
 	mlx_terminate(cub->mlx);
+	ft_printf("\nByeee\n");
 	exit(EXIT_SUCCESS);
 }

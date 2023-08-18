@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_data.h                                        :+:      :+:    :+:   */
+/*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/14 23:53:34 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/17 14:46:45 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/17 14:46:45 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GAME_DATA_H
-# define GAME_DATA_H
+#include "cub3D.h"
 
-# include "point.h"
-
-# define PLAYER_SIZE	8
-# define PLAYER_COLOR	0x00FF88FF
-# define PLAYER_STEP	4
-# define PLAYER_TURN	3
-
-typedef struct s_precalc
+int	angle_todeg(double angle)
 {
-	double	sins[360];
-	double	coss[360];
-}	t_precalc;
+	return (round(angle * 180 / M_PI));
+}
 
-typedef struct s_player
+double	angle_torad(int angle)
 {
-	t_point		position;
-	t_vector	pdir;
-	int			direction;
-}	t_player;
+	return (angle * M_PI / 180);
+}
 
-#endif
+void	precalculate_meth(t_cub *cub)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 360)
+	{
+		cub->meth.sins[i] = sin(angle_torad(i));
+		cub->meth.coss[i] = cos(angle_torad(i));
+	}
+}

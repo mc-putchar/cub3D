@@ -42,16 +42,18 @@ int	load_map(t_cub *cub, char const *filepath)
 	return (0);
 }
 
-double	read_player_orientation(char *c)
+int	read_player_orientation(char *c)
 {
+	if (ft_isdigit(*c))
+		return (-1);
 	if (*c == 'N' )
-		return (M_PI_2 + M_PI);
+		return (270);
 	if (*c == 'S')
-		return (M_PI_2);
+		return (90);
 	if (*c == 'E')
 		return (0);
 	if (*c == 'W')
-		return (M_PI);
+		return (180);
 	return (-1);
 }
 
@@ -72,9 +74,8 @@ int	init_player(t_cub *cub)
 			cub->player.position.x = (i + 0.5) * MAP_SQUARE;
 			cub->player.position.y = (j + 0.5) * MAP_SQUARE;
 			cub->player.position.color = PLAYER_COLOR;
-			cub->player.pdir.x = -cos(cub->player.direction);
-			cub->player.pdir.y = sin(cub->player.direction);
-			printf("Player x:%d y:%d dir:%f\npDir x:%f y:%f\n", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
+			cub->player.pdir.x = cub->meth.coss[cub->player.direction];
+			cub->player.pdir.y = cub->meth.sins[cub->player.direction];
 			return (EXIT_SUCCESS);
 		}
 	}
@@ -119,6 +120,7 @@ int	init_data(t_cub *cub)
 		return (EXIT_FAILURE);
 	}
 	ft_printf("Map loaded\n");
+	precalculate_meth(cub);
 	if (init_player(cub))
 		error_handler("Init player failed\n");
 	ft_printf("Player initialized\n");
