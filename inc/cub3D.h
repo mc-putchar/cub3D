@@ -64,7 +64,9 @@ void	draw_square(mlx_image_t *img, t_point *position, \
 		int size, int color);
 void	draw_circle(mlx_image_t *img, t_point *center, \
 		int radius, int color);
-void	clear_image(mlx_image_t *img);
+void	draw_column(mlx_image_t *img, t_point *start, \
+		int height, int width);
+void	clear_image(mlx_image_t *img, int background);
 int		draw_map(t_cub *cub);
 void	draw_player(t_cub *cub);
 
@@ -93,5 +95,7 @@ void	precalculate_meth(t_cub *cub);
 void	error_handler(char const *message);
 void	move_player(t_cub *cub, int forward, int sideways);
 void	turn_player(t_cub *cub, int direction);
+
+void	draw_scene(t_cub *cub, double dist, int x, int w, unsigned char shade);
 
 #endif

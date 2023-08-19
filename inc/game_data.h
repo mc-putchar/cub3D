@@ -33,4 +33,11 @@ typedef struct s_player
 	int			direction;
 }	t_player;
 
+typedef struct s_map
+{
+	int		map_height;
+	int		map_width;
+	char	**map;
+}	t_map;
+
 #endif

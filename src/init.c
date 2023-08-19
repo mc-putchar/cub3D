@@ -44,7 +44,7 @@ int	load_map(t_cub *cub, char const *filepath)
 
 int	read_player_orientation(char *c)
 {
-	if (ft_isdigit(*c))
+	if (!(ft_isalpha(*c)))
 		return (-1);
 	if (*c == 'N' )
 		return (270);
@@ -76,6 +76,7 @@ int	init_player(t_cub *cub)
 			cub->player.position.color = PLAYER_COLOR;
 			cub->player.pdir.x = cub->meth.coss[cub->player.direction];
 			cub->player.pdir.y = cub->meth.sins[cub->player.direction];
+			cub->map[j][i] = '0';
 			return (EXIT_SUCCESS);
 		}
 	}
@@ -92,11 +93,8 @@ void	init_hooks(t_cub *cub)
 int	ray_test(t_cub *cub)
 {
 	cub->img2 = mlx_new_image(cub->mlx, 768, 768);
-	if (!cub->img2 || (mlx_image_to_window(cub->mlx, cub->img2, 16, 816) < 0))
-	{
+	if (!cub->img2 || (mlx_image_to_window(cub->mlx, cub->img2, 816, 16) < 0))
 		error_handler(mlx_strerror(mlx_errno));
-		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }
 
@@ -114,6 +112,8 @@ int	init_data(t_cub *cub)
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
 	init_image(cub);
+	ray_test(cub);
+	ft_printf("Images set\n");
 	if (load_map(cub, MAP_PATH))
 	{
 		mlx_terminate(cub->mlx);
@@ -124,8 +124,6 @@ int	init_data(t_cub *cub)
 	if (init_player(cub))
 		error_handler("Init player failed\n");
 	ft_printf("Player initialized\n");
-	// ray_test(cub);
-	// ft_printf("Ray test image set\n");
 	init_hooks(cub);
 	ft_printf("Hooks set\n");
 	return (EXIT_SUCCESS);

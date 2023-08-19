@@ -33,12 +33,13 @@ void	ft_hook(void *param)
 	t_cub	*cub;
 
 	cub = param;
-	clear_image(cub->img);
+	clear_image(cub->img, 0x00000088);
+	clear_image(cub->img2, 0x00000088);
 	draw_map(cub);
 	draw_player(cub);
 	cast_rays(param);
 	fps_calc(cub);
-	printf("\rPlayer x:%d y:%d dir:%d | pDir x:%f y:%f", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
+	// printf("\rPlayer x:%d y:%d dir:%d | pDir x:%f y:%f", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)
@@ -77,6 +78,7 @@ void	close_hook(void *param)
 	cub = param;
 	free_map(cub->map, cub->map_height);
 	mlx_delete_image(cub->mlx, cub->img);
+	mlx_delete_image(cub->mlx, cub->img2);
 	mlx_terminate(cub->mlx);
 	ft_printf("\nByeee\n");
 	exit(EXIT_SUCCESS);
