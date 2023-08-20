@@ -24,12 +24,15 @@ double	angle_torad(int angle)
 
 void	precalculate_meth(t_cub *cub)
 {
-	int	i;
+	int		i;
+	double	angle;
 
 	i = -1;
 	while (++i < 360)
 	{
-		cub->meth.sins[i] = sin(angle_torad(i));
-		cub->meth.coss[i] = cos(angle_torad(i));
+		angle = angle_torad(i);
+		cub->meth.sins[i] = sin(angle);
+		cub->meth.coss[i] = cos(angle);
+		cub->meth.tans[i] = tan(angle);
 	}
 }

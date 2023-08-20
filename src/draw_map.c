@@ -14,7 +14,6 @@
 
 void	clear_image(mlx_image_t *img, int background)
 {
-	// ft_bzero(img->pixels, img->width * img->height * BPP);
 	ft_memset(img->pixels, background, img->width * img->height * BPP);
 }
 
