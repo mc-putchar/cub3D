@@ -76,6 +76,8 @@ int	init_player(t_cub *cub)
 			cub->player.position.color = PLAYER_COLOR;
 			cub->player.pdir.x = cub->meth.coss[cub->player.direction];
 			cub->player.pdir.y = cub->meth.sins[cub->player.direction];
+			cub->player.move_speed = 4;
+			cub->player.turn_speed = 3;
 			cub->map[j][i] = '0';
 			return (EXIT_SUCCESS);
 		}

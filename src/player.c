@@ -12,24 +12,27 @@
 
 #include "cub3D.h"
 
-/* TODO: fix this S.H.I.T. - sidestep doesn't work properly */
+/* TODO: fix this S.H.I.T. - sidestep doesn't work properly
+		align with framerate
+		detect collision
+*/
 void	move_player(t_cub *cub, int forward, int sideways)
 {
 	if (forward)
 	{
-		cub->player.position.x += round(cub->player.pdir.x * forward * PLAYER_STEP);
-		cub->player.position.y += round(cub->player.pdir.y * forward * PLAYER_STEP);
+		cub->player.position.x += round(cub->player.pdir.x * forward * cub->player.move_speed);
+		cub->player.position.y += round(cub->player.pdir.y * forward * cub->player.move_speed);
 	}
 	if (sideways)
 	{
-		cub->player.position.x += round(cub->player.pdir.y * sideways * PLAYER_STEP);
-		cub->player.position.y += round(cub->player.pdir.x * sideways * PLAYER_STEP);
+		cub->player.position.x += round(cub->player.pdir.y * sideways * cub->player.move_speed);
+		cub->player.position.y += round(cub->player.pdir.x * sideways * cub->player.move_speed);
 	}
 }
 
 void	turn_player(t_cub *cub, int rotation)
 {
-	cub->player.direction += rotation * PLAYER_TURN;
+	cub->player.direction += rotation * cub->player.turn_speed;
 	if (cub->player.direction >= 360)
 		cub->player.direction -= 360;
 	if (cub->player.direction < 0)
