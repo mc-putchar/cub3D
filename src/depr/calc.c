@@ -34,5 +34,6 @@ void	precalculate_meth(t_cub *cub)
 		cub->meth.sins[i] = sin(angle);
 		cub->meth.coss[i] = cos(angle);
 		cub->meth.tans[i] = tan(angle);
+		cub->meth.itans[i] = 1 / cub->meth.tans[i];
 	}
 }

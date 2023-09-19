@@ -10,64 +10,82 @@
 #                                                                              #
 # **************************************************************************** #
 
-#--- TARGET ---
+# --- USAGE ---
+
+# make			compile the project to an executable file
+# make all		^same
+# make clean	remove binary object files
+# make fclean	remove compiled executable and all object files
+# make re		remove all compiled files and recompile again
+# make debug	compile with debug flags
+# make sanity	compile debug with memory address sanitize injected
+
+# --- TARGET ---
 
 NAME	:=	cub3D
 
-#--- DIRECTORIES ---
+# --- DIRECTORIES ---
 
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
+SUBDIRS		:=	$(addprefix $(OBJDIR)/, init err utils draw ray game)
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/MLX42
 
-#--- SOURCES ---
+# --- SOURCES ---
 
-SRC		:=	main.c init.c utils.c error_handler.c
-SRC		+=	hooks.c freez.c colors.c calc.c bresenham.c
-SRC		+=	draw_lines.c draw_shapes.c draw_map.c draw_player.c draw_scene.c
-SRC		+=	player.c
-SRC		+=	raycaster.c
+SRC		:=	main.c
+SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
+SRC		+=	init/set_scene_params.c init/load_textures.c init/hooks.c
+SRC		+=	init/spawn_player.c init/init_camera.c
+SRC		+=	err/error_handler.c
+SRC		+=	utils/freez.c
+SRC		+=	draw/put_pixel.c draw/draw_screen.c
+SRC		+=	ray/raycaster.c
+SRC		+=	game/move_player.c game/turn_player.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
-#--- HEADERS ---
+# --- INCLUDES ---
 
-_HEADERS	:=	cub3D.h point.h game_data.h
-HEADERS		:=	$(addprefix $(INCDIR)/, $(_HEADERS))
+HDRS		:=	cub3D.h game_data.h point.h vector.h
+HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR) -I$(LIBMLXDIR)/include
 
-#--- OBJECTS ---
+# --- OBJECTS ---
 
 OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
-#--- LIBRARIES ---
+# --- LIBRARIES ---
 
 LIBFT	:=	$(LIBFTDIR)/libft.a
 LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
 
-#--- FLAGS ---
+# --- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
 LDFLAGS	:= -L$(LIBFTDIR) -L$(LIBMLXDIR)
 LDLIBS	:= -lft $(LIBMLX)
 LFLAGS	:= -ldl -lglfw -pthread -lm
 
-#--- DEBUG ---
+# --- DEBUG ---
 
 debug:	CFLAGS		+= -ggdb3
-debug:	CPPFLAGS	+= -DDEBUG
+debug:	CPPFLAGS	+= -DDEBUG=1
 debug:	MLXDEBUG	:= -DDEBUG=1
 debug:	DEBUGFLAG	:= debug
+sanity:	CFLAGS		+= -fsanitize=address
 
-#--- CMDS ---
+# --- CMDS ---
 
 CC		:=	cc
-RM		:=	rm -rf
-MKDIR	:=	mkdir
+CD		:=	cd
+RM		:=	rm -fr
+MKDIR	:=	mkdir -pm 775
+ECHO	:=	echo
 
-#--- RULES ---
-.PHONY: all clean debug fclean re
+# --- RULES ---
+.PHONY: all clean debug fclean re sanity
 
 all: $(LIBFT) $(LIBMLX) $(NAME)
 
@@ -75,18 +93,20 @@ $(NAME): $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
+	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
 $(LIBMLX):
 	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
 
-$(OBJDIR):
-	$(MKDIR) $(OBJDIR)
+$(SUBDIRS):
+	$(MKDIR) $(SUBDIRS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(SUBDIRS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -c $< -o $@
 
 debug: all
+
+sanity: debug
 
 clean:
 	@$(RM) $(OBJS)

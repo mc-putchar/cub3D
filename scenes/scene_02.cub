@@ -1,0 +1,20 @@
+NO	./res/wall_north.png
+SO			./res/wall_south.png
+WE ./res/wall_west.png
+EA       ./res/wall_east.png
+
+F	20, 200,2
+C 25,30, 250
+
+
+
+  111
+111011  11111
+10100111100011
+10100000000W01
+10101111100111
+100011  1111
+11111
+
+
+

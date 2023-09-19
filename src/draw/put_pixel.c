@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   put_pixel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/16 13:34:38 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/16 13:34:38 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+void	put_pixel(t_mlx_image *img, int x, int y, int color)
 {
-	size_t	srclen;
-	size_t	i;
+	t_uint32	pix;
 
-	srclen = ft_strlen(src);
-	if (size && src && dst)
-	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
-	}
-	return (srclen);
+	if (x < 0 || (t_uint32)x >= img->width || \
+		y < 0 || (t_uint32)y >= img->height)
+		return ;
+	pix = (x + img->width * y) << 2;
+	img->pixels[pix++] = (color >> 24) & 0xFF;
+	img->pixels[pix++] = (color >> 16) & 0xFF;
+	img->pixels[pix++] = (color >> 8) & 0xFF;
+	img->pixels[pix] = color & 0xFF;
 }

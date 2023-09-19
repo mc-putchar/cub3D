@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   freez.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/16 10:11:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+void	free_map(char **map, int size)
 {
-	size_t	srclen;
-	size_t	i;
+	while (size--)
+		free(map[size]);
+	free(map);
+}
 
-	srclen = ft_strlen(src);
-	if (size && src && dst)
-	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
-	}
-	return (srclen);
+void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+void	free_scene(t_scene *scene)
+{
+	int	i;
+
+	i = 0;
+	if (scene->walls)
+		while (i < 4)
+			free(scene->walls[i++]);
+	if (scene->map.val)
+		free_map(scene->map.val, scene->map.height);
 }

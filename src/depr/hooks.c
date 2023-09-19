@@ -33,11 +33,11 @@ void	ft_hook(void *param)
 	t_cub	*cub;
 
 	cub = param;
-	clear_image(cub->img, 0x00000088);
-	clear_image(cub->img2, 0x00000088);
+	clear_image(cub->img, 0x777777FF);
 	draw_map(cub);
 	draw_player(cub);
-	cast_rays(param);
+	clear_image(cub->img2, 0x777777FF);
+	raycaster(cub);
 	fps_calc(cub);
 	// printf("\rPlayer x:%d y:%d dir:%d | pDir x:%f y:%f", cub->player.position.x, cub->player.position.y, cub->player.direction, cub->player.pdir.x, cub->player.pdir.y);
 }

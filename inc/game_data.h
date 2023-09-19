@@ -14,53 +14,76 @@
 # define GAME_DATA_H
 
 # include "point.h"
+# include "vector.h"
 
-# define PLAYER_SIZE	8
-# define PLAYER_COLOR	0x00FF88FF
+/* Norme adaptations */
+# define t_mlx			mlx_t
+# define t_mlx_image	mlx_image_t
+# define t_mlx_texture	mlx_texture_t
+# define t_mlx_key_data	mlx_key_data_t
+# define t_keys			keys_t
+# define t_size			size_t
+# define t_uint32		uint32_t
 
-typedef struct s_precalc
+/* Constants */
+# define WIN_H			768
+# define WIN_W			1024
+# define BPP			4
+# define DIRECTIONS		"ESWN"
+# define MOVE_SPEED		0.1
+# define TURN_SPEED		0.05
+
+/* Data structures */
+typedef struct s_map
 {
-	double	sins[360];
-	double	coss[360];
-	double	tans[360];
-}	t_precalc;
+	t_size				height;
+	t_size				width;
+	char				**val;
+}	t_map;
 
 typedef struct s_player
 {
-	t_point		position;
-	t_vector	pdir;
-	int			direction;
-	int			move_speed;
-	int			turn_speed;
+	t_vector			position;
+	t_vector			direction;
+	int					move_speed;
+	int					turn_speed;
 }	t_player;
 
-typedef struct s_plane
+typedef struct s_camera
 {
-	int	height;
-	int	width;
-	int	fov;
-	int	distance;
-	int	col_multi;
-}	t_plane;
-
-typedef struct s_world
-{
-	int		height;
-	int		width;
-	int		floor;
-	int		ceiling;
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
-	char	**map;
-}	t_world;
+	t_size				height;
+	t_size				width;
+	int					fov;
+	int					distance;
+	int					brush;
+	t_vector			plane;
+}	t_camera;
 
 typedef struct s_scene
 {
-	struct s_world	world;
-	struct s_player	player;
-	struct s_plane	projection;
+	int					floor;
+	int					ceiling;
+	char				*walls[4];
+	t_map				map;
 }	t_scene;
+
+typedef struct s_ray
+{
+	t_vector	direction;
+	t_vector	delta;
+	t_vector	distance;
+	int			stepx;
+	int			stepy;
+}	t_ray;
+
+typedef struct s_cub
+{
+	t_mlx				*mlx;
+	t_mlx_image			*img;
+	t_mlx_texture		*walls[4];
+	t_scene				*scene;
+	t_camera			*camera;
+	t_player			*player;
+}	t_cub;
 
 #endif

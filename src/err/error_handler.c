@@ -12,8 +12,15 @@
 
 #include "cub3D.h"
 
-void	error_handler(char const *message)
+int	throw_error(char const *msg)
 {
-	ft_dprintf(STDERR_FILENO, "ERROR: %s\n", message);
-	exit(EXIT_FAILURE);
+	ft_dprintf(STDERR_FILENO, "Error\n%s\n", msg);
+	return (1);
+}
+
+int	throw_error_free(char const *msg, void (*f)(), void *ptr)
+{
+	ft_dprintf(STDERR_FILENO, "Error\n%s\n", msg);
+	f(ptr);
+	return (1);
 }

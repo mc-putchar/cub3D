@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   init_camera.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/19 06:19:39 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/19 06:19:39 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	start_camera(t_camera *camera, t_size height, t_size width, t_vector plane)
 {
-	size_t	srclen;
-	size_t	i;
-
-	srclen = ft_strlen(src);
-	if (size && src && dst)
-	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
-	}
-	return (srclen);
+	camera->height = height;
+	camera->width = width;
+	camera->plane.x = plane.y;
+	camera->plane.y = plane.x;
+	return (0);
 }

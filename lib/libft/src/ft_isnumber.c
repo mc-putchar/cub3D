@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_isnumber.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/13 22:36:15 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/13 22:36:15 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	ft_isnumber(char const *str)
 {
-	size_t	srclen;
-	size_t	i;
-
-	srclen = ft_strlen(src);
-	if (size && src && dst)
+	while (*str)
 	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
 	}
-	return (srclen);
+	return (1);
 }

@@ -12,36 +12,6 @@
 
 #include "cub3D.h"
 
-#define MAP_PATH	"./maps/map1.cub"
-
-int	load_map(t_cub *cub, char const *filepath)
-{
-	int		fd;
-	char	*line;
-	int		len;
-	int		i;
-
-	cub->map_height = 0;
-	(void)get_file_size(filepath, &cub->map_height);
-	fd = open(filepath, O_RDONLY);
-	if (fd == -1)
-		return (EXIT_FAILURE);
-	cub->map_width = 0;
-	cub->map = malloc(cub->map_height * sizeof(char *));
-	i = 0;
-	line = get_next_line(fd);
-	while (line && i < cub->map_height)
-	{
-		cub->map[i++] = line;
-		len = (int)ft_strlen(line);
-		if (len > cub->map_width)
-			cub->map_width = len;
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
-}
-
 int	read_player_orientation(char *c)
 {
 	if (!(ft_isalpha(*c)))
@@ -94,8 +64,8 @@ void	init_hooks(t_cub *cub)
 
 int	ray_test(t_cub *cub)
 {
-	cub->img2 = mlx_new_image(cub->mlx, 768, 768);
-	if (!cub->img2 || (mlx_image_to_window(cub->mlx, cub->img2, 816, 16) < 0))
+	cub->img2 = mlx_new_image(cub->mlx, cub->plane.height, cub->plane.height);
+	if (!cub->img2 || (mlx_image_to_window(cub->mlx, cub->img2, 800, 0) < 0))
 		error_handler(mlx_strerror(mlx_errno));
 	return (EXIT_SUCCESS);
 }
@@ -108,14 +78,21 @@ int	init_image(t_cub *cub)
 	return (EXIT_SUCCESS);
 }
 
+void	init_plane(t_cub *cub)
+{
+	cub->plane.height = 480;
+	cub->plane.width = 640;
+	cub->plane.fov = 64;
+	cub->plane.distance = (cub->plane.width >> 1) / tan(cub->plane.fov >> 1);
+	cub->plane.ray_width = cub->plane.width >> 6;
+	cub->plane.wall_multi = cub->plane.distance << MAP_BINDIV;
+}
+
 int	init_data(t_cub *cub)
 {
 	cub->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "Cub3D", false);
 	if (!cub->mlx)
 		return (EXIT_FAILURE);
-	init_image(cub);
-	ray_test(cub);
-	ft_printf("Images set\n");
 	if (load_map(cub, MAP_PATH))
 	{
 		mlx_terminate(cub->mlx);
@@ -126,6 +103,10 @@ int	init_data(t_cub *cub)
 	if (init_player(cub))
 		error_handler("Init player failed\n");
 	ft_printf("Player initialized\n");
+	init_plane(cub);
+	init_image(cub);
+	ray_test(cub);
+	ft_printf("Images set\n");
 	init_hooks(cub);
 	ft_printf("Hooks set\n");
 	return (EXIT_SUCCESS);
