@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/08/14 16:48:19 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/22 18:22:16 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,13 +60,14 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
 LIBFT	:=	$(LIBFTDIR)/libft.a
 LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
+#LIBMLX	:=	/usr/local/lib/libmlx.a
 
 # --- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
-LDFLAGS	:= -L$(LIBFTDIR) -L$(LIBMLXDIR)
+LDFLAGS	:= -L$(LIBFTDIR)
 LDLIBS	:= -lft $(LIBMLX)
-LFLAGS	:= -ldl -lglfw -pthread -lm
+LFLAGS	:= -ldl -lX11 -lglfw -pthread -lm
 
 # --- DEBUG ---
 
@@ -111,7 +112,7 @@ sanity: debug
 clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
-	@$(RM) $(LIBMLXDIR)/build
+	#@$(RM) $(LIBMLXDIR)/build
 	@$(MAKE) -C $(LIBFTDIR) $@
 
 fclean: clean

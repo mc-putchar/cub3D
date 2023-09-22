@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/14 23:53:34 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/21 20:14:23 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 # include "point.h"
 # include "vector.h"
 
-/* Norme adaptations */
-# define t_mlx			mlx_t
-# define t_mlx_image	mlx_image_t
-# define t_mlx_texture	mlx_texture_t
-# define t_mlx_key_data	mlx_key_data_t
-# define t_keys			keys_t
-# define t_size			size_t
-# define t_uint32		uint32_t
-
 /* Constants */
 # define WIN_H			768
 # define WIN_W			1024
@@ -32,6 +23,15 @@
 # define DIRECTIONS		"ESWN"
 # define MOVE_SPEED		0.1
 # define TURN_SPEED		0.05
+
+/* Norme adaptations */
+typedef mlx_t			t_mlx;
+typedef mlx_image_t		t_mlx_image;
+typedef mlx_texture_t	t_mlx_texture;
+typedef mlx_key_data_t	t_mlx_key_data;
+typedef keys_t			t_keys;
+typedef size_t			t_size;
+typedef uint32_t		t_uint32;
 
 /* Data structures */
 typedef struct s_map

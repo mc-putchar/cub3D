@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/16 10:11:54 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/21 19:55:04 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void	free_scene(t_scene *scene)
 	int	i;
 
 	i = 0;
-	if (scene->walls)
-		while (i < 4)
-			free(scene->walls[i++]);
+	while (i < 4)
+		free(scene->walls[i++]);
 	if (scene->map.val)
 		free_map(scene->map.val, scene->map.height);
 }
