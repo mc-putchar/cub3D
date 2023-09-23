@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/22 18:22:16 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/23 18:09:05 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@
 # make			compile the project to an executable file
 # make all		^same
 # make clean	remove binary object files
-# make fclean	remove compiled executable and all object files
+# make fclean	remove all compiled files
 # make re		remove all compiled files and recompile again
-# make debug	compile with debug flags
+# make debug	compile all with debug flags
 # make sanity	compile debug with memory address sanitize injected
 
 # --- TARGET ---
@@ -41,8 +41,8 @@ SRC		+=	init/set_scene_params.c init/load_textures.c init/hooks.c
 SRC		+=	init/spawn_player.c init/init_camera.c
 SRC		+=	err/error_handler.c
 SRC		+=	utils/freez.c
-SRC		+=	draw/put_pixel.c draw/draw_screen.c
-SRC		+=	ray/raycaster.c
+SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
+SRC		+=	ray/raycaster.c ray/wall_check.c
 SRC		+=	game/move_player.c game/turn_player.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
@@ -71,7 +71,7 @@ LFLAGS	:= -ldl -lX11 -lglfw -pthread -lm
 
 # --- DEBUG ---
 
-debug:	CFLAGS		+= -ggdb3
+debug:	CFLAGS		+= -ggdb3 -O0
 debug:	CPPFLAGS	+= -DDEBUG=1
 debug:	MLXDEBUG	:= -DDEBUG=1
 debug:	DEBUGFLAG	:= debug

@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calc.c                                             :+:      :+:    :+:   */
+/*   wall_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/17 14:46:45 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/17 14:46:45 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/23 13:29:59 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/23 13:30:20 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	angle_todeg(double angle)
+int	wall_check(t_map *map, int x, int y)
 {
-	return (round(angle * 180 / M_PI));
-}
-
-double	angle_torad(int angle)
-{
-	return (angle * M_PI / 180);
-}
-
-void	precalculate_meth(t_cub *cub)
-{
-	int		i;
-	double	angle;
-
-	i = -1;
-	while (++i < 360)
-	{
-		angle = angle_torad(i);
-		cub->meth.sins[i] = sin(angle);
-		cub->meth.coss[i] = cos(angle);
-		cub->meth.tans[i] = tan(angle);
-		cub->meth.itans[i] = 1 / cub->meth.tans[i];
-	}
+	if (x < 0 || (t_size)x > map->width - 1 || \
+		y < 0 || (t_size)y > map->height - 1)
+		return (-1);
+	if (map->val[y][x] == '1')
+		return (1);
+	return (0);
 }

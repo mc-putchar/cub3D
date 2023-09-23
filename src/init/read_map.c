@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 22:56:48 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/15 22:56:48 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:40:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	convert_map(t_map *map, t_list *maplist)
 	size_t	padding;
 
 	idx = 0;
+	if (!maplist)
+		return (throw_error("Scene file misconfigured"));
 	map->height = ft_lstsize(maplist);
 	map->val = malloc(sizeof(char *) * map->height);
 	if (!map->val)
@@ -71,21 +73,16 @@ int	read_map(char *line, int fd, t_map *map)
 
 	map->width = 0;
 	maplist = NULL;
-	if (!line)
-		return (close(fd), throw_error("Scene file misconfigured"));
-	while (line[0] == '\n' || line[0] == '\r')
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
+	while (line && (line[0] == '\n' || line[0] == '\r'))
+		(free(line), line = get_next_line(fd));
 	while (line && line[0] != '\n' && line[0] != '\r')
 	{
 		if (add_line_to_list(line, &maplist, &map->width))
 			return (close(fd), 1);
 		line = get_next_line(fd);
 	}
-	if (line && (line[0] == '\n' || line[0] == '\r'))
-		free(line);
+	while (line)
+		(free(line), line = get_next_line(fd));
 	error = convert_map(map, maplist);
 	ft_lstclear(&maplist, free);
 	if (error)

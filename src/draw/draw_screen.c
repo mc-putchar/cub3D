@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/19 06:55:53 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:45:04 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ static void	draw_strip(t_cub *cub, t_size i, double wall_dist, int side)
 	int		wall_height;
 	t_size	wall_start;
 
-	wall_height = 0;
-	if (!wall_dist)
-		wall_height = WALL;
-	else if (wall_dist > 0)
-		wall_height = WALL / wall_dist;
-	else
-		wall_height = -WALL / wall_dist;
+	wall_height = WALL;
+	if (wall_dist < 0)
+		wall_height = -wall_height;
+	if (wall_dist)
+		wall_height /= wall_dist;
 	if (wall_height > WALL)
 		wall_height = WALL;
 	wall_start = (cub->camera->height >> 1) - (wall_height >> 1);

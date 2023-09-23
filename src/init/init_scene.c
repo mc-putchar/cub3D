@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 18:15:04 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/13 18:15:04 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 17:24:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,25 @@ static int	scene_complete(t_scene *scene)
 {
 	int	i;
 
-	if (!scene->floor || !scene->ceiling)
+	if (scene->floor == -1 || scene->ceiling == -1)
 		return (0);
 	i = 0;
 	while (i < 4)
 		if (!scene->walls[i++])
 			return (0);
 	return (1);
+}
+
+static int	reset_scene(t_scene *scene)
+{
+	int	i;
+
+	scene->ceiling = -1;
+	scene->floor = -1;
+	i = 0;
+	while (i < 4)
+		scene->walls[i++] = NULL;
+	return (0);
 }
 
 /* Lock, chop & smoke
@@ -60,7 +72,7 @@ int	init_scene(char const *file, t_scene *scene)
 
 	error = 0;
 	fd = -1;
-	if (validate_path(file, &fd))
+	if (!scene || validate_path(file, &fd) || reset_scene(scene))
 		return (1);
 	line = get_next_line(fd);
 	while (line)
@@ -69,8 +81,7 @@ int	init_scene(char const *file, t_scene *scene)
 		free(line);
 		if (!chop)
 			return (throw_error("Something went wrong ''/\\\0'\""));
-		if (chop[0])
-			error = set_scene_param(scene, chop);
+		error = chop[0] && set_scene_param(scene, chop);
 		free_arr(chop);
 		if (error)
 			return (throw_error("Scene file misconfigured"));

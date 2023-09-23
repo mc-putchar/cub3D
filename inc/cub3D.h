@@ -6,21 +6,17 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/21 20:19:03 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 19:13:25 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 
 # include "MLX42/MLX42.h"
 # include "libft.h"
@@ -69,6 +65,9 @@ void		move_player(t_cub *cub, t_keys key);
 void		sidestep_player(t_cub *cub, t_keys key);
 void		turn_player(t_cub *cub, t_keys key);
 
-int	raycaster(t_cub *cub, t_size i, double *dist);
+/* UNSORTED */
+int			raycaster(t_cub *cub, t_size i, double *dist);
+int			wall_check(t_map *map, int x, int y);
+void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
 
 #endif

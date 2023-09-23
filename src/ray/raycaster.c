@@ -6,13 +6,13 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/17 20:20:37 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:38:12 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	params(t_player *player, t_ray *ray)
+static void	params(t_vector position, t_ray *ray)
 {
 	ray->delta.x = 1e28;
 	ray->delta.y = 1e28;
@@ -20,38 +20,28 @@ static void	params(t_player *player, t_ray *ray)
 	{
 		ray->delta.x = -1 / ray->direction.x;
 		ray->stepx = -1;
-		ray->distance.x = ray->delta.x * (player->position.x - (int)player->position.x);
+		ray->distance.x = ray->delta.x * (position.x - (int)position.x);
 	}
 	else
 	{
 		if (ray->direction.x)
 			ray->delta.x = 1 / ray->direction.x;
 		ray->stepx = 1;
-		ray->distance.x = ray->delta.x * ((int)player->position.x - player->position.x + 1);
+		ray->distance.x = ray->delta.x * ((int)position.x - position.x + 1);
 	}
 	if (ray->direction.y < 0)
 	{
 		ray->delta.y = -1 / ray->direction.y;
 		ray->stepy = -1;
-		ray->distance.y = ray->delta.y * (player->position.y - (int)player->position.y);
+		ray->distance.y = ray->delta.y * (position.y - (int)position.y);
 	}
 	else
 	{
 		if (ray->direction.y)
 			ray->delta.y = 1 / ray->direction.y;
 		ray->stepy = 1;
-		ray->distance.y = ray->delta.y * ((int)player->position.y - player->position.y + 1);
+		ray->distance.y = ray->delta.y * ((int)position.y - position.y + 1);
 	}
-}
-
-static int	wall_check(t_map *map, int x, int y)
-{
-	if (x < 0 || (t_size)x > map->width - 1 || \
-		y < 0 || (t_size)y > map->height - 1)
-		return (-1);
-	if (map->val[y][x] == '1')
-		return (1);
-	return (0);
 }
 
 static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
@@ -61,11 +51,11 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 	double		dist;
 	int			hit;
 
-	params(player, ray);
 	mapx = (int)player->position.x;
 	mapy = (int)player->position.y;
-	hit = wall_check(map, mapx, mapy);
-	while(!hit)
+	params(player->position, ray);
+	hit = 0;
+	while (!hit)
 	{
 		if (ray->distance.x + ray->delta.x < ray->distance.y + ray->delta.y)
 		{

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 19:56:18 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/19 19:56:18 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 17:50:35 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ void	move_player(t_cub *cub, t_keys key)
 		delta.x *= -1;
 		delta.y *= -1;
 	}
-	cub->player->position.x += delta.x;
-	cub->player->position.y += delta.y;
-	printf("Move (%f, %f) > POS(%f, %f)\n", delta.x, delta.y, \
-	cub->player->position.x, cub->player->position.y);
+	if (!wall_check(&cub->scene->map, (int)(cub->player->position.x + delta.x), \
+		(int)(cub->player->position.y)))
+		cub->player->position.x += delta.x;
+	if (!wall_check(&cub->scene->map, (int)(cub->player->position.x), \
+		(int)(cub->player->position.y + delta.y)))
+		cub->player->position.y += delta.y;
 }
 
 void	sidestep_player(t_cub *cub, t_keys key)
@@ -40,8 +42,10 @@ void	sidestep_player(t_cub *cub, t_keys key)
 		delta.x *= -1;
 		delta.y *= -1;
 	}
-	cub->player->position.x += delta.x;
-	cub->player->position.y += delta.y;
-	printf("Move (%f, %f) > POS(%f, %f)\n", delta.x, delta.y, \
-	cub->player->position.x, cub->player->position.y);
+	if (!wall_check(&cub->scene->map, (int)(cub->player->position.x + delta.x), \
+		(int)(cub->player->position.y)))
+		cub->player->position.x += delta.x;
+	if (!wall_check(&cub->scene->map, (int)(cub->player->position.x), \
+		(int)(cub->player->position.y + delta.y)))
+		cub->player->position.y += delta.y;
 }

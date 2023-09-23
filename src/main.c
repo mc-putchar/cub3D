@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/14 17:29:49 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 13:35:35 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av)
 	if (init_window(&cub) || load_textures(&cub, &scene) || \
 		spawn_player(&player, &scene.map) || \
 		start_camera(&camera, WIN_H, WIN_W, player.direction))
-		return (throw_error("Catastrophic failure")); //with leaks TODO
+		return (throw_error("Catastrophic failure"));
 	cub.player = &player;
 	cub.camera = &camera;
 	(void)ft_printf("Starting game\nGood luck!\n");
