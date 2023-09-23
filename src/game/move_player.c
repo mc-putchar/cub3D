@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 19:56:18 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 17:50:35 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 00:01:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sidestep_player(t_cub *cub, t_keys key)
 {
 	t_vector	delta;
 
-	delta.x = cub->player->direction.y * MOVE_SPEED;
+	delta.x = -cub->player->direction.y * MOVE_SPEED;
 	delta.y = cub->player->direction.x * MOVE_SPEED;
 	if (key == MLX_KEY_A)
 	{

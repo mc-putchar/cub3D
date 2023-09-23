@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 18:34:58 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 22:50:05 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@ void	close_hook(void *param)
 	t_cub	*cub;
 
 	cub = param;
+	mlx_delete_texture(cub->walls[0]);
+	mlx_delete_texture(cub->walls[1]);
+	mlx_delete_texture(cub->walls[2]);
+	mlx_delete_texture(cub->walls[3]);
 	mlx_delete_image(cub->mlx, cub->minimap);
 	mlx_delete_image(cub->mlx, cub->img);
 	mlx_terminate(cub->mlx);
-	// free_scene(cub->scene);
+	free_scene(cub->scene);
 	ft_printf("Exiting\n");
 	exit(EXIT_SUCCESS);
 }

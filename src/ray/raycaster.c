@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 14:38:12 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 01:40:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 	if (hit < 0)
 		return (-1);
 	if (*side & 1)
-		dist = ray->distance.y - ray->delta.y;
+		dist = ray->distance.y;
 	else
-		dist = ray->distance.x - ray->delta.x;
+		dist = ray->distance.x;
 	return (dist);
 }
 

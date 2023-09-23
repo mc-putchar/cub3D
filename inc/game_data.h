@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 18:17:00 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/23 22:56:31 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define DIRECTIONS		"ESWN"
 # define MOVE_SPEED		0.1
 # define TURN_SPEED		0.05
-# define MINIMAP_SIZE	64
+# define MINIMAP_SIZE	128
 # define MINIMAP_PDIV	3
 
 /* Norme adaptations */
