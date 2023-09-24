@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 07:46:55 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 21:33:45 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int			set_scene_param(t_scene *scene, char **param);
 int			read_map(char *line, int fd, t_map *map);
 int			load_textures(t_cub *cub, t_scene *scene);
 int			spawn_player(t_player *player, t_map *map);
-int			start_camera(t_camera *camera, t_size height, t_size width, t_vector plane);
+int			start_camera(t_camera *camera, t_size height, \
+						t_size width, t_vector plane);
 
 /* FREE MEMORY */
 void		free_arr(char **arr);

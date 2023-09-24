@@ -6,12 +6,12 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 23:52:40 by mcutura           #+#    #+#             */
-/*   Updated: 2023/06/15 13:27:26 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 21:31:15 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEYMAPS_H
-# define KEYMAPS_H
+#ifndef KEYCODES_H
+# define KEYCODES_H
 
 # define MOUSE_LEFT			1
 # define MOUSE_MIDDLE		2

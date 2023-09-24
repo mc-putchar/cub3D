@@ -1,7 +1,7 @@
-NO	./res/logo.png
-SO	./res/Wall_bricks_old_64.png
-WE	./res/wall_west.png
-EA	./res/wall_east.png
+NO	./res/logo.xpm
+SO	./res/brick_wall.xpm
+WE	./res/wall_west.xpm
+EA	./res/wall_east.xpm
 
 F	20, 200, 80
 C	25, 90, 230

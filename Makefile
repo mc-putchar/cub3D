@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/24 07:39:17 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/24 20:33:38 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 # --- INCLUDES ---
 
-HDRS		:=	cub3D.h game_data.h point.h vector.h
+HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
 # INCLUDES	+=	-I$(LIBMLXDIR)/include

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 08:08:42 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 21:55:32 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 # include "point.h"
 # include "vector.h"
-
-/* MLX Sync defines */
-# define MLX_SYNC_IMAGE_WRITABLE	1
-# define MLX_SYNC_WIN_FLUSH_CMD		2
-# define MLX_SYNC_WIN_CMD_COMPLETED	3
 
 /* Constants */
 # define TITLE			"Cub3D"
@@ -39,7 +34,7 @@
 // typedef mlx_key_data_t	t_mlx_key_data;
 // typedef keys_t			t_keys;
 typedef size_t			t_size;
-typedef unsigned int		t_uint32;
+typedef __uint32_t		t_uint32;
 
 /* Data structures */
 
