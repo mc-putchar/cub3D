@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 05:26:56 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 07:30:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@
  */
 static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 {
-	t_mlx_texture	*tex;
-	uint32_t		xoff;
-	uint32_t		ppy;
-	uint32_t		y;
+	t_mlx_image		*tex;
+	t_uint32		xoff;
+	t_uint32		ppy;
+	t_uint32		y;
 
 	tex = cub->walls[info[0]];
-	xoff = (uint32_t)(wallx * tex->width);
+	xoff = (t_uint32)(wallx * tex->width);
 	ppy = (info[2] / tex->height);
 	if (!ppy)
 		++ppy;
 	y = 0;
 	while (info[2]--)
 	{
-		put_pixel(cub->img, info[1], pix++, *(int32_t *)(tex->pixels + (((y % tex->height) * tex->width + xoff) << 2)));
+		put_pixel(cub->img, info[1], pix++, *(int *)(tex->pixels + (((y % tex->height) * tex->width + xoff) << 2)));
 		y += ppy;
 	}
 	return (pix);
@@ -68,7 +68,7 @@ static void	draw_strip(t_cub *cub, t_size i, double wall[2], int side)
 		wall_height = 0;
 	if (wall[0])
 		wall_height /= wall[0];
-	if ((uint32_t)wall_height > cub->img->height)
+	if ((t_uint32)wall_height > cub->img->height)
 		wall_height = cub->img->height;
 	wall_start = (cub->camera->height >> 1) - (wall_height >> 1);
 	pix = 0;

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 02:16:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 02:26:17 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 09:40:51 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static int	set_color(t_scene *scene, int type, char const **param)
 		tmp = ft_atoi(param[set]);
 		if (tmp < 0 || tmp > 255)
 			return (throw_error("Irregular color input"));
-		color |= (tmp << ((4 - set) * 8));
+		color |= (tmp << ((3 - set) * 8));
 	}
 	if (type == 1)
-		scene->floor = color | 0xFF;
+		scene->floor = color | (0xFF << 24);
 	else
-		scene->ceiling = color | 0xFF;
+		scene->ceiling = color | (0xFF << 24);
 	return (0);
 }
 

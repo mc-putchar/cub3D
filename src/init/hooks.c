@@ -6,55 +6,88 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 06:05:54 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 09:26:32 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	close_hook(void *param)
+int	close_hook(void *param)
 {
 	t_cub	*cub;
 
 	cub = param;
-	mlx_delete_texture(cub->walls[0]);
-	mlx_delete_texture(cub->walls[1]);
-	mlx_delete_texture(cub->walls[2]);
-	mlx_delete_texture(cub->walls[3]);
-	mlx_delete_image(cub->mlx, cub->minimap);
-	mlx_delete_image(cub->mlx, cub->img);
-	mlx_terminate(cub->mlx);
 	free_scene(cub->scene);
+	mlx_destroy_image(cub->mlx, cub->walls[0]->img);
+	free(cub->walls[0]);
+	mlx_destroy_image(cub->mlx, cub->walls[1]->img);
+	free(cub->walls[1]);
+	mlx_destroy_image(cub->mlx, cub->walls[2]->img);
+	free(cub->walls[2]);
+	mlx_destroy_image(cub->mlx, cub->walls[3]->img);
+	free(cub->walls[3]);
+	mlx_destroy_image(cub->mlx, cub->minimap->img);
+	free(cub->minimap);
+	mlx_destroy_image(cub->mlx, cub->img->img);
+	free(cub->img);
+	mlx_destroy_window(cub->mlx, cub->win);
+	mlx_destroy_display(cub->mlx);
+	free(cub->mlx);
 	ft_printf("Exiting\n");
 	exit(EXIT_SUCCESS);
 }
 
-void	keys_hook(t_mlx_key_data keydata, void *param)
+int	keys_hook(int key, void *param)
 {
-	if (keydata.key == MLX_KEY_ESCAPE)
+	if (key == KEY_ESC)
 		close_hook(param);
-	if (keydata.key == MLX_KEY_W || keydata.key == MLX_KEY_S)
-		move_player(param, keydata.key);
-	if (keydata.key == MLX_KEY_A || keydata.key == MLX_KEY_D)
-		sidestep_player(param, keydata.key);
-	if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_RIGHT)
-		turn_player(param, keydata.key);
+	if (key == KEY_W || key == KEY_S)
+		move_player(param, key);
+	if (key == KEY_A || key == KEY_D)
+		sidestep_player(param, key);
+	if (key == ARROW_LEFT || key == ARROW_RIGHT)
+		turn_player(param, key);
+	return (0);
 }
 
-void	ft_hook(void *param)
+int	mouse_hook(int button, int x, int y, t_cub *cub)
+{
+	(void)x;
+	(void)y;
+	(void)cub;
+	if (button == MOUSE_SCROLL_UP)
+		ft_printf("zoom\n");
+	else if (button == MOUSE_SCROLL_DOWN)
+		ft_printf("ZOoooooooOM\n");
+	return (0);
+}
+
+int	ft_hook(void *param)
 {
 	t_cub	*cub;
 
 	cub = param;
-	ft_bzero(cub->img->pixels, cub->img->width * cub->img->height * BPP);
+	mlx_clear_window(cub->mlx, cub->win);
 	draw_screen(cub);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
-	// ft_printf("FPS: %d\n", (int)(1 / cub->mlx->delta_time));
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
+		(WIN_W >> 1) - (MINIMAP_SIZE >> 1), WIN_H - MINIMAP_SIZE - 10);
+	// mlx_do_sync(cub->mlx);
+	return (0);
 }
 
 void	init_hooks(t_cub *cub)
 {
-	mlx_key_hook(cub->mlx, keys_hook, cub);
-	mlx_close_hook(cub->mlx, close_hook, cub);
+	mlx_hook(cub->win, 2, 1L << 0, keys_hook, cub);
+	mlx_hook(cub->win, 4, 1L << 2, mouse_hook, cub);
+	mlx_hook(cub->win, 17, 1L << 17, close_hook, cub);
 	mlx_loop_hook(cub->mlx, ft_hook, cub);
 }
+
+// void	init_hooks(t_cub *cub)
+// {
+// 	mlx_key_hook(cub->mlx, keys_hook, cub);
+// 	mlx_close_hook(cub->mlx, close_hook, cub);
+// 	mlx_loop_hook(cub->mlx, ft_hook, cub);
+// }

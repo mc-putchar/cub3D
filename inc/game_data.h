@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 22:56:31 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 08:08:42 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@
 # include "point.h"
 # include "vector.h"
 
+/* MLX Sync defines */
+# define MLX_SYNC_IMAGE_WRITABLE	1
+# define MLX_SYNC_WIN_FLUSH_CMD		2
+# define MLX_SYNC_WIN_CMD_COMPLETED	3
+
 /* Constants */
+# define TITLE			"Cub3D"
 # define WIN_H			768
 # define WIN_W			1024
 # define BPP			4
@@ -27,15 +33,27 @@
 # define MINIMAP_PDIV	3
 
 /* Norme adaptations */
-typedef mlx_t			t_mlx;
-typedef mlx_image_t		t_mlx_image;
-typedef mlx_texture_t	t_mlx_texture;
-typedef mlx_key_data_t	t_mlx_key_data;
-typedef keys_t			t_keys;
+// typedef mlx_t			t_mlx;
+// typedef mlx_image_t		t_mlx_image;
+// typedef mlx_texture_t	t_mlx_texture;
+// typedef mlx_key_data_t	t_mlx_key_data;
+// typedef keys_t			t_keys;
 typedef size_t			t_size;
-typedef uint32_t		t_uint32;
+typedef unsigned int		t_uint32;
 
 /* Data structures */
+
+typedef struct s_mlx_image
+{
+	void		*img;
+	char		*pixels;
+	t_uint32	width;
+	t_uint32	height;
+	int			bpp;
+	int			endian;
+	int			size_line;
+}	t_mlx_image;
+
 typedef struct s_map
 {
 	t_size				height;
@@ -80,10 +98,11 @@ typedef struct s_ray
 
 typedef struct s_cub
 {
-	t_mlx				*mlx;
+	void				*mlx;
+	void				*win;
 	t_mlx_image			*img;
 	t_mlx_image			*minimap;
-	t_mlx_texture		*walls[4];
+	t_mlx_image			*walls[4];
 	t_scene				*scene;
 	t_camera			*camera;
 	t_player			*player;

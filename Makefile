@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/24 06:03:17 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/24 07:39:17 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ INCDIR		:=	inc
 OBJDIR		:=	obj
 SUBDIRS		:=	$(addprefix $(OBJDIR)/, init err utils draw ray game)
 LIBFTDIR	:=	lib/libft
-LIBMLXDIR	:=	lib/MLX42
-# LIBMLXDIR	:=	lib/minilibx-linux
+# LIBMLXDIR	:=	lib/MLX42
+LIBMLXDIR	:=	lib/minilibx-linux
 
 # --- SOURCES ---
 
@@ -52,8 +52,8 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 HDRS		:=	cub3D.h game_data.h point.h vector.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
-INCLUDES	+=	-I$(LIBMLXDIR)/include
-# INCLUDES	+=	-I/usr/local/include
+# INCLUDES	+=	-I$(LIBMLXDIR)/include
+INCLUDES	+=	-I/usr/local/include -Imlx-linux
 
 # --- OBJECTS ---
 
@@ -62,21 +62,23 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 # --- LIBRARIES ---
 
 LIBFT	:=	$(LIBFTDIR)/libft.a
-LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
-# LIBMLX	:=	/usr/local/lib/libmlx.a
+# LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
+LIBMLX	:=	/usr/local/lib/libmlx.a
 
 # --- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
-LDFLAGS	:= -L$(LIBFTDIR)
-LDLIBS	:= -lft $(LIBMLX)
-LFLAGS	:= -ldl -lX11 -lglfw -pthread -lm
+LDFLAGS	:=	-L$(LIBFTDIR)
+LDFLAGS	+=	-L/usr/local/lib -Lmlx_linux
+LDLIBS	:=	-lft $(LIBMLX)
+# LFLAGS	:=	-ldl -lX11 -lglfw -pthread -lm
+LFLAGS	:=	-lXext -lX11 -lm -lz
 
 # --- DEBUG ---
 
 debug:	CFLAGS		+= -ggdb3 -O0
 debug:	CPPFLAGS	+= -DDEBUG=1
-debug:	MLXDEBUG	:= -DDEBUG=1
+# debug:	MLXDEBUG	:= -DDEBUG=1
 debug:	DEBUGFLAG	:= debug
 sanity:	CFLAGS		+= -fsanitize=address
 
@@ -99,8 +101,8 @@ $(NAME): $(HEADERS) $(OBJS)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
-$(LIBMLX):
-	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
+# $(LIBMLX):
+	# @cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)
@@ -116,7 +118,7 @@ clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
 	@$(MAKE) -C $(LIBFTDIR) $@
-	@$(RM) $(LIBMLXDIR)/build
+	# @$(RM) $(LIBMLXDIR)/build
 
 fclean: clean
 	@$(RM) $(NAME)

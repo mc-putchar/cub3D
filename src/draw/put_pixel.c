@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:34:38 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/16 13:34:38 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 09:29:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	put_pixel(t_mlx_image *img, int x, int y, int color)
 		y < 0 || (t_uint32)y >= img->height)
 		return ;
 	pix = (x + img->width * y) << 2;
-	img->pixels[pix++] = (color >> 24) & 0xFF;
-	img->pixels[pix++] = (color >> 16) & 0xFF;
+	img->pixels[pix++] = (color >> 0) & 0xFF;
 	img->pixels[pix++] = (color >> 8) & 0xFF;
-	img->pixels[pix] = color & 0xFF;
+	img->pixels[pix++] = (color >> 16) & 0xFF;
+	img->pixels[pix] = (color >> 24) & 0xFF;
 }

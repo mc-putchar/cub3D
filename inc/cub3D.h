@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 06:04:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 07:46:55 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include <fcntl.h>
 
 # include "libft.h"
-# include "MLX42/MLX42.h"
-// # include "mlx.h"
+// # include "MLX42/MLX42.h"
+# include "mlx.h"
+# include "keycodes.h"
 
 /* Debug mode switch */
 # ifndef DEBUG
@@ -54,18 +55,18 @@ void		free_map(char **map, int size);
 void		free_scene(t_scene *scene);
 
 /* HOOKS */
-void		close_hook(void *param);
-void		keys_hook(t_mlx_key_data keydata, void *param);
-void		ft_hook(void *param);
+int			close_hook(void *param);
+// void		keys_hook(int key, void *param);
+// void		ft_hook(void *param);
 
 /* DRAW */
 void		put_pixel(t_mlx_image *img, int x, int y, int color);
 int			draw_screen(t_cub *cub);
 
 /* GAME */
-void		move_player(t_cub *cub, t_keys key);
-void		sidestep_player(t_cub *cub, t_keys key);
-void		turn_player(t_cub *cub, t_keys key);
+void		move_player(t_cub *cub, int key);
+void		sidestep_player(t_cub *cub, int key);
+void		turn_player(t_cub *cub, int key);
 
 /* UNSORTED */
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 04:57:28 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 08:49:58 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 
 	mapx = (int)player->position.x;
 	mapy = (int)player->position.y;
-	params(player->position, ray);
 	hit = 0;
 	while (!hit)
 	{
@@ -87,6 +86,7 @@ int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
 	camx = (i << 1) / (double)cub->camera->width - 1;
 	ray.direction.x = cub->player->direction.x + cub->camera->plane.x * camx;
 	ray.direction.y = cub->player->direction.y + cub->camera->plane.y * camx;
+	params(cub->player->position, &ray);
 	*wallx = dda(cub->player, &cub->scene->map, &ray, &side);
 	if (side & 1)
 		*dist = ray.distance.y;

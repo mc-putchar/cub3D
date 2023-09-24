@@ -6,19 +6,19 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 20:07:43 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/19 20:07:43 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 06:41:18 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	turn_player(t_cub *cub, t_keys key)
+void	turn_player(t_cub *cub, int key)
 {
 	double	cosa;
 	double	sina;
 	double	tmp;
 
-	if (key == MLX_KEY_LEFT)
+	if (key == ARROW_LEFT)
 	{
 		cosa = cos(-1 * TURN_SPEED);
 		sina = sin(-1 * TURN_SPEED);
