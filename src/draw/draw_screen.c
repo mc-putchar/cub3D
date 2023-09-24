@@ -6,69 +6,97 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 01:29:37 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 05:26:56 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-#define WALL	360
+#define WALL	640
 #define DEPTH	640
 
-// ABGR? to RGBA
-static int	get_tex_pix(t_mlx_texture *tex, uint32_t x, uint32_t y)
-{
-	int32_t	*pixs;
+// // ABGR? to RGBA
+// static int	get_tex_pix(t_mlx_texture *tex, uint32_t x, uint32_t y)
+// {
+// 	int32_t	*pix;
 
-	if (x >= tex->width)
-		x %= tex->width;
-	if (y >= tex->height)
-		y %= tex->height;
-	pixs = (int32_t *)(tex->pixels + (y * tex->width + x));
-	return (*pixs);
+// 	if (y >= tex->height)
+// 		y %= tex->height;
+// 	pix = (int32_t *)(tex->pixels + ((y * tex->width + x) << 2));
+// 	return (*pix);
+// }
+
+/* Triple info
+ * [0] side hit
+ * [1] drawing column
+ * [2] wall height
+ */
+static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
+{
+	t_mlx_texture	*tex;
+	uint32_t		xoff;
+	uint32_t		ppy;
+	uint32_t		y;
+
+	tex = cub->walls[info[0]];
+	xoff = (uint32_t)(wallx * tex->width);
+	ppy = (info[2] / tex->height);
+	if (!ppy)
+		++ppy;
+	y = 0;
+	while (info[2]--)
+	{
+		put_pixel(cub->img, info[1], pix++, *(int32_t *)(tex->pixels + (((y % tex->height) * tex->width + xoff) << 2)));
+		y += ppy;
+	}
+	return (pix);
 }
 
-// static void	draw_wall(t_cub *cub, )
-
-static void	draw_strip(t_cub *cub, t_size i, double wall_dist, int side)
+/* Double wall
+ * [0] wall distance
+ * [1] wall x ratio
+ */
+static void	draw_strip(t_cub *cub, t_size i, double wall[2], int side)
 {
 	t_size	pix;
 	int		wall_height;
-	// int		wall_offset;
 	t_size	wall_start;
+	int		info[3];
 
 	wall_height = WALL;
-	if (wall_dist < 0)
+	if (wall[0] < 0)
 		wall_height = 0;
-	if (wall_dist)
-		wall_height /= wall_dist;
+	if (wall[0])
+		wall_height /= wall[0];
 	if ((uint32_t)wall_height > cub->img->height)
 		wall_height = cub->img->height;
 	wall_start = (cub->camera->height >> 1) - (wall_height >> 1);
 	pix = 0;
 	while (pix < wall_start)
 		put_pixel(cub->img, i, pix++, cub->scene->ceiling);
-	while (wall_height--)
-	{
-		put_pixel(cub->img, i, pix, get_tex_pix(cub->walls[side], i, pix));
-		++pix;
-	}
+	info[0] = side;
+	info[1] = i;
+	info[2] = wall_height;
+	if (wall_height)
+		pix = draw_wall(cub, wall[1], info, pix);
 	while (pix < (cub->camera->height))
 		put_pixel(cub->img, i, pix++, cub->scene->floor);
 }
 
+/* Single strip = single ray
+ */
 int	draw_screen(t_cub *cub)
 {
-	double	wall_dist;
+	double	wall[2];
 	int		side;
 	t_size	strip;
 
-	wall_dist = 0;
+	wall[0] = 0;
 	strip = 0;
 	while (strip < cub->camera->width)
 	{
-		side = raycaster(cub, strip, &wall_dist);
-		draw_strip(cub, strip, wall_dist, side);
+		side = raycaster(cub, strip, wall, wall + 1);
+		draw_strip(cub, strip, wall, side);
 		++strip;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 01:40:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 04:57:28 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 {
 	int			mapx;
 	int			mapy;
-	double		dist;
 	int			hit;
+	double		wallx;
 
 	mapx = (int)player->position.x;
 	mapy = (int)player->position.y;
@@ -73,14 +73,11 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 	}
 	if (hit < 0)
 		return (-1);
-	if (*side & 1)
-		dist = ray->distance.y;
-	else
-		dist = ray->distance.x;
-	return (dist);
+	wallx = ray->distance.x + ray->distance.y;
+	return (wallx - (int)wallx);
 }
 
-int	raycaster(t_cub *cub, t_size i, double *dist)
+int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
 {
 	double		camx;
 	t_ray		ray;
@@ -90,6 +87,10 @@ int	raycaster(t_cub *cub, t_size i, double *dist)
 	camx = (i << 1) / (double)cub->camera->width - 1;
 	ray.direction.x = cub->player->direction.x + cub->camera->plane.x * camx;
 	ray.direction.y = cub->player->direction.y + cub->camera->plane.y * camx;
-	*dist = dda(cub->player, &cub->scene->map, &ray, &side);
+	*wallx = dda(cub->player, &cub->scene->map, &ray, &side);
+	if (side & 1)
+		*dist = ray.distance.y;
+	else
+		*dist = ray.distance.x;
 	return (side);
 }

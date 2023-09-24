@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/23 18:09:05 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/24 06:03:17 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ OBJDIR		:=	obj
 SUBDIRS		:=	$(addprefix $(OBJDIR)/, init err utils draw ray game)
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/MLX42
+# LIBMLXDIR	:=	lib/minilibx-linux
 
 # --- SOURCES ---
 
@@ -50,7 +51,9 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 HDRS		:=	cub3D.h game_data.h point.h vector.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
-INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR) -I$(LIBMLXDIR)/include
+INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
+INCLUDES	+=	-I$(LIBMLXDIR)/include
+# INCLUDES	+=	-I/usr/local/include
 
 # --- OBJECTS ---
 
@@ -60,7 +63,7 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
 LIBFT	:=	$(LIBFTDIR)/libft.a
 LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
-#LIBMLX	:=	/usr/local/lib/libmlx.a
+# LIBMLX	:=	/usr/local/lib/libmlx.a
 
 # --- FLAGS ---
 
@@ -112,8 +115,8 @@ sanity: debug
 clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
-	#@$(RM) $(LIBMLXDIR)/build
 	@$(MAKE) -C $(LIBFTDIR) $@
+	@$(RM) $(LIBMLXDIR)/build
 
 fclean: clean
 	@$(RM) $(NAME)

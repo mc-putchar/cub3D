@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 13:35:35 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 02:13:29 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ int	main(int ac, char **av)
 	(void)ft_printf("Starting game\nGood luck!\n");
 	mlx_loop(cub.mlx);
 	(void)ft_printf("Reached unreacheable code... Byeee\n");
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }

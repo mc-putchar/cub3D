@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 22:50:05 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 06:05:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,15 @@ void	keys_hook(t_mlx_key_data keydata, void *param)
 		turn_player(param, keydata.key);
 }
 
-static inline void	clear_image(t_mlx_image *img, int background)
-{
-	ft_memset(img->pixels, background, img->width * img->height * BPP);
-}
-
 void	ft_hook(void *param)
 {
 	t_cub	*cub;
 
 	cub = param;
-	// ft_printf("FPS: %d\n", (int)(1 / cub->mlx->delta_time));
-	clear_image(cub->img, 0x9999FFFF);
+	ft_bzero(cub->img->pixels, cub->img->width * cub->img->height * BPP);
 	draw_screen(cub);
 	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
+	// ft_printf("FPS: %d\n", (int)(1 / cub->mlx->delta_time));
 }
 
 void	init_hooks(t_cub *cub)

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 02:16:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/16 02:16:15 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 02:26:17 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	is_identifier(char const *c)
 	if (!ft_strncmp(c, "C", 1))
 		return (2);
 	if (!ft_strncmp(c, "NO", 2))
-		return (3);
-	if (!ft_strncmp(c, "SO", 2))
 		return (4);
+	if (!ft_strncmp(c, "SO", 2))
+		return (6);
 	if (!ft_strncmp(c, "WE", 2))
 		return (5);
 	if (!ft_strncmp(c, "EA", 2))
-		return (6);
+		return (3);
 	return (0);
 }
 

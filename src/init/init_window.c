@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:04:13 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 00:21:45 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/24 02:20:26 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	init_window(t_cub *cub)
 	if (!cub->img || (mlx_image_to_window(cub->mlx, cub->img, 0, 0) < 0))
 		return (throw_error(mlx_strerror(mlx_errno)));
 	cub->minimap = mlx_new_image(cub->mlx, MINIMAP_SIZE, MINIMAP_SIZE);
-	if (!cub->minimap || (mlx_image_to_window(cub->mlx, cub->minimap, WIN_W >> 1, WIN_H - MINIMAP_SIZE) < 0))
+	if (!cub->minimap || (mlx_image_to_window(cub->mlx, cub->minimap, \
+		(WIN_W >> 1) - (MINIMAP_SIZE >> 1), WIN_H - MINIMAP_SIZE) < 0))
 		return (throw_error(mlx_strerror(mlx_errno)));
 	init_hooks(cub);
 	(void)ft_printf("Initialized\n");
