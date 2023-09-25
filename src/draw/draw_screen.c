@@ -6,25 +6,21 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 07:30:54 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 02:09:00 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-#define WALL	640
-#define DEPTH	640
+static int	get_shaded_color(int *buff, int side)
+{
+	int	color;
 
-// // ABGR? to RGBA
-// static int	get_tex_pix(t_mlx_texture *tex, uint32_t x, uint32_t y)
-// {
-// 	int32_t	*pix;
-
-// 	if (y >= tex->height)
-// 		y %= tex->height;
-// 	pix = (int32_t *)(tex->pixels + ((y * tex->width + x) << 2));
-// 	return (*pix);
-// }
+	color = *buff;
+	if (side & 1)
+		color = (color >> 1) & 8355711;
+	return (color);
+}
 
 /* Triple info
  * [0] side hit
@@ -33,21 +29,25 @@
  */
 static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 {
+	t_uint32		texx;
+	t_uint32		texy;
+	double			ppy;
+	double			texpos;
 	t_mlx_image		*tex;
-	t_uint32		xoff;
-	t_uint32		ppy;
-	t_uint32		y;
 
 	tex = cub->walls[info[0]];
-	xoff = (t_uint32)(wallx * tex->width);
-	ppy = (info[2] / tex->height);
-	if (!ppy)
-		++ppy;
-	y = 0;
+	texx = (t_uint32)(wallx * tex->width);
+	if (!info[0] || info[0] == 3)
+		texx = tex->width - texx - 1;
+	ppy = ((double)tex->height / info[2]);
+	texpos = 0;
 	while (info[2]--)
 	{
-		put_pixel(cub->img, info[1], pix++, *(int *)(tex->pixels + (((y % tex->height) * tex->width + xoff) << 2)));
-		y += ppy;
+		texy = (t_uint32)texpos & (tex->height - 1);
+		texpos += ppy;
+		put_pixel(cub->img, info[1], pix++, \
+		get_shaded_color((int *)tex->pixels + \
+		((texy * tex->height + texx)), info[0]));
 	}
 	return (pix);
 }
@@ -59,17 +59,15 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 static void	draw_strip(t_cub *cub, t_size i, double wall[2], int side)
 {
 	t_size	pix;
-	int		wall_height;
 	t_size	wall_start;
+	t_size	wall_height;
 	int		info[3];
 
-	wall_height = WALL;
-	if (wall[0] < 0)
-		wall_height = 0;
+	wall_height = cub->camera->height;
 	if (wall[0])
 		wall_height /= wall[0];
-	if ((t_uint32)wall_height > cub->img->height)
-		wall_height = cub->img->height;
+	if ((t_uint32)wall_height > cub->camera->height)
+		wall_height = cub->camera->height;
 	wall_start = (cub->camera->height >> 1) - (wall_height >> 1);
 	pix = 0;
 	while (pix < wall_start)

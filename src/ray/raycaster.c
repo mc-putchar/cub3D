@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 21:48:16 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 01:20:11 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,36 @@ static void	params(t_vector position, t_ray *ray)
 	{
 		ray->delta.x = -1 / ray->direction.x;
 		ray->stepx = -1;
-		ray->distance.x = ray->delta.x * (position.x - (int)position.x);
+		ray->distance.x = (position.x - (int)position.x) * ray->delta.x;
 	}
 	else
 	{
 		if (ray->direction.x)
 			ray->delta.x = 1 / ray->direction.x;
 		ray->stepx = 1;
-		ray->distance.x = ray->delta.x * ((int)position.x - position.x + 1);
+		ray->distance.x = ((int)position.x - position.x + 1) * ray->delta.x;
 	}
 	if (ray->direction.y < 0)
 	{
 		ray->delta.y = -1 / ray->direction.y;
 		ray->stepy = -1;
-		ray->distance.y = ray->delta.y * (position.y - (int)position.y);
+		ray->distance.y = (position.y - (int)position.y) * ray->delta.y;
 		return ;
 	}
 	if (ray->direction.y)
 		ray->delta.y = 1 / ray->direction.y;
 	ray->stepy = 1;
-	ray->distance.y = ray->delta.y * ((int)position.y - position.y + 1);
+	ray->distance.y = ((int)position.y - position.y + 1) * ray->delta.y;
 }
 
-static double	get_wallx(t_ray *ray, int side)
+static double	get_wallx(t_ray *ray, t_vector *pos, int side)
 {
 	double		wallx;
 
 	if (side & 1)
-		wallx = ray->distance.y;
+		wallx = (ray->distance.y - ray->delta.y) * ray->direction.x + pos->x;
 	else
-		wallx = ray->distance.x;
+		wallx = (ray->distance.x - ray->delta.x) * ray->direction.y + pos->y;
 	return (wallx - (int)wallx);
 }
 
@@ -62,7 +62,7 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 	hit = 0;
 	while (!hit)
 	{
-		if (ray->distance.x + ray->delta.x < ray->distance.y + ray->delta.y)
+		if (ray->distance.x < ray->distance.y)
 		{
 			ray->distance.x += ray->delta.x;
 			mapx += ray->stepx;
@@ -76,7 +76,7 @@ static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
 		}
 		hit = wall_check(map, mapx, mapy);
 	}
-	return (get_wallx(ray, *side));
+	return (get_wallx(ray, &player->position, *side));
 }
 
 int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
@@ -94,8 +94,8 @@ int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
 	params(cub->player->position, &ray);
 	*wallx = dda(cub->player, &cub->scene->map, &ray, &side);
 	if (side & 1)
-		*dist = ray.distance.y;
+		*dist = ray.distance.y - ray.delta.y;
 	else
-		*dist = ray.distance.x;
+		*dist = ray.distance.x - ray.delta.x;
 	return (side);
 }
