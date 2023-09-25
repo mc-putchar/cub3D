@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 07:55:17 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:54:23 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av)
 	if (init_window(&cub))
 		return (EXIT_FAILURE);
 	if (load_textures(&cub, &scene) || spawn_player(&player, &scene.map) || \
-		start_camera(&camera, WIN_H, WIN_W, player.direction))
+		start_camera(&camera, cub.win_h, cub.win_w, player.direction))
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	cub.player = &player;
 	cub.camera = &camera;

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 14:04:13 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 21:42:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:54:27 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ int	init_window(t_cub *cub)
 	cub->mlx = mlx_init();
 	if (!cub->mlx)
 		return (throw_error("Failed to initialize MLX"));
-	cub->win = mlx_new_window(cub->mlx, WIN_W, WIN_H, TITLE);
+	(void)mlx_get_screen_size(cub->mlx, &cub->win_w, &cub->win_h);
+	cub->win = mlx_new_window(cub->mlx, cub->win_w, cub->win_h, TITLE);
 	if (!cub->win)
 		return (throw_error("MLX failed to create window"));
 	cub->img = malloc(sizeof(t_mlx_image));
 	cub->minimap = malloc(sizeof(t_mlx_image));
 	if (!cub->img || !cub->minimap)
 		return (throw_error("Memory allocation failed"));
-	if (img_gen(cub->mlx, cub->img, WIN_W, WIN_H))
+	if (img_gen(cub->mlx, cub->img, cub->win_w, cub->win_h))
 		return (1);
 	if (img_gen(cub->mlx, cub->minimap, MINIMAP_SIZE, MINIMAP_SIZE))
 		return (1);

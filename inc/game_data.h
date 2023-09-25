@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:32:41 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:54:54 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 /* Constants */
 # define TITLE			"Cub3D"
-# define WIN_H			768
-# define WIN_W			1024
 # define BPP			4
 # define DIRECTIONS		"ESWN"
 # define MOVE_SPEED		0.1
@@ -104,6 +102,8 @@ typedef struct s_cub
 {
 	void				*mlx;
 	void				*win;
+	int					win_h;
+	int					win_w;
 	t_mlx_image			*img;
 	t_mlx_image			*minimap;
 	t_mlx_image			*walls[4];

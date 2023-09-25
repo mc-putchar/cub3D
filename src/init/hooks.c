@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:18:39 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:54:15 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	mouse_look(t_cub *cub)
 	int		y;
 
 	(void)mlx_mouse_get_pos(cub->mlx, cub->win, &x, &y);
-	if (x != WIN_W >> 1)
+	if (x != cub->win_w >> 1)
 		mouse_view(cub, x, y);
-	mlx_mouse_move(cub->mlx, cub->win, WIN_W >> 1, WIN_H >> 1);
+	mlx_mouse_move(cub->mlx, cub->win, cub->win_w >> 1, cub->win_h >> 1);
 	return (0);
 }
 
@@ -75,7 +75,7 @@ int	ft_hook(void *param)
 	mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
-		(WIN_W >> 1) - (MINIMAP_SIZE >> 1), WIN_H - MINIMAP_SIZE - 10);
+		(cub->win_w - MINIMAP_SIZE - 20), 20);
 	mlx_do_sync(cub->mlx);
 	return (0);
 }
@@ -86,7 +86,7 @@ void	init_hooks(t_cub *cub)
 	(void)mlx_hook(cub->win, 17, 1L << 17, close_hook, cub);
 	(void)mlx_loop_hook(cub->mlx, ft_hook, cub);
 	(void)mlx_do_key_autorepeaton(cub->mlx);
-	(void)mlx_mouse_move(cub->mlx, cub->win, WIN_W >> 1, WIN_H >> 1);
+	(void)mlx_mouse_move(cub->mlx, cub->win, cub->win_w >> 1, cub->win_h >> 1);
 	if (!NOLEAKS)
 		(void)mlx_mouse_hide(cub->mlx, cub->win);
 }
