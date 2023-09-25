@@ -6,19 +6,26 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 05:46:50 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:15:31 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:40:15 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	door_check(t_map *map, int x, int y)
+static int	door_check(t_map *map, int x, int y, int haskey)
 {
 	if (x < 0 || y < 0 || (t_size)x >= map->width || (t_size)y >= map->height)
 		return (0);
-	if (map->val[y][x] == 'D' || map->val[y][x] == 'L' || \
+	if (map->val[y][x] == 'D' || \
 		map->val[y][x] == 'O')
 		return (1);
+	if (map->val[y][x] == 'L')
+	{
+		if (haskey)
+			return (1);
+		else
+			ft_printf("You need key to open this door\n");
+	}
 	return (0);
 }
 
@@ -34,15 +41,19 @@ void	interact(t_cub *cub)
 {
 	t_map *const	map = &cub->scene->map;
 	t_player *const	pl = cub->player;
+	int				x;
+	int				y;
 
-	if (door_check(map, pl->position.x, pl->position.y))
-		toggle_door(map, pl->position.x, pl->position.y);
-	if (door_check(map, pl->position.x + 1, pl->position.y))
-		toggle_door(map, pl->position.x + 1, pl->position.y);
-	if (door_check(map, pl->position.x - 1, pl->position.y))
-		toggle_door(map, pl->position.x - 1, pl->position.y);
-	if (door_check(map, pl->position.x, pl->position.y + 1))
-		toggle_door(map, pl->position.x, pl->position.y + 1);
-	if (door_check(map, pl->position.x, pl->position.y - 1))
-		toggle_door(map, pl->position.x, pl->position.y - 1);
+	x = 1;
+	y = 1;
+	if (pl->direction.x < 0)
+		x = -x;
+	if (pl->direction.y < 0)
+		y = -y;
+	if (door_check(map, pl->position.x + x, pl->position.y, pl->has_key))
+		toggle_door(map, pl->position.x + x, pl->position.y);
+	if (door_check(map, pl->position.x, pl->position.y + y, pl->has_key))
+		toggle_door(map, pl->position.x, pl->position.y + y);
+	if (door_check(map, pl->position.x + x, pl->position.y + y, pl->has_key))
+		toggle_door(map, pl->position.x + x, pl->position.y + y);
 }

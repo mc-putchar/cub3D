@@ -6,13 +6,13 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 07:44:42 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:18:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	get_shaded_color(int *buff, int side)
+static int	shade(int *buff, int side)
 {
 	int	color;
 
@@ -64,8 +64,7 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	{
 		texy = (t_uint32)texpos & (tex->height - 1);
 		texpos += ppy;
-		put_pixel(cub->img, info[1], pix++, \
-		get_shaded_color((int *)tex->pixels + \
+		put_pixel(cub->img, info[1], pix++, shade((int *)tex->pixels + \
 		((texy * tex->height + texx)), info[0]));
 	}
 	return (pix);

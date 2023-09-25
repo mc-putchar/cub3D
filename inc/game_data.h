@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 06:15:31 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:32:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ typedef struct s_player
 {
 	t_vector			position;
 	t_vector			direction;
-	int					move_speed;
-	int					turn_speed;
+	double				move_speed;
+	double				turn_speed;
+	int					has_key;
 }	t_player;
 
 typedef struct s_camera

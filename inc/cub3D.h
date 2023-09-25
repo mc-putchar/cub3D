@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 08:30:40 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:21:26 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 /* No leaks mode */
 # ifndef NOLEAKS
-# 	define NOLEAKS 0
+#  define NOLEAKS 0
 # endif
 
 /* Usage message */
@@ -62,23 +62,21 @@ void		free_scene(void *mlx, t_scene *scene);
 
 /* HOOKS */
 int			close_hook(void *param);
-// void		keys_hook(int key, void *param);
-// void		ft_hook(void *param);
 
 /* DRAW */
 void		put_pixel(t_mlx_image *img, int x, int y, int color);
 int			draw_screen(t_cub *cub);
+void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
 
 /* GAME */
 void		move_player(t_cub *cub, int key);
 void		sidestep_player(t_cub *cub, int key);
 void		turn_player(t_cub *cub, int key);
 void		mouse_view(t_cub *cub, int x, int y);
+void		interact(t_cub *cub);
 
 /* UNSORTED */
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);
 int			wall_check(t_map *map, int x, int y);
-void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
-void		interact(t_cub *cub);
 
 #endif

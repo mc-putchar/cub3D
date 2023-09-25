@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 18:15:04 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 07:04:43 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:20:59 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,13 @@ int	init_scene(char const *file, t_scene *scene)
 	{
 		chop = ft_splits(line, " ,\n\r\t");
 		if (!chop)
-			return (throw_error_free("Something went wrong ''/\\\0'\"", free, line));
+			return (throw_error_free("Something went wrong", free, line));
 		if (chop[0])
 			error = set_scene_param(scene, (char const **)chop);
 		free_arr(chop);
 		if (error == -1)
 			return (!scene_complete(scene) || read_map(line, fd, &scene->map));
-		free(line);
-		if (error)
+		if ((free(line), 1) && error)
 			return (throw_error("Scene file misconfigured"));
 		line = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 08:32:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:18:39 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,6 @@ int	mouse_look(t_cub *cub)
 	return (0);
 }
 
-int	mouse_hook(int button, int x, int y, t_cub *cub)
-{
-	(void)x;
-	(void)y;
-	(void)cub;
-	if (button == MOUSE_SCROLL_UP)
-		ft_printf("zoom\n");
-	else if (button == MOUSE_SCROLL_DOWN)
-		ft_printf("ZOoooooooOM\n");
-	return (0);
-}
-
 int	ft_hook(void *param)
 {
 	t_cub	*cub;
@@ -95,7 +83,6 @@ int	ft_hook(void *param)
 void	init_hooks(t_cub *cub)
 {
 	(void)mlx_hook(cub->win, 2, 1L << 0, keys_hook, cub);
-	(void)mlx_hook(cub->win, 4, 1L << 2, mouse_hook, cub);
 	(void)mlx_hook(cub->win, 17, 1L << 17, close_hook, cub);
 	(void)mlx_loop_hook(cub->mlx, ft_hook, cub);
 	(void)mlx_do_key_autorepeaton(cub->mlx);
