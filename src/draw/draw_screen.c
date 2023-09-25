@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:18:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 12:24:17 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	if (!info[0] || info[0] == 3)
 		texx = tex->width - texx - 1;
 	ppy = ((double)tex->height / info[2]);
-	texpos = 0;
+	texpos = (pix - (cub->camera->height >> 1) + (info[2] >> 1)) * ppy;
 	while (info[2]--)
 	{
 		texy = (t_uint32)texpos & (tex->height - 1);
@@ -113,7 +113,7 @@ int	draw_screen(t_cub *cub)
 	{
 		side = raycaster(cub, strip, wall, wall + 1);
 		draw_strip(cub, strip, wall, side);
-		++strip;
+		cub->zbuffer[strip++] = wall[0];
 	}
 	return (0);
 }

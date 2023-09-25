@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:47:01 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/21 19:47:51 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 11:31:58 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int					ft_atoi(const char *nptr);
 int					ft_atoi_base(char *str, char *base);
 char				*ft_itoa(int n);
 char				*ft_uitoa(unsigned int n);
+double				ft_atod_dirty(char const *str);
 
 /* PUTS */
 ssize_t				ft_putchar_fd(char c, int fd);

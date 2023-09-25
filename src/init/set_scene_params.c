@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 02:16:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 08:01:59 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 11:46:08 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,41 @@ static int	set_color(t_scene *scene, int type, char const **param)
 	return (0);
 }
 
+static int	get_sprite(t_scene *scene, char const **param)
+{
+	t_sprite	*spr;
+	t_sprite	*node;
+
+	if (!param[1] || !param[2] || !param[3] || param[4])
+		return (throw_error("Wrong number of parameters"));
+	spr = malloc(sizeof(t_sprite));
+	if (!spr)
+		return (throw_error("Memory allocation failure"));
+	spr->next = NULL;
+	spr->position.x = ft_atod_dirty(param[1]);
+	spr->position.y = ft_atod_dirty(param[2]);
+	spr->texture = ft_strdup(param[3]);
+	if (!spr->texture && (free(spr), 1))
+		return (throw_error("Memory allocation failure"));
+	if (!scene->sprites)
+		scene->sprites = spr;
+	else
+	{
+		node = scene->sprites;
+		while (node->next)
+			node = node->next;
+		node->next = spr;
+	}
+	return (0);
+}
+
 static int	get_extra(t_scene *scene, char const **param)
 {
 	t_extra	*ex;
 	t_extra	*node;
 
+	if (!ft_strncmp(param[0], "S", 1))
+		return (get_sprite(scene, param));
 	if (!param[1] || param[2])
 		return (throw_error("Wrong number of parameters"));
 	ex = malloc(sizeof(t_extra));

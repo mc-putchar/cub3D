@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:54:54 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 12:19:57 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,20 @@ typedef struct s_extra
 	void				*next;
 }	t_extra;
 
+typedef struct s_sprite
+{
+	t_vector			position;
+	void				*texture;
+	void				*next;
+}	t_sprite;
+
 typedef struct s_scene
 {
 	int					floor;
 	int					ceiling;
 	char				*walls[4];
 	t_map				map;
+	t_sprite			*sprites;
 	t_extra				*extras;
 }	t_scene;
 
@@ -110,6 +118,7 @@ typedef struct s_cub
 	t_scene				*scene;
 	t_camera			*camera;
 	t_player			*player;
+	double				*zbuffer;
 }	t_cub;
 
 #endif

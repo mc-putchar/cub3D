@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/25 08:11:29 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/25 11:44:53 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC		+=	init/spawn_player.c init/init_camera.c
 SRC		+=	err/error_handler.c
 SRC		+=	utils/freez.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
+SRC		+=	draw/draw_sprite.c
 SRC		+=	ray/raycaster.c ray/wall_check.c
 SRC		+=	game/move_player.c game/turn_player.c game/interact.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
@@ -104,7 +105,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
 # $(LIBMLX):
-	# @cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
+#	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)

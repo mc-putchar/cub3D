@@ -1,10 +1,22 @@
+# .cub Scene template
+
+# Comments # <comment>
+# Wall textures
 NO	./res/texture_wall_north
 SO	./res/texture_wall_south
 WE	./res/texture_wall_west
 EA	./res/texture_wall_east
 
-F	R,G,B [0-255]
-C	R,G,B [0-255]
+# Floor and ceiling colors (R,G,B) [0,255]
+F	10, 20, 30
+C	255, 0, 230
+
+# Optional door textures
+D	./res/texture_door
+L	./res/texture_door_locked
+
+# Sprite textures (S <X,Y> <texture path>)
+S	3.5, 4.5	./res/texture_sprite
 
 # Map
 111111

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:54:23 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 12:22:28 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ int	main(int ac, char **av)
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	cub.player = &player;
 	cub.camera = &camera;
+	cub.zbuffer = malloc(sizeof(double) * camera.width);
+	if (!cub.zbuffer)
+		return (throw_error("Memort allocation failure"), close_hook(&cub));
 	(void)ft_printf("Starting game\nGood luck!\n");
-	mlx_loop(cub.mlx);
-	(void)ft_printf("Reached unreacheable code... Byeee\n");
-	return (EXIT_FAILURE);
+	return (mlx_loop(cub.mlx));
 }

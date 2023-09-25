@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 08:06:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 11:52:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,11 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-void	free_scene(void *mlx, t_scene *scene)
+void	free_extras(void *mlx, t_scene *scene)
 {
-	int			i;
 	t_extra		*next;
 	t_mlx_image	*img;
 
-	i = 0;
-	while (i < 4)
-		free(scene->walls[i++]);
-	if (scene->map.val)
-		free_map(scene->map.val, scene->map.height);
 	while (scene->extras)
 	{
 		next = scene->extras->next;
@@ -50,4 +44,27 @@ void	free_scene(void *mlx, t_scene *scene)
 		free(scene->extras);
 		scene->extras = next;
 	}
+}
+
+void	free_scene(void *mlx, t_scene *scene)
+{
+	int			i;
+	t_sprite	*next;
+	t_mlx_image	*img;
+
+	i = 0;
+	while (i < 4)
+		free(scene->walls[i++]);
+	if (scene->map.val)
+		free_map(scene->map.val, scene->map.height);
+	while (scene->sprites)
+	{
+		next = scene->sprites->next;
+		img = scene->sprites->texture;
+		mlx_destroy_image(mlx, img->img);
+		free(scene->sprites->texture);
+		free(scene->sprites);
+		scene->sprites = next;
+	}
+	free_extras(mlx, scene);
 }
