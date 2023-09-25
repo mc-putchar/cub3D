@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 05:46:50 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 08:32:10 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 09:15:31 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	door_check(t_map *map, int x, int y)
 	return (0);
 }
 
-static inline void	switch_door(t_map *map, int x, int y)
+static inline void	toggle_door(t_map *map, int x, int y)
 {
 	if (map->val[y][x] == 'D' || map->val[y][x] == 'L')
 		map->val[y][x] = 'O';
@@ -36,13 +36,13 @@ void	interact(t_cub *cub)
 	t_player *const	pl = cub->player;
 
 	if (door_check(map, pl->position.x, pl->position.y))
-		switch_door(map, pl->position.x, pl->position.y);
+		toggle_door(map, pl->position.x, pl->position.y);
 	if (door_check(map, pl->position.x + 1, pl->position.y))
-		switch_door(map, pl->position.x + 1, pl->position.y);
+		toggle_door(map, pl->position.x + 1, pl->position.y);
 	if (door_check(map, pl->position.x - 1, pl->position.y))
-		switch_door(map, pl->position.x - 1, pl->position.y);
+		toggle_door(map, pl->position.x - 1, pl->position.y);
 	if (door_check(map, pl->position.x, pl->position.y + 1))
-		switch_door(map, pl->position.x, pl->position.y + 1);
+		toggle_door(map, pl->position.x, pl->position.y + 1);
 	if (door_check(map, pl->position.x, pl->position.y - 1))
-		switch_door(map, pl->position.x, pl->position.y - 1);
+		toggle_door(map, pl->position.x, pl->position.y - 1);
 }
