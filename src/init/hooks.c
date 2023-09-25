@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 21:51:48 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 08:32:24 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	close_hook(void *param)
 	t_cub	*cub;
 
 	cub = param;
-	free_scene(cub->scene);
+	free_scene(cub->mlx, cub->scene);
 	mlx_destroy_image(cub->mlx, cub->walls[0]->img);
 	free(cub->walls[0]);
 	mlx_destroy_image(cub->mlx, cub->walls[1]->img);
@@ -47,6 +47,20 @@ int	keys_hook(int key, void *param)
 		sidestep_player(param, key);
 	if (key == ARROW_LEFT || key == ARROW_RIGHT)
 		turn_player(param, key);
+	if (key == KEY_SPACE)
+		interact(param);
+	return (0);
+}
+
+int	mouse_look(t_cub *cub)
+{
+	int		x;
+	int		y;
+
+	(void)mlx_mouse_get_pos(cub->mlx, cub->win, &x, &y);
+	if (x != WIN_W >> 1)
+		mouse_view(cub, x, y);
+	mlx_mouse_move(cub->mlx, cub->win, WIN_W >> 1, WIN_H >> 1);
 	return (0);
 }
 
@@ -67,9 +81,10 @@ int	ft_hook(void *param)
 	t_cub	*cub;
 
 	cub = param;
-	mlx_do_sync(cub->mlx);
+	mouse_look(cub);
 	draw_screen(cub);
 	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
+	mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
 		(WIN_W >> 1) - (MINIMAP_SIZE >> 1), WIN_H - MINIMAP_SIZE - 10);
@@ -79,15 +94,12 @@ int	ft_hook(void *param)
 
 void	init_hooks(t_cub *cub)
 {
-	mlx_hook(cub->win, 2, 1L << 0, keys_hook, cub);
-	mlx_hook(cub->win, 4, 1L << 2, mouse_hook, cub);
-	mlx_hook(cub->win, 17, 1L << 17, close_hook, cub);
-	mlx_loop_hook(cub->mlx, ft_hook, cub);
+	(void)mlx_hook(cub->win, 2, 1L << 0, keys_hook, cub);
+	(void)mlx_hook(cub->win, 4, 1L << 2, mouse_hook, cub);
+	(void)mlx_hook(cub->win, 17, 1L << 17, close_hook, cub);
+	(void)mlx_loop_hook(cub->mlx, ft_hook, cub);
+	(void)mlx_do_key_autorepeaton(cub->mlx);
+	(void)mlx_mouse_move(cub->mlx, cub->win, WIN_W >> 1, WIN_H >> 1);
+	if (!NOLEAKS)
+		(void)mlx_mouse_hide(cub->mlx, cub->win);
 }
-
-// void	init_hooks(t_cub *cub)
-// {
-// 	mlx_key_hook(cub->mlx, keys_hook, cub);
-// 	mlx_close_hook(cub->mlx, close_hook, cub);
-// 	mlx_loop_hook(cub->mlx, ft_hook, cub);
-// }

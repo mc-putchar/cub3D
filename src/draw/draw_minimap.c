@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 18:00:48 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 00:25:29 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 03:35:48 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void	draw_player(t_mlx_image *img, int off)
 	int	y;
 	int	x;
 
-	y = -1;
-	while (++y < (1 << MINIMAP_PDIV))
+	y = 1;
+	while (++y < (1 << MINIMAP_PDIV) - 2)
 	{
-		x = -1;
-		while (++x < (1 << MINIMAP_PDIV))
-			put_pixel(img, x + off, y + off, 0xCC118899);
+		x = 1;
+		while (++x < (1 << MINIMAP_PDIV) - 2)
+			put_pixel(img, x + off, y + off, 0xFF118899);
 	}
 }
 
@@ -47,7 +47,7 @@ void	draw_minimap(t_mlx_image *img, t_map *map, t_vector position)
 				map->val[tmp][offx + (x >> MINIMAP_PDIV)] > '0')
 				put_pixel(img, x, y, 0xFFFFFF55);
 			else
-				put_pixel(img, x, y, 0x55333355);
+				put_pixel(img, x, y, 0xFF333355);
 		}
 	}
 	draw_player(img, MINIMAP_SIZE >> 1);

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 02:16:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 09:40:51 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 08:01:59 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 /* Whoami
  * whatyasayin
  */
-static int	is_identifier(char const *c)
+static int	identify(char const *c)
 {
 	if (!c)
 		return (0);
+	if (*c == '#')
+		return (99);
+	if (ft_isdigit(*c))
+		return (-1);
 	if (!ft_strncmp(c, "F", 1))
 		return (1);
 	if (!ft_strncmp(c, "C", 1))
@@ -62,21 +66,52 @@ static int	set_color(t_scene *scene, int type, char const **param)
 	return (0);
 }
 
+static int	get_extra(t_scene *scene, char const **param)
+{
+	t_extra	*ex;
+	t_extra	*node;
+
+	if (!param[1] || param[2])
+		return (throw_error("Wrong number of parameters"));
+	ex = malloc(sizeof(t_extra));
+	if (!ex)
+		return (throw_error("Memory allocation failure"));
+	ex->key = ft_strdup(param[0]);
+	ex->value = ft_strdup(param[1]);
+	if (!ex->key || (!ex->value && (free(ex->key), 1)))
+		return (throw_error("Memory allocation failure"));
+	ex->next = NULL;
+	if (!scene->extras)
+		scene->extras = ex;
+	else
+	{
+		node = scene->extras;
+		while (node->next)
+			node = node->next;
+		node->next = ex;
+	}
+	return (0);
+}
+
 /* Get 'em, bytes!
  * Byttery POWered
  */
-int	set_scene_param(t_scene *scene, char **param)
+int	set_scene_param(t_scene *scene, char const **param)
 {
 	int	type;
 	int	fd;
 
-	type = is_identifier(param[0]);
+	type = identify(param[0]);
 	if (!type)
-		return (1);
+		return (get_extra(scene, param));
+	if (type == 99)
+		return (0);
+	if (type < 0)
+		return (type);
 	if (type < 3)
-		return (set_color(scene, type, (char const **)param));
+		return (set_color(scene, type, param));
 	if (!param[1] || param[2])
-		return (1);
+		return (throw_error("Wrong number of parameters"));
 	scene->walls[type - 3] = ft_strdup(param[1]);
 	if (!scene->walls[type - 3])
 		return (throw_error("Memory allocation failed"));

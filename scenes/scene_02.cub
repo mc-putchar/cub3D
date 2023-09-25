@@ -1,7 +1,7 @@
-NO	./res/wall_north.png
-SO			./res/wall_south.png
-WE ./res/wall_west.png
-EA       ./res/wall_east.png
+NO	./res/wall_north.xpm
+SO			./res/wall_south.xpm
+WE ./res/wall_west.xpm
+EA       ./res/wall_east.xpm
 
 F	20, 200,2
 C 25,30, 250

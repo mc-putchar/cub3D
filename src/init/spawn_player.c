@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 05:20:24 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/19 05:20:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 04:19:37 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	spawn_player(t_player *player, t_map *map)
 			d = read_direction(map->val[y][x]);
 			if (!d)
 				continue ;
-			player->position.x = x;
-			player->position.y = y;
+			player->position.x = x + 0.5;
+			player->position.y = y + 0.5;
 			set_direction(d, &player->direction);
 			map->val[y][x] = '0';
 			(void)ft_printf("Player spawned\n");

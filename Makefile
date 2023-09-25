@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/24 20:33:38 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/25 08:11:29 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@
 # make re		remove all compiled files and recompile again
 # make debug	compile all with debug flags
 # make sanity	compile debug with memory address sanitize injected
+# make noleaks	compile debug without leaky external functions
 
 # --- TARGET ---
 
@@ -44,7 +45,7 @@ SRC		+=	err/error_handler.c
 SRC		+=	utils/freez.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
 SRC		+=	ray/raycaster.c ray/wall_check.c
-SRC		+=	game/move_player.c game/turn_player.c
+SRC		+=	game/move_player.c game/turn_player.c game/interact.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 # --- INCLUDES ---
@@ -76,11 +77,12 @@ LFLAGS	:=	-lXext -lX11 -lm -lz
 
 # --- DEBUG ---
 
-debug:	CFLAGS		+= -ggdb3 -O0
-debug:	CPPFLAGS	+= -DDEBUG=1
-# debug:	MLXDEBUG	:= -DDEBUG=1
-debug:	DEBUGFLAG	:= debug
-sanity:	CFLAGS		+= -fsanitize=address
+debug:		CFLAGS		+= -ggdb3 -O0
+debug:		CPPFLAGS	+= -DDEBUG=1
+# debug:		MLXDEBUG	:= -DDEBUG=1
+debug:		DEBUGFLAG	:= debug
+sanity:		CFLAGS		+= -fsanitize=address
+noleaks:	CPPFLAGS	+= -DNOLEAKS=1
 
 # --- CMDS ---
 
@@ -113,6 +115,8 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(SUBDIRS)
 debug: all
 
 sanity: debug
+
+noleaks: debug
 
 clean:
 	@$(RM) $(OBJS)

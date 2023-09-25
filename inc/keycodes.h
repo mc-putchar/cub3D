@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 23:52:40 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 21:31:15 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 03:52:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # define MOUSE_RIGHT		3
 # define MOUSE_SCROLL_UP	4
 # define MOUSE_SCROLL_DOWN	5
+
+# define MOUSE_MOVE_LEFT	999991
+# define MOUSE_MOVE_RIGHT	999992
 
 # define KEY_ESC			65307
 # define KEY_ENTER			65293

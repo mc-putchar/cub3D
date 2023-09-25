@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 01:20:11 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 07:37:29 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,51 +51,55 @@ static double	get_wallx(t_ray *ray, t_vector *pos, int side)
 	return (wallx - (int)wallx);
 }
 
-static double	dda(t_player *player, t_map *map, t_ray *ray, int *side)
+/* dd[0] = side hit
+ * dd[1] = hit what?
+ */
+static double	dda(t_player *player, t_map *map, t_ray *ray, int dd[2])
 {
 	int			mapx;
 	int			mapy;
-	int			hit;
 
 	mapx = (int)player->position.x;
 	mapy = (int)player->position.y;
-	hit = 0;
-	while (!hit)
+	while (!dd[1])
 	{
 		if (ray->distance.x < ray->distance.y)
 		{
 			ray->distance.x += ray->delta.x;
 			mapx += ray->stepx;
-			*side = 1 + ray->stepx;
+			dd[0] = 1 + ray->stepx;
 		}
 		else
 		{
 			ray->distance.y += ray->delta.y;
 			mapy += ray->stepy;
-			*side = 2 + ray->stepy;
+			dd[0] = 2 + ray->stepy;
 		}
-		hit = wall_check(map, mapx, mapy);
+		dd[1] = wall_check(map, mapx, mapy);
 	}
-	return (get_wallx(ray, &player->position, *side));
+	return (get_wallx(ray, &player->position, dd[0]));
 }
 
 int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
 {
 	double		camx;
 	t_ray		ray;
-	int			side;
+	int			side_hit[2];
 
-	side = -1;
+	side_hit[0] = -1;
+	side_hit[1] = 0;
 	camx = (i << 1) / (double)cub->camera->width - 1;
 	ray.direction.x = cub->player->direction.x + cub->camera->plane.x * camx;
 	ray.direction.y = cub->player->direction.y + cub->camera->plane.y * camx;
 	ray.delta.x = 1e28;
 	ray.delta.y = 1e28;
 	params(cub->player->position, &ray);
-	*wallx = dda(cub->player, &cub->scene->map, &ray, &side);
-	if (side & 1)
+	*wallx = dda(cub->player, &cub->scene->map, &ray, side_hit);
+	if (side_hit[0] & 1)
 		*dist = ray.distance.y - ray.delta.y;
 	else
 		*dist = ray.distance.x - ray.delta.x;
-	return (side);
+	if (side_hit[1] != '1')
+		return (side_hit[1]);
+	return (side_hit[0]);
 }

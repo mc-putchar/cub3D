@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/24 21:55:32 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 06:15:31 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define MOVE_SPEED		0.1
 # define TURN_SPEED		0.05
 # define MINIMAP_SIZE	128
-# define MINIMAP_PDIV	3
+# define MINIMAP_PDIV	4
 
 /* Norme adaptations */
 // typedef mlx_t			t_mlx;
@@ -74,12 +74,20 @@ typedef struct s_camera
 	t_vector			plane;
 }	t_camera;
 
+typedef struct s_extra
+{
+	void				*key;
+	void				*value;
+	void				*next;
+}	t_extra;
+
 typedef struct s_scene
 {
 	int					floor;
 	int					ceiling;
 	char				*walls[4];
 	t_map				map;
+	t_extra				*extras;
 }	t_scene;
 
 typedef struct s_ray

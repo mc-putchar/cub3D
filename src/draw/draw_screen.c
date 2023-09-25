@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 02:09:00 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 07:44:42 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ static int	get_shaded_color(int *buff, int side)
 	return (color);
 }
 
+static t_mlx_image	*texture_lookup(t_cub *cub, int id)
+{
+	t_extra	*node;
+
+	node = cub->scene->extras;
+	while (node)
+	{
+		if (*(char *)node->key == id)
+			return (node->value);
+		node = node->next;
+	}
+	return (NULL);
+}
+
 /* Triple info
  * [0] side hit
  * [1] drawing column
@@ -35,7 +49,12 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	double			texpos;
 	t_mlx_image		*tex;
 
-	tex = cub->walls[info[0]];
+	if (info[0] < 4)
+		tex = cub->walls[info[0]];
+	else
+		tex = texture_lookup(cub, info[0]);
+	if (!tex)
+		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	texx = (t_uint32)(wallx * tex->width);
 	if (!info[0] || info[0] == 3)
 		texx = tex->width - texx - 1;

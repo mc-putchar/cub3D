@@ -1,11 +1,12 @@
-NO	../res/texture_wall_north
-SO	../res/texture_wall_south
-WE	../res/texture_wall_west
-EA	../res/texture_wall_east
+NO	./res/texture_wall_north
+SO	./res/texture_wall_south
+WE	./res/texture_wall_west
+EA	./res/texture_wall_east
 
-F	220, 100, 2
-C	225, 30, 0
+F	R,G,B [0-255]
+C	R,G,B [0-255]
 
+# Map
 111111
 1S1001
 101001

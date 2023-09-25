@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 18:15:04 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/23 17:24:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 07:04:43 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int	reset_scene(t_scene *scene)
 	i = 0;
 	while (i < 4)
 		scene->walls[i++] = NULL;
+	scene->extras = NULL;
 	return (0);
 }
 
@@ -78,16 +79,17 @@ int	init_scene(char const *file, t_scene *scene)
 	while (line)
 	{
 		chop = ft_splits(line, " ,\n\r\t");
-		free(line);
 		if (!chop)
-			return (throw_error("Something went wrong ''/\\\0'\""));
-		error = chop[0] && set_scene_param(scene, chop);
+			return (throw_error_free("Something went wrong ''/\\\0'\"", free, line));
+		if (chop[0])
+			error = set_scene_param(scene, (char const **)chop);
 		free_arr(chop);
+		if (error == -1)
+			return (!scene_complete(scene) || read_map(line, fd, &scene->map));
+		free(line);
 		if (error)
 			return (throw_error("Scene file misconfigured"));
 		line = get_next_line(fd);
-		if (scene_complete(scene))
-			return (read_map(line, fd, &scene->map));
 	}
 	return (close(fd), throw_error("Scene file misconfigured"));
 }
