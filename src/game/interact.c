@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 05:46:50 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:40:15 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 13:45:19 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ static int	door_check(t_map *map, int x, int y, int haskey)
 
 static inline void	toggle_door(t_map *map, int x, int y)
 {
-	if (map->val[y][x] == 'D' || map->val[y][x] == 'L')
+	if (map->val[y][x] == 'D')
 		map->val[y][x] = 'O';
 	else if (map->val[y][x] == 'O')
 		map->val[y][x] = 'D';
+	else if (map->val[y][x] == 'L')
+		map->val[y][x] = 'U';
 }
 
 void	interact(t_cub *cub)

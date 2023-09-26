@@ -6,18 +6,21 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 12:59:59 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 14:29:26 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
+
+/* Required for bonus */
+# include <sys/time.h> // for FPS calculation and sync
 
 # include "libft.h"
 // # include "MLX42/MLX42.h"
@@ -62,6 +65,10 @@ void		free_scene(void *mlx, t_scene *scene);
 
 /* HOOKS */
 int			close_hook(void *param);
+int			keydown_hook(int key, void *param);
+int			keyup_hook(int key, void *param);
+int			mouse_look(int x, int y, t_cub *cub);
+int			game_loop(void *param);
 
 /* DRAW */
 void		put_pixel(t_mlx_image *img, int x, int y, int color);
@@ -74,6 +81,7 @@ void		move_player(t_player *player, t_map *map);
 void		sidestep_player(t_player *player, t_map *map);
 void		turn_player(t_player *player, t_camera *camera);
 void		interact(t_cub *cub);
+int			get_fps(struct timeval *prev);
 
 /* UNSORTED */
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);

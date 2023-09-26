@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:20:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 07:37:29 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 13:42:19 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int	raycaster(t_cub *cub, t_size i, double *dist, double *wallx)
 	camx = (i << 1) / (double)cub->camera->width - 1;
 	ray.direction.x = cub->player->direction.x + cub->camera->plane.x * camx;
 	ray.direction.y = cub->player->direction.y + cub->camera->plane.y * camx;
-	ray.delta.x = 1e28;
-	ray.delta.y = 1e28;
+	ray.delta.x = 1e30;
+	ray.delta.y = 1e30;
 	params(cub->player->position, &ray);
 	*wallx = dda(cub->player, &cub->scene->map, &ray, side_hit);
 	if (side_hit[0] & 1)

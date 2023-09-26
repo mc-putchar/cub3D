@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/25 11:44:53 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/26 14:12:04 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ NAME	:=	cub3D
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
-SUBDIRS		:=	$(addprefix $(OBJDIR)/, init err utils draw ray game)
+SUBDIRS		:=	$(addprefix $(OBJDIR)/, init utils draw game)
 LIBFTDIR	:=	lib/libft
 # LIBMLXDIR	:=	lib/MLX42
 LIBMLXDIR	:=	lib/minilibx-linux
@@ -39,14 +39,13 @@ LIBMLXDIR	:=	lib/minilibx-linux
 
 SRC		:=	main.c
 SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
-SRC		+=	init/set_scene_params.c init/load_textures.c init/hooks.c
+SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
 SRC		+=	init/spawn_player.c init/init_camera.c
-SRC		+=	err/error_handler.c
-SRC		+=	utils/freez.c
+SRC		+=	utils/error_handler.c utils/freez.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
 SRC		+=	draw/draw_sprite.c
-SRC		+=	ray/raycaster.c ray/wall_check.c
-SRC		+=	game/move_player.c game/turn_player.c game/interact.c
+SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
+SRC		+=	game/raycaster.c game/wall_check.c game/fps.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 # --- INCLUDES ---

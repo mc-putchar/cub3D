@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 12:22:28 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 14:21:08 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int ac, char **av)
 	cub.zbuffer = malloc(sizeof(double) * camera.width);
 	if (!cub.zbuffer)
 		return (throw_error("Memort allocation failure"), close_hook(&cub));
-	(void)ft_printf("Starting game\nGood luck!\n");
+	if (gettimeofday(&cub.time, NULL))
+		throw_error("I don't have time for this");
 	return (mlx_loop(cub.mlx));
 }

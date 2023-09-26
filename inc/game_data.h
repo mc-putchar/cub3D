@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 13:02:17 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 14:18:45 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_cub
 	t_camera			*camera;
 	t_player			*player;
 	double				*zbuffer;
+	struct timeval		time;
 }	t_cub;
 
 #endif

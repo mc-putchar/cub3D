@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 13:24:07 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 14:32:33 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ int	mouse_look(int x, int y, t_cub *cub)
 	return (0);
 }
 
-int	ft_hook(void *param)
+int	game_loop(void *param)
 {
 	t_cub	*cub;
+	char	*fps;
 
 	cub = param;
 	move_player(cub->player, &cub->scene->map);
@@ -115,18 +116,10 @@ int	ft_hook(void *param)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
 		(cub->win_w - MINIMAP_SIZE - 20), 20);
+	fps = ft_itoa(get_fps(&cub->time));
+	mlx_string_put(cub->mlx, cub->win, 10, 30, 0xFFFFFFFF, "FPS: ");
+	mlx_string_put(cub->mlx, cub->win, 50, 30, 0xFFFFFFFF, fps);
+	free(fps);
 	mlx_do_sync(cub->mlx);
 	return (0);
-}
-
-void	init_hooks(t_cub *cub)
-{
-	(void)mlx_hook(cub->win, ON_DESTROY, 1L << 17, close_hook, cub);
-	(void)mlx_hook(cub->win, ON_KEYDOWN, 1L << 0, keydown_hook, cub);
-	(void)mlx_hook(cub->win, ON_KEYUP, 1L << 1, keyup_hook, cub);
-	(void)mlx_hook(cub->win, ON_MOUSEMOVE, 1L << 6, mouse_look, cub);
-	(void)mlx_loop_hook(cub->mlx, ft_hook, cub);
-	(void)mlx_mouse_move(cub->mlx, cub->win, cub->win_w >> 1, cub->win_h >> 1);
-	if (!NOLEAKS)
-		(void)mlx_mouse_hide(cub->mlx, cub->win);
 }
