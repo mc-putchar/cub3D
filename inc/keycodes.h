@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 23:52:40 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 03:52:41 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 13:10:03 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define KEY_ENTER			65293
 # define KEY_SPACE			32
 # define KEY_TAB			65289
+# define KEY_SHIFT			65505
 # define ARROW_UP			65362
 # define ARROW_DOWN			65364
 # define ARROW_LEFT			65361

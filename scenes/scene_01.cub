@@ -1,6 +1,6 @@
-NO	./res/logo.xpm
+NO	./res/ber_round.xpm
 SO	./res/brick_wall.xpm
-WE	./res/wall_west.xpm
+WE	./res/ber_square.xpm
 EA	./res/wall_east.xpm
 
 F	20, 200, 80

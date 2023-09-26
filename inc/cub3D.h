@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:21:26 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 12:59:59 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int			close_hook(void *param);
 void		put_pixel(t_mlx_image *img, int x, int y, int color);
 int			draw_screen(t_cub *cub);
 void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
+int			cast_sprites(t_cub *cub);
 
 /* GAME */
-void		move_player(t_cub *cub, int key);
-void		sidestep_player(t_cub *cub, int key);
-void		turn_player(t_cub *cub, int key);
-void		mouse_view(t_cub *cub, int x, int y);
+void		move_player(t_player *player, t_map *map);
+void		sidestep_player(t_player *player, t_map *map);
+void		turn_player(t_player *player, t_camera *camera);
 void		interact(t_cub *cub);
 
 /* UNSORTED */

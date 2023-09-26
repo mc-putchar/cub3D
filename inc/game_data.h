@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 12:19:57 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 13:02:17 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define TITLE			"Cub3D"
 # define BPP			4
 # define DIRECTIONS		"ESWN"
-# define MOVE_SPEED		0.1
-# define TURN_SPEED		0.05
+# define P_MOVE_SPEED	0.05
+# define P_TURN_SPEED	0.03
 # define MINIMAP_SIZE	128
 # define MINIMAP_PDIV	4
 
@@ -47,6 +47,17 @@ typedef struct s_mlx_image
 	int			size_line;
 }	t_mlx_image;
 
+enum e_mlx_events
+{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
+
 typedef struct s_map
 {
 	t_size				height;
@@ -60,6 +71,9 @@ typedef struct s_player
 	t_vector			direction;
 	double				move_speed;
 	double				turn_speed;
+	int					dir_move;
+	int					side_move;
+	int					turn_dir;
 	int					has_key;
 }	t_player;
 

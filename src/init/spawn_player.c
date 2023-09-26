@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 05:20:24 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 09:32:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 13:22:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,19 @@ static void	set_direction(int c, t_vector *dir)
 	}
 }
 
+static void	reset_data(t_player *player, t_size x, t_size y, int d)
+{
+	player->position.x = x + 0.5;
+	player->position.y = y + 0.5;
+	set_direction(d, &player->direction);
+	player->has_key = 0;
+	player->move_speed = P_MOVE_SPEED;
+	player->turn_speed = P_TURN_SPEED;
+	player->dir_move = 0;
+	player->side_move = 0;
+	player->turn_dir = 0;
+}
+
 int	spawn_player(t_player *player, t_map *map)
 {
 	t_size	x;
@@ -57,12 +70,7 @@ int	spawn_player(t_player *player, t_map *map)
 			d = read_direction(map->val[y][x]);
 			if (!d)
 				continue ;
-			player->position.x = x + 0.5;
-			player->position.y = y + 0.5;
-			set_direction(d, &player->direction);
-			player->has_key = 0;
-			player->move_speed = 0.1;
-			player->turn_speed = 0.05;
+			reset_data(player, x, y, d);
 			map->val[y][x] = '0';
 			(void)ft_printf("Player spawned\n");
 			return (0);
