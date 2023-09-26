@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 14:21:08 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 14:43:00 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (ft_printf("%s\n", USAGE), EXIT_FAILURE);
-	(void)ft_printf("Cub3D: My first RayCaster\nScene: %s\n", av[1]);
+	(void)ft_printf("Cub3D: 42RayCaster\nScene: %s\n", av[1]);
 	if (!(av + 1) || init_scene(av[1], &scene))
 		return (throw_error("No scene no play"));
 	cub.scene = &scene;
@@ -38,7 +38,7 @@ int	main(int ac, char **av)
 	cub.camera = &camera;
 	cub.zbuffer = malloc(sizeof(double) * camera.width);
 	if (!cub.zbuffer)
-		return (throw_error("Memort allocation failure"), close_hook(&cub));
+		return (throw_error("Memory allocation failure"), close_hook(&cub));
 	if (gettimeofday(&cub.time, NULL))
 		throw_error("I don't have time for this");
 	return (mlx_loop(cub.mlx));
