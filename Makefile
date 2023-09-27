@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/26 14:12:04 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/27 08:32:39 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,9 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 LIBFT	:=	$(LIBFTDIR)/libft.a
 # LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
 LIBMLX	:=	/usr/local/lib/libmlx.a
+AUTHR	:=	./res/shiteam.nfo
+WHAT	:=	"                      brings you"
+BANNER	:=	./res/splash.nfo
 
 # --- FLAGS ---
 
@@ -91,6 +94,7 @@ CD		:=	cd
 RM		:=	rm -fr
 MKDIR	:=	mkdir -pm 775
 ECHO	:=	echo
+SHOW	:=	cat
 
 # --- RULES ---
 .PHONY: all clean debug fclean re sanity
@@ -99,6 +103,9 @@ all: $(LIBFT) $(LIBMLX) $(NAME)
 
 $(NAME): $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
+	@$(SHOW) $(AUTHR)
+	@$(ECHO) $(WHAT)
+	@$(SHOW) $(BANNER)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)

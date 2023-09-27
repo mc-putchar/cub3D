@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 12:24:17 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/27 09:57:33 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	if (!info[0] || info[0] == 3)
 		texx = tex->width - texx - 1;
 	ppy = ((double)tex->height / info[2]);
-	texpos = (pix - (cub->camera->height >> 1) + (info[2] >> 1)) * ppy;
+	texpos = ((int)pix - (cub->camera->height >> 1) + (info[2] >> 1)) * ppy;
 	while (info[2]--)
 	{
 		texy = (t_uint32)texpos & (tex->height - 1);
@@ -84,9 +84,9 @@ static void	draw_strip(t_cub *cub, t_size i, double wall[2], int side)
 	wall_height = cub->camera->height;
 	if (wall[0])
 		wall_height /= wall[0];
-	if ((t_uint32)wall_height > cub->camera->height)
-		wall_height = cub->camera->height;
 	wall_start = (cub->camera->height >> 1) - (wall_height >> 1);
+	if (wall[0] < 1)
+		wall_start = 0;
 	pix = 0;
 	while (pix < wall_start)
 		put_pixel(cub->img, i, pix++, cub->scene->ceiling);
@@ -115,5 +115,7 @@ int	draw_screen(t_cub *cub)
 		draw_strip(cub, strip, wall, side);
 		cub->zbuffer[strip++] = wall[0];
 	}
+	if (cub->scene->sprites)
+		return (cast_sprites(cub));
 	return (0);
 }

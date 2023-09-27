@@ -6,12 +6,17 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 23:52:40 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 13:10:03 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 18:58:23 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEYCODES_H
 # define KEYCODES_H
+
+/* manually collected,
+ * works for my computer
+ * :)
+ */
 
 # define MOUSE_LEFT			1
 # define MOUSE_MIDDLE		2

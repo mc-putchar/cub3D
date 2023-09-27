@@ -6,17 +6,19 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 14:18:45 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 19:00:46 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_DATA_H
 # define GAME_DATA_H
 
+# include "keycodes.h"
 # include "point.h"
 # include "vector.h"
 
 /* Constants */
+
 # define TITLE			"Cub3D"
 # define BPP			4
 # define DIRECTIONS		"ESWN"
@@ -26,11 +28,13 @@
 # define MINIMAP_PDIV	4
 
 /* Norme adaptations */
+
 // typedef mlx_t			t_mlx;
 // typedef mlx_image_t		t_mlx_image;
 // typedef mlx_texture_t	t_mlx_texture;
 // typedef mlx_key_data_t	t_mlx_key_data;
 // typedef keys_t			t_keys;
+
 typedef size_t			t_size;
 typedef __uint32_t		t_uint32;
 

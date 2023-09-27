@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 14:29:26 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/26 19:02:24 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 # include <fcntl.h>
 # include <stdio.h>
 
+# include "libft.h"
+# include "mlx.h"
+// # include "MLX42/MLX42.h"
+
 /* Required for bonus */
 # include <sys/time.h> // for FPS calculation and sync
-
-# include "libft.h"
-// # include "MLX42/MLX42.h"
-# include "mlx.h"
-# include "keycodes.h"
 
 /* Debug mode switch */
 # ifndef DEBUG
@@ -81,10 +80,8 @@ void		move_player(t_player *player, t_map *map);
 void		sidestep_player(t_player *player, t_map *map);
 void		turn_player(t_player *player, t_camera *camera);
 void		interact(t_cub *cub);
-int			get_fps(struct timeval *prev);
-
-/* UNSORTED */
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);
 int			wall_check(t_map *map, int x, int y);
+int			get_fps(struct timeval *prev);
 
 #endif
