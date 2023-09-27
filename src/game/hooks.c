@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 14:32:33 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 01:32:02 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,19 +107,20 @@ int	game_loop(void *param)
 	char	*fps;
 
 	cub = param;
-	move_player(cub->player, &cub->scene->map);
-	sidestep_player(cub->player, &cub->scene->map);
-	turn_player(cub->player, cub->camera);
-	draw_screen(cub);
 	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
+	draw_screen(cub);
 	mlx_do_sync(cub->mlx);
+	if (cub->scene->sprites)
+		cast_sprites(cub, cub->player, cub->scene);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
 		(cub->win_w - MINIMAP_SIZE - 20), 20);
+	move_player(cub->player, &cub->scene->map);
+	sidestep_player(cub->player, &cub->scene->map);
+	turn_player(cub->player, cub->camera);
 	fps = ft_itoa(get_fps(&cub->time));
 	mlx_string_put(cub->mlx, cub->win, 10, 30, 0xFFFFFFFF, "FPS: ");
 	mlx_string_put(cub->mlx, cub->win, 50, 30, 0xFFFFFFFF, fps);
 	free(fps);
-	mlx_do_sync(cub->mlx);
 	return (0);
 }

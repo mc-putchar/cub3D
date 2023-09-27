@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 11:52:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/27 23:39:09 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void	free_scene(void *mlx, t_scene *scene)
 		free(scene->sprites);
 		scene->sprites = next;
 	}
+	free(scene->spr_arr);
 	free_extras(mlx, scene);
 }

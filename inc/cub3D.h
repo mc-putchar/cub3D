@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 19:02:24 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 01:31:47 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int			init_scene(char const *file, t_scene *scene);
 int			init_window(t_cub *cub);
 void		init_hooks(t_cub *cub);
 int			set_scene_param(t_scene *scene, char const **param);
+int			get_sprite(t_scene *scene, char const **param);
+int			sprites_to_array(t_scene *scn);
+int			get_extra(t_scene *scene, char const **param);
 int			read_map(char *line, int fd, t_map *map);
 int			load_textures(t_cub *cub, t_scene *scene);
 int			spawn_player(t_player *player, t_map *map);
@@ -73,7 +76,7 @@ int			game_loop(void *param);
 void		put_pixel(t_mlx_image *img, int x, int y, int color);
 int			draw_screen(t_cub *cub);
 void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
-int			cast_sprites(t_cub *cub);
+int			cast_sprites(t_cub *cub, t_player *pl, t_scene *scn);
 
 /* GAME */
 void		move_player(t_player *player, t_map *map);
@@ -83,5 +86,8 @@ void		interact(t_cub *cub);
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);
 int			wall_check(t_map *map, int x, int y);
 int			get_fps(struct timeval *prev);
+
+/* UTILS */
+void		quicksort(t_sprite **tab, int size);
 
 #endif

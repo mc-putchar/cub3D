@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 19:00:46 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/27 23:46:46 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define DIRECTIONS		"ESWN"
 # define P_MOVE_SPEED	0.05
 # define P_TURN_SPEED	0.03
-# define MINIMAP_SIZE	128
+# define MINIMAP_SIZE	256
 # define MINIMAP_PDIV	4
 
 /* Norme adaptations */
@@ -101,9 +101,25 @@ typedef struct s_extra
 typedef struct s_sprite
 {
 	t_vector			position;
+	double				z;
+	double				dist;
+	int					hdiv;
+	int					vdiv;
 	void				*texture;
 	void				*next;
 }	t_sprite;
+
+typedef struct s_sprite_data
+{
+	int	height;
+	int	width;
+	int	screenx;
+	int	start_x;
+	int	start_y;
+	int	end_x;
+	int	end_y;
+	int	zoffset;
+}	t_sprite_data;
 
 typedef struct s_scene
 {
@@ -112,6 +128,8 @@ typedef struct s_scene
 	char				*walls[4];
 	t_map				map;
 	t_sprite			*sprites;
+	t_sprite			**spr_arr;
+	t_size				n_sprites;
 	t_extra				*extras;
 }	t_scene;
 

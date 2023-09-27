@@ -15,8 +15,10 @@ C	255, 0, 230
 D	./res/texture_door
 L	./res/texture_door_locked
 
-# Sprite textures (S <X,Y> <texture path>)
+# Sprite textures (S <X,Y> <texture path> 
+#	*optional <horizontal divisor, vertical divisor> <vertical offset>)
 S	3.5, 4.5	./res/texture_sprite
+S	5.5, 6.5	./res/texture_sprite 2,2 0.5
 
 # Map
 111111

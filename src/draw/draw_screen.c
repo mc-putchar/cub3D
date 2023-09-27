@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 06:55:53 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/27 09:57:33 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 01:43:20 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,5 @@ int	draw_screen(t_cub *cub)
 		draw_strip(cub, strip, wall, side);
 		cub->zbuffer[strip++] = wall[0];
 	}
-	if (cub->scene->sprites)
-		return (cast_sprites(cub));
 	return (0);
 }

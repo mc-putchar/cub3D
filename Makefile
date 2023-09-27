@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/27 08:32:39 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/27 23:33:54 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ NAME	:=	cub3D
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
-SUBDIRS		:=	$(addprefix $(OBJDIR)/, init utils draw game)
+SUBDIRS		:=	$(addprefix $(OBJDIR)/, init draw game utils)
 LIBFTDIR	:=	lib/libft
 # LIBMLXDIR	:=	lib/MLX42
 LIBMLXDIR	:=	lib/minilibx-linux
@@ -40,12 +40,12 @@ LIBMLXDIR	:=	lib/minilibx-linux
 SRC		:=	main.c
 SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
 SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
-SRC		+=	init/spawn_player.c init/init_camera.c
-SRC		+=	utils/error_handler.c utils/freez.c
+SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
 SRC		+=	draw/draw_sprite.c
 SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
 SRC		+=	game/raycaster.c game/wall_check.c game/fps.c
+SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 # --- INCLUDES ---
@@ -66,7 +66,7 @@ LIBFT	:=	$(LIBFTDIR)/libft.a
 # LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
 LIBMLX	:=	/usr/local/lib/libmlx.a
 AUTHR	:=	./res/shiteam.nfo
-WHAT	:=	"                      brings you"
+WHAT	:=	"                     presents"
 BANNER	:=	./res/splash.nfo
 
 # --- FLAGS ---
