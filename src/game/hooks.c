@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 01:32:02 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 03:05:11 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	mouse_look(int x, int y, t_cub *cub)
 	double	angle;
 
 	(void)y;
-	angle = cub->player->turn_speed * (x - (cub->win_w >> 1)) * 0.1;
+	angle = cub->player->turn_speed * (x - (cub->win_w >> 1)) * 0.015;
 	cosa = cos(angle);
 	sina = sin(angle);
 	tmp = cub->player->direction.x;

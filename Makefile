@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/27 23:33:54 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/28 03:08:08 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ LIBFT	:=	$(LIBFTDIR)/libft.a
 # LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
 LIBMLX	:=	/usr/local/lib/libmlx.a
 AUTHR	:=	./res/shiteam.nfo
-WHAT	:=	"                     presents"
+WHAT	:=	"\t\t\t\t presents"
 BANNER	:=	./res/splash.nfo
 
 # --- FLAGS ---

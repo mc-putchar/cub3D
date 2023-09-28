@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 20:04:50 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 00:07:18 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 02:58:33 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	get_extra(t_scene *scene, char const **param)
 	t_extra	*ex;
 	t_extra	*node;
 
-	if (!ft_strncmp(param[0], "S", 1))
+	if (!ft_strncmp(param[0], "S", 1) || !ft_strncmp(param[0], "A", 1))
 		return (get_sprite(scene, param));
 	if (!param[1] || param[2])
 		return (throw_error("Wrong number of parameters"));

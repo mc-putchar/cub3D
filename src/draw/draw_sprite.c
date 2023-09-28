@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 10:51:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 01:40:28 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 02:42:23 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static void	calc_sprite_y(t_sprite *spr, t_sprite_data *data, t_size h, \
 		data->end_y = h - 1;
 }
 
-static void	calc_sprite_x(t_sprite_data *data, t_camera *cam, \
+static void	calc_sprite_x(t_sprite *spr, t_sprite_data *data, t_camera *cam, \
 	t_vector *xform)
 {
-	data->width = (int)(cam->height) >> 1;
+	data->width = (int)(cam->height) >> spr->hdiv;
 	if (data->width < 0)
 		data->width = -data->width;
 	if (xform->y)
@@ -115,7 +115,7 @@ int	cast_sprites(t_cub *cub, t_player *pl, t_scene *scn)
 		data.screenx = (int)(cub->camera->width / 2 * (1 + xform.x / xform.y));
 		data.zoffset = scn->spr_arr[i]->z / xform.y;
 		calc_sprite_y(scn->spr_arr[i], &data, cub->camera->height, &xform);
-		calc_sprite_x(&data, cub->camera, &xform);
+		calc_sprite_x(scn->spr_arr[i], &data, cub->camera, &xform);
 		draw_sprite(cub, scn->spr_arr[i], &data, xform.y);
 	}
 	return (0);

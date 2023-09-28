@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 23:53:34 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/27 23:46:46 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 03:01:38 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,14 @@ typedef struct s_sprite_data
 	int	end_y;
 	int	zoffset;
 }	t_sprite_data;
+
+typedef struct s_animation
+{
+	int		n_frames;
+	int		current_frame;
+	int		delay;
+	int		iter;
+}	t_animation;
 
 typedef struct s_scene
 {
