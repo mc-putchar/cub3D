@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 18:15:04 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/27 23:15:03 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 02:04:52 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	reset_scene(t_scene *scene)
 	while (i < 4)
 		scene->walls[i++] = NULL;
 	scene->sprites = NULL;
+	scene->spr_arr = NULL;
 	scene->n_sprites = 0;
 	scene->extras = NULL;
 	return (0);

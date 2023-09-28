@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:29:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 00:08:59 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 02:06:35 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int	main(int ac, char **av)
 	cub.scene = &scene;
 	if (init_window(&cub))
 		return (EXIT_FAILURE);
+	cub.zbuffer = malloc(sizeof(double) * camera.width);
 	if (load_textures(&cub, &scene) || spawn_player(&player, &scene.map) || \
 		start_camera(&camera, cub.win_h, cub.win_w, player.direction) || \
 		sprites_to_array(cub.scene))
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	cub.player = &player;
 	cub.camera = &camera;
-	cub.zbuffer = malloc(sizeof(double) * camera.width);
 	if (!cub.zbuffer)
 		return (throw_error("Memory allocation failure"), close_hook(&cub));
 	if (gettimeofday(&cub.time, NULL))
