@@ -53,6 +53,7 @@ static void	graciously_exit(char **spl, int i)
 	free(spl);
 }
 
+/* DEPRECATED */
 char	**ft_split(const char *s, char c)
 {
 	char	**spl;

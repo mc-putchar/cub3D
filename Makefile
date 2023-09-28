@@ -6,92 +6,130 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/08/14 16:48:19 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/28 03:08:08 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#--- TARGET ---
+# --- USAGE ---
+
+# make			compile the project to an executable file
+# make all		^same
+# make clean	remove binary object files
+# make fclean	remove all compiled files
+# make re		remove all compiled files and recompile again
+# make debug	compile all with debug flags
+# make sanity	compile debug with memory address sanitize injected
+# make noleaks	compile debug without leaky external functions
+
+# --- TARGET ---
 
 NAME	:=	cub3D
 
-#--- DIRECTORIES ---
+# --- DIRECTORIES ---
 
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
+SUBDIRS		:=	$(addprefix $(OBJDIR)/, init draw game utils)
 LIBFTDIR	:=	lib/libft
-LIBMLXDIR	:=	lib/MLX42
+# LIBMLXDIR	:=	lib/MLX42
+LIBMLXDIR	:=	lib/minilibx-linux
 
-#--- SOURCES ---
+# --- SOURCES ---
 
-SRC		:=	main.c init.c utils.c error_handler.c
-SRC		+=	hooks.c freez.c colors.c
-SRC		+=	draw_lines.c bresenham.c draw_shapes.c draw_map.c draw_player.c
-SRC		+=	player.c
+SRC		:=	main.c
+SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
+SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
+SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c
+SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
+SRC		+=	draw/draw_sprite.c
+SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
+SRC		+=	game/raycaster.c game/wall_check.c game/fps.c
+SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
-#--- HEADERS ---
+# --- INCLUDES ---
 
-_HEADERS	:=	cub3D.h point.h game_data.h
-HEADERS		:=	$(addprefix $(INCDIR)/, $(_HEADERS))
-INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR) -I$(LIBMLXDIR)/include
+HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
+HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
+INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
+# INCLUDES	+=	-I$(LIBMLXDIR)/include
+INCLUDES	+=	-I/usr/local/include -Imlx-linux
 
-#--- OBJECTS ---
+# --- OBJECTS ---
 
 OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
-#--- LIBRARIES ---
+# --- LIBRARIES ---
 
 LIBFT	:=	$(LIBFTDIR)/libft.a
-LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
+# LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
+LIBMLX	:=	/usr/local/lib/libmlx.a
+AUTHR	:=	./res/shiteam.nfo
+WHAT	:=	"\t\t\t\t presents"
+BANNER	:=	./res/splash.nfo
 
-#--- FLAGS ---
+# --- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
-LDFLAGS	:= -L$(LIBFTDIR) -L$(LIBMLXDIR)
-LDLIBS	:= -lft $(LIBMLX)
-LFLAGS	:= -ldl -lglfw -pthread -lm
+LDFLAGS	:=	-L$(LIBFTDIR)
+LDFLAGS	+=	-L/usr/local/lib -Lmlx_linux
+LDLIBS	:=	-lft $(LIBMLX)
+# LFLAGS	:=	-ldl -lX11 -lglfw -pthread -lm
+LFLAGS	:=	-lXext -lX11 -lm -lz
 
-#--- DEBUG ---
+# --- DEBUG ---
 
-debug:	CFLAGS		+= -ggdb3
-debug:	CPPFLAGS	+= -DDEBUG
-debug:	MLXDEBUG	:= -DDEBUG=1
-debug:	DEBUGFLAG	:= debug
+debug:		CFLAGS		+= -ggdb3 -O0
+debug:		CPPFLAGS	+= -DDEBUG=1
+# debug:		MLXDEBUG	:= -DDEBUG=1
+debug:		DEBUGFLAG	:= debug
+sanity:		CFLAGS		+= -fsanitize=address
+noleaks:	CPPFLAGS	+= -DNOLEAKS=1
 
-#--- CMDS ---
+# --- CMDS ---
 
 CC		:=	cc
-RM		:=	rm -rf
-MKDIR	:=	mkdir
+CD		:=	cd
+RM		:=	rm -fr
+MKDIR	:=	mkdir -pm 775
+ECHO	:=	echo
+SHOW	:=	cat
 
-#--- RULES ---
-.PHONY: all clean debug fclean re
+# --- RULES ---
+.PHONY: all clean debug fclean re sanity
 
 all: $(LIBFT) $(LIBMLX) $(NAME)
 
 $(NAME): $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
+	@$(SHOW) $(AUTHR)
+	@$(ECHO) $(WHAT)
+	@$(SHOW) $(BANNER)
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
+	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
-$(LIBMLX):
-	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
+# $(LIBMLX):
+#	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
 
-$(OBJDIR):
-	$(MKDIR) $(OBJDIR)
+$(SUBDIRS):
+	$(MKDIR) $(SUBDIRS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(SUBDIRS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -c $< -o $@
 
 debug: all
 
+sanity: debug
+
+noleaks: debug
+
 clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
-	@$(RM) $(LIBMLXDIR)/build
 	@$(MAKE) -C $(LIBFTDIR) $@
+	# @$(RM) $(LIBMLXDIR)/build
 
 fclean: clean
 	@$(RM) $(NAME)

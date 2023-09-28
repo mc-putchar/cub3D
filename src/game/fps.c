@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   fps.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/26 14:09:37 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/26 14:43:48 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	get_fps(struct timeval *prev)
 {
-	size_t	srclen;
-	size_t	i;
+	struct timeval	now;
+	int				fps;
 
-	srclen = ft_strlen(src);
-	if (size && src && dst)
-	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
-	}
-	return (srclen);
+	if (!prev || gettimeofday(&now, NULL))
+		throw_error("I don't have time for this");
+	fps = (int)floor(1 / ((double)(now.tv_usec - prev->tv_usec) / 1000000 + \
+			(double)(now.tv_sec - prev->tv_sec)));
+	*prev = now;
+	return (fps);
 }

@@ -1,0 +1,13 @@
+NO	../res/texture_wall_north
+SO	../res/texture_wall_south
+WE	../res/texture_wall_west
+EA	../res/texture_wall_east
+
+C	225, 30, 0
+
+111111
+101001
+101001
+101011
+100N01
+111111

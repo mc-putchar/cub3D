@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Created: 2023/08/14 23:27:27 by mcutura           #+#    #+#             */
+/*   Updated: 2023/08/14 23:27:27 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3D.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+int	throw_error(char const *msg)
 {
-	size_t	srclen;
-	size_t	i;
+	ft_dprintf(STDERR_FILENO, "Error\n%s\n", msg);
+	return (1);
+}
 
-	srclen = ft_strlen(src);
-	if (size && src && dst)
-	{
-		if (size > srclen + 1)
-			size = srclen + 1;
-		i = 0;
-		while (i < size - 1)
-		{
-			dst[i] = src[i];
-			++i;
-		}
-		dst[i] = 0;
-	}
-	return (srclen);
+int	throw_error_free(char const *msg, void (*f)(), void *ptr)
+{
+	ft_dprintf(STDERR_FILENO, "Error\n%s\n", msg);
+	f(ptr);
+	return (1);
 }

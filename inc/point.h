@@ -15,16 +15,16 @@
 
 typedef struct s_point
 {
-	float	x;
-	float	y;
-	int		color;
-}	t_point;
-
-typedef struct s_pointInt
-{
 	int	x;
 	int	y;
 	int	color;
-}	t_pointInt;
+}	t_point;
+
+typedef struct s_pointf
+{
+	float	x;
+	float	y;
+	int		color;
+}	t_pointf;
 
 #endif

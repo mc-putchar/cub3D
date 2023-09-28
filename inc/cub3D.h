@@ -6,80 +6,88 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/14 17:30:29 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 01:31:47 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-/* Define _USE_MATH_DEFINES before including math.h to expose these macro
- * definitions for common math constants.  These are placed under an #ifdef
- * since these commonly-defined names are not part of the C/C++ standards.
- */
-# define _USE_MATH_DEFINES
-# include <math.h>
-# include "MLX42/MLX42.h"
-# include "libft.h"
+# include <stdio.h>
 
-# include "point.h"
+# include "libft.h"
+# include "mlx.h"
+// # include "MLX42/MLX42.h"
+
+/* Required for bonus */
+# include <sys/time.h> // for FPS calculation and sync
+
+/* Debug mode switch */
+# ifndef DEBUG
+#  define DEBUG	0
+# endif
+
+/* No leaks mode */
+# ifndef NOLEAKS
+#  define NOLEAKS 0
+# endif
+
+/* Usage message */
+# define USAGE	"Usage: cub3D [FILE]"
+
+/* Data structures */
 # include "game_data.h"
 
-# define WIN_HEIGHT		800
-# define WIN_WIDTH		1400
-# define BPP			4
-# define MAP_SQUARE		32
+/* ERROR HANDLING */
+int			throw_error(char const *msg);
+int			throw_error_free(char const *msg, void (*f)(), void *ptr);
 
-typedef struct s_cub
-{
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	double		runtime;
-	t_player	player;
-	int			map_width;
-	int			map_height;
-	char		**map;
-}	t_cub;
+/* INITIALIZING */
+int			init_scene(char const *file, t_scene *scene);
+int			init_window(t_cub *cub);
+void		init_hooks(t_cub *cub);
+int			set_scene_param(t_scene *scene, char const **param);
+int			get_sprite(t_scene *scene, char const **param);
+int			sprites_to_array(t_scene *scn);
+int			get_extra(t_scene *scene, char const **param);
+int			read_map(char *line, int fd, t_map *map);
+int			load_textures(t_cub *cub, t_scene *scene);
+int			spawn_player(t_player *player, t_map *map);
+int			start_camera(t_camera *camera, t_size height, \
+						t_size width, t_vector plane);
 
-/* INIT */
-int		init_data(t_cub *cub);
-
-/* DRAW */
-void	put_pixel(mlx_image_t *img, int x, int y, int color);
-void	draw_line(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
-void	bresenham(mlx_image_t *img, t_pointInt *p1, t_pointInt *p2);
-void	draw_square(mlx_image_t *img, t_pointInt *position, \
-		int size, int color);
-void	draw_circle(mlx_image_t *img, t_pointInt *center, \
-		int radius, int color);
-int		draw_map(t_cub *cub);
-void	draw_player(t_cub *cub);
+/* FREE MEMORY */
+void		free_arr(char **arr);
+void		free_map(char **map, int size);
+void		free_scene(void *mlx, t_scene *scene);
 
 /* HOOKS */
-void	ft_hook(void *param);
-void	keys_hook(mlx_key_data_t keydata, void *param);
-void	close_hook(void *param);
+int			close_hook(void *param);
+int			keydown_hook(int key, void *param);
+int			keyup_hook(int key, void *param);
+int			mouse_look(int x, int y, t_cub *cub);
+int			game_loop(void *param);
 
-/* COLORS */
-int		get_color(int r, int g, int b, int a);
-int		get_gradient(t_pointInt *curr, t_pointInt *start, t_pointInt *end, \
-		t_pointInt *delta);
+/* DRAW */
+void		put_pixel(t_mlx_image *img, int x, int y, int color);
+int			draw_screen(t_cub *cub);
+void		draw_minimap(t_mlx_image *img, t_map *map, t_vector position);
+int			cast_sprites(t_cub *cub, t_player *pl, t_scene *scn);
 
-/* FREEZ */
-void	free_map(char **map, int size);
+/* GAME */
+void		move_player(t_player *player, t_map *map);
+void		sidestep_player(t_player *player, t_map *map);
+void		turn_player(t_player *player, t_camera *camera);
+void		interact(t_cub *cub);
+int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);
+int			wall_check(t_map *map, int x, int y);
+int			get_fps(struct timeval *prev);
 
 /* UTILS */
-ssize_t	get_file_size(char const *filepath, int *line_count);
-
-void	error_handler(char const *message);
-void	move_player(t_cub *cub, int forward, int sideways);
-void	turn_player(t_cub *cub, int direction);
+void		quicksort(t_sprite **tab, int size);
 
 #endif

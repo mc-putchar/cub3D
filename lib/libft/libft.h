@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:47:01 by mcutura           #+#    #+#             */
-/*   Updated: 2023/08/14 17:47:01 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/25 11:31:58 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,16 @@ int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
 int					ft_isspace(int c);
+int					ft_isnumber(char const *str);
 
 /* CONVERTERS */
 int					ft_tolower(int c);
 int					ft_toupper(int c);
+int					ft_atoi(const char *nptr);
+int					ft_atoi_base(char *str, char *base);
+char				*ft_itoa(int n);
+char				*ft_uitoa(unsigned int n);
+double				ft_atod_dirty(char const *str);
 
 /* PUTS */
 ssize_t				ft_putchar_fd(char c, int fd);
@@ -46,10 +52,6 @@ char				*get_next_line(int fd);
 
 /* NUMBERS */
 int					ft_abs(int n);
-int					ft_atoi(const char *nptr);
-int					ft_atoi_base(char *str, char *base);
-char				*ft_itoa(int n);
-char				*ft_uitoa(unsigned int n);
 double				ft_clampd(double d, double min, double max);
 void				ft_swap(int *a, int *b);
 
@@ -69,6 +71,7 @@ char				*ft_strtrim(const char *s1, const char *set);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				**ft_split(const char *s, char c);
+char				**ft_splits(char const *str, char const *set);
 
 /* MEMORY */
 void				ft_bzero(void *s, size_t n);
