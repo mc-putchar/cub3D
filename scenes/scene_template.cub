@@ -15,15 +15,18 @@ C	255, 0, 230
 D	./res/texture_door
 L	./res/texture_door_locked
 
-# Sprite textures (S <X,Y> <texture path> 
-#	*optional <horizontal divisor, vertical divisor> <vertical offset>)
+# Sprite textures 
+# S <X,Y> <texture path>    # *optional* <horizontal divisor, vertical divisor> <vertical offset>
 S	3.5, 4.5	./res/texture_sprite
-S	5.5, 6.5	./res/texture_sprite 2,2 0.5
+S	5.5, 6.5	./res/texture_sprite 2, 2 250
 
 # Map
-111111
+# 1 = wall, 0 = no wall, D/L = doors, space = outer space padding
+# Player spawn defined by one of [N S E W] indicating starting compass facing
+
+ 1 11
 1S1001
 101001
 101011
 100001
-111111
+ 1111 
