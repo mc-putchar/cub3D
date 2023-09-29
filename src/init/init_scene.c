@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 18:15:04 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 02:04:52 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 05:15:07 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,31 @@ static int	validate_path(char const *path, int *fd)
 
 	idx = 0;
 	if (!path)
-		return (throw_error("Corrupted path to file"));
+		exit(throw_error("Corrupted path to file"));
 	while (path[idx])
 		++idx;
 	if (idx < 4 || ft_strncmp(path + idx - 4, ".cub", 4))
-		return (throw_error("Scene file must have .cub extension"));
+		exit(throw_error("Scene file must have .cub extension"));
 	*fd = open(path, O_RDONLY);
 	if (*fd < 0)
-		return (throw_error("Unable to open file at provided path"));
+		exit(throw_error("Unable to open file at provided path"));
 	return (0);
 }
 
 /* 2 colors w/ 4 walls pls
  * (Y/n)? $ 
 */
-static int	scene_complete(t_scene *scene)
+static int	complete(t_scene *scene, char *line)
 {
 	int	i;
 
 	if (scene->floor == -1 || scene->ceiling == -1)
-		return (0);
+		return (free(line), 1);
 	i = 0;
 	while (i < 4)
 		if (!scene->walls[i++])
-			return (0);
-	return (1);
+			return (free(line), 1);
+	return (0);
 }
 
 static int	reset_scene(t_scene *scene)
@@ -88,7 +88,7 @@ int	init_scene(char const *file, t_scene *scene)
 			error = set_scene_param(scene, (char const **)chop);
 		free_arr(chop);
 		if (error == -1)
-			return (!scene_complete(scene) || read_map(line, fd, &scene->map));
+			return (complete(scene, line) || read_map(line, fd, &scene->map));
 		if ((free(line), 1) && error)
 			return (throw_error("Scene file misconfigured"));
 		line = get_next_line(fd);

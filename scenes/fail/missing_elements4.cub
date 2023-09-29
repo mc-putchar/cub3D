@@ -1,13 +1,11 @@
 NO	./res/ber_round.xpm
 SO	./res/brick_wall.xpm
 WE	./res/ber_square.xpm
-EA	./res/wall_east.xpm
+./res/wall_east.xpm
 
 C	225, 30, 0
-
-111111
+F	0, 225, 30
 101001
 101001
 101011
 100N01
-111111

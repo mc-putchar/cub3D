@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 02:16:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/27 20:05:04 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 04:34:31 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	set_scene_param(t_scene *scene, char const **param)
 		return (set_color(scene, type, param));
 	if (!param[1] || param[2])
 		return (throw_error("Wrong number of parameters"));
+	if (scene->walls[type - 3])
+		return (throw_error("Duplicate identifier found"));
 	scene->walls[type - 3] = ft_strdup(param[1]);
 	if (!scene->walls[type - 3])
 		return (throw_error("Memory allocation failed"));

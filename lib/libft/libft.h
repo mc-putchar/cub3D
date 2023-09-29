@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:47:01 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/25 11:31:58 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/28 04:00:16 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,7 @@ t_list				*ft_lstlast(t_list *lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 					void (*del)(void *));
+t_list				*ft_lstpop(t_list **head);
+int					ft_lstpush(t_list **head, void *content);
 
 #endif

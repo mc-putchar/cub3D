@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/28 03:08:08 by mcutura          ###   ########.fr        #
+#    Updated: 2023/09/29 05:13:28 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 
 # make			compile the project to an executable file
 # make all		^same
+# make bonus	^same (too lazy to make separate dumbed down binary w/out bonus)
 # make clean	remove binary object files
 # make fclean	remove all compiled files
 # make re		remove all compiled files and recompile again
@@ -40,7 +41,8 @@ LIBMLXDIR	:=	lib/minilibx-linux
 SRC		:=	main.c
 SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
 SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
-SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c
+SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c 
+SRC		+=	init/init_cub.c init/validate_map.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
 SRC		+=	draw/draw_sprite.c
 SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
@@ -97,9 +99,11 @@ ECHO	:=	echo
 SHOW	:=	cat
 
 # --- RULES ---
-.PHONY: all clean debug fclean re sanity
+.PHONY: all bonus clean debug fclean re sanity
 
 all: $(LIBFT) $(LIBMLX) $(NAME)
+
+bonus: all
 
 $(NAME): $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 17:30:29 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 01:31:47 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 04:35:16 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
 
 # include "libft.h"
 # include "mlx.h"
@@ -37,7 +36,7 @@
 # endif
 
 /* Usage message */
-# define USAGE	"Usage: cub3D [FILE]"
+# define USAGE	"Usage: cub3D [SCENE FILE]"
 
 /* Data structures */
 # include "game_data.h"
@@ -47,9 +46,11 @@ int			throw_error(char const *msg);
 int			throw_error_free(char const *msg, void (*f)(), void *ptr);
 
 /* INITIALIZING */
-int			init_scene(char const *file, t_scene *scene);
 int			init_window(t_cub *cub);
 void		init_hooks(t_cub *cub);
+void		init_cub(t_cub *cub, t_scene *scene, t_camera *camera, \
+			t_player *player);
+int			init_scene(char const *file, t_scene *scene);
 int			set_scene_param(t_scene *scene, char const **param);
 int			get_sprite(t_scene *scene, char const **param);
 int			sprites_to_array(t_scene *scn);
@@ -57,13 +58,14 @@ int			get_extra(t_scene *scene, char const **param);
 int			read_map(char *line, int fd, t_map *map);
 int			load_textures(t_cub *cub, t_scene *scene);
 int			spawn_player(t_player *player, t_map *map);
-int			start_camera(t_camera *camera, t_size height, \
-						t_size width, t_vector plane);
+int			start_camera(t_cub *cub, t_camera *camera, t_vector plane);
+int			validate_map(t_map *map);
 
 /* FREE MEMORY */
 void		free_arr(char **arr);
 void		free_map(char **map, int size);
 void		free_scene(void *mlx, t_scene *scene);
+int			scrap_scene(t_scene *scene);
 
 /* HOOKS */
 int			close_hook(void *param);

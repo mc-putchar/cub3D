@@ -1,6 +1,7 @@
 NO	./res/ber_round.xpm
 SO	./res/brick_wall.xpm
 WE	./res/ber_square.xpm
+WE	./res/ber_square.xpm
 EA	./res/wall_east.xpm
 
 F	20, 200, 80
@@ -20,6 +21,6 @@ S	3.5 8.5 ./res/ber_square.xpm
 1000000000000000000001
 1000000111111111110001
 10000001         10001
-11100111         10N01
+11100111         10S01
 11100111         10001
 11111111          111
