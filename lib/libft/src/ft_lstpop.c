@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   point.h                                            :+:      :+:    :+:   */
+/*   ft_lstpop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 05:21:52 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/29 03:43:20 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/28 03:53:48 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/28 04:05:13 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_H
-# define POINT_H
+#include "libft.h"
 
-typedef struct s_point
+t_list	*ft_lstpop(t_list **head)
 {
-	int	x;
-	int	y;
-}	t_point;
+	t_list	*node;
 
-typedef struct s_pointf
-{
-	float	x;
-	float	y;
-}	t_pointf;
-
-#endif
+	if (!head || !*head)
+		return (NULL);
+	node = *head;
+	*head = (*head)->next;
+	return (node);
+}

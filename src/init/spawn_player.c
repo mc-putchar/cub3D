@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 05:20:24 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 13:22:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 03:57:31 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int	spawn_player(t_player *player, t_map *map)
 	t_size	x;
 	t_size	y;
 	int		d;
+	int		has_player;
 
+	has_player = 0;
 	y = 0;
 	while (++y < map->height - 1)
 	{
@@ -70,11 +72,14 @@ int	spawn_player(t_player *player, t_map *map)
 			d = read_direction(map->val[y][x]);
 			if (!d)
 				continue ;
+			if (has_player)
+				return (throw_error("Multiple player spawns"));
 			reset_data(player, x, y, d);
 			map->val[y][x] = '0';
-			(void)ft_printf("Player spawned\n");
-			return (0);
+			has_player = 1;
 		}
 	}
-	return (throw_error("Player disappeared from the map"));
+	if (!has_player)
+		return (throw_error("No player spawn on the map"));
+	return (ft_printf("Player spawned\n"), 0);
 }

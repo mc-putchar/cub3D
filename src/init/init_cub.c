@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   point.h                                            :+:      :+:    :+:   */
+/*   init_cub.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 05:21:52 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/29 03:43:20 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/29 04:00:38 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/29 04:25:05 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_H
-# define POINT_H
+#include "cub3D.h"
 
-typedef struct s_point
+void	init_cub(t_cub *cub, t_scene *scene, t_camera *camera, t_player *player)
 {
-	int	x;
-	int	y;
-}	t_point;
-
-typedef struct s_pointf
-{
-	float	x;
-	float	y;
-}	t_pointf;
-
-#endif
+	cub->scene = scene;
+	cub->camera = camera;
+	cub->player = player;
+}

@@ -10,9 +10,16 @@ F	40,40,40
 S 25.5 15.5 ./res/key.xpm 2 2 300.0
 S 2.5 1.5 ./res/nokia.xpm 2 2 300.0
 
+S 15.5 3.5 ./res/ber_square.xpm 2 2 300.0
+S 17.5 3.5 ./res/ber_square.xpm 2 2 300.0
+S 15.5 7.5 ./res/ber_square.xpm 2 2 300.0
+S 17.5 7.5 ./res/ber_square.xpm 2 2 300.0
+S 13.5 3.5 ./res/ber_square.xpm 2 2 300.0
+S 11.5 3.5 ./res/ber_square.xpm 2 2 300.0
+S 13.5 7.5 ./res/ber_square.xpm 2 2 300.0
+S 11.5 7.5 ./res/ber_square.xpm 2 2 300.0
+
 #A 16.5 4.5 ./res/death_idle.xpm
-
-
 
 
 

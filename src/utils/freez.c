@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 10:11:54 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 02:04:34 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 04:35:04 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,13 @@ void	free_scene(void *mlx, t_scene *scene)
 	if (scene->spr_arr)
 		free(scene->spr_arr);
 	free_extras(mlx, scene);
+}
+
+int	scrap_scene(t_scene *scene)
+{
+	free(scene->walls[0]);
+	free(scene->walls[1]);
+	free(scene->walls[2]);
+	free(scene->walls[3]);
+	return (1);
 }

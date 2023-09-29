@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:49 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/28 03:05:11 by mcutura          ###   ########.fr       */
+/*   Updated: 2023/09/29 04:09:34 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	game_loop(void *param)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
 		(cub->win_w - MINIMAP_SIZE - 20), 20);
+	mlx_do_sync(cub->mlx);
 	move_player(cub->player, &cub->scene->map);
 	sidestep_player(cub->player, &cub->scene->map);
 	turn_player(cub->player, cub->camera);

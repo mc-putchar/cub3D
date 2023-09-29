@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   point.h                                            :+:      :+:    :+:   */
+/*   ft_lstpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 05:21:52 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/29 03:43:20 by mcutura          ###   ########.fr       */
+/*   Created: 2023/09/28 03:58:27 by mcutura           #+#    #+#             */
+/*   Updated: 2023/09/29 02:45:58 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_H
-# define POINT_H
+#include "libft.h"
 
-typedef struct s_point
+int	ft_lstpush(t_list **head, void *content)
 {
-	int	x;
-	int	y;
-}	t_point;
+	t_list	*node;
 
-typedef struct s_pointf
-{
-	float	x;
-	float	y;
-}	t_pointf;
-
-#endif
+	if (!head)
+		return (1);
+	node = ft_lstnew(content);
+	if (!node)
+		return (1);
+	ft_lstadd_front(head, node);
+	return (0);
+}
