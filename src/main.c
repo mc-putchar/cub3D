@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (ft_printf("%s\n", USAGE), EXIT_FAILURE);
 	(void)ft_printf("Cub3D: 42RayCaster\nScene: %s\n", av[1]);
-	if (!(av + 1) || init_scene(av[1], &scene))
+	if (init_scene(av[1], &scene))
 		return (scrap_scene(&scene) && throw_error("No scene no play"));
 	if (init_window(&cub))
 		return (EXIT_FAILURE);
