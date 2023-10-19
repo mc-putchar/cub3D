@@ -134,9 +134,9 @@ enum e_scene_identifiers
 	UNKNOWN = 0,
 	FLOOR,
 	CEILING,
-	EAST_WALL,
-	NORTH_WALL,
 	WEST_WALL,
+	NORTH_WALL,
+	EAST_WALL,
 	SOUTH_WALL,
 	COMMENT = 99
 };
