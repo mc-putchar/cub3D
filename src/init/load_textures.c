@@ -35,6 +35,7 @@ static int	load_sprites(t_cub *cub, t_scene *scene)
 			return (throw_error("MLX error"));
 		node->texture = img;
 		free(tmp);
+		node->isloaded = 1;
 		node = node->next;
 	}
 	return (0);
@@ -63,6 +64,7 @@ static int	load_extras(t_cub *cub, t_scene *scene)
 			return (throw_error("MLX error"));
 		node->value = img;
 		free(tmp);
+		node->isloaded = 1;
 		node = node->next;
 	}
 	return (0);

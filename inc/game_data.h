@@ -96,6 +96,7 @@ typedef struct s_extra
 	void				*key;
 	void				*value;
 	void				*next;
+	int					isloaded;
 }	t_extra;
 
 typedef struct s_sprite
@@ -107,6 +108,7 @@ typedef struct s_sprite
 	int					vdiv;
 	void				*texture;
 	void				*next;
+	int					isloaded;
 }	t_sprite;
 
 typedef struct s_sprite_data
