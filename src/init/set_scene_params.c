@@ -60,9 +60,19 @@ static int	set_color(t_scene *scene, int type, char const **param)
 		color |= (tmp << ((3 - set) * 8));
 	}
 	if (type == 1)
+	{
+		if (scene->areset_colors & FLOOR_COLOR_SET)
+			return (throw_error("Duplicate color setting found"));
 		scene->floor = color | (0xFF << 24);
+		scene->areset_colors |= FLOOR_COLOR_SET;
+	}
 	else
+	{
+		if (scene->areset_colors & CEILING_COLOR_SET)
+			return (throw_error("Duplicate color setting found"));
 		scene->ceiling = color | (0xFF << 24);
+		scene->areset_colors |= CEILING_COLOR_SET;
+	}
 	return (0);
 }
 

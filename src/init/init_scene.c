@@ -39,7 +39,7 @@ static int	complete(t_scene *scene, char *line)
 {
 	int	i;
 
-	if (scene->floor == -1 || scene->ceiling == -1)
+	if (scene->areset_colors != (FLOOR_COLOR_SET | CEILING_COLOR_SET))
 		return (free(line), 1);
 	i = 0;
 	while (i < 4)
@@ -52,6 +52,7 @@ static int	reset_scene(t_scene *scene)
 {
 	int	i;
 
+	scene->areset_colors = 0;
 	scene->ceiling = -1;
 	scene->floor = -1;
 	i = 0;

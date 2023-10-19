@@ -129,10 +129,17 @@ typedef struct s_animation
 	int		iter;
 }	t_animation;
 
+enum
+{
+	FLOOR_COLOR_SET = 1,
+	CEILING_COLOR_SET = 2
+};
+
 typedef struct s_scene
 {
 	int					floor;
 	int					ceiling;
+	unsigned char		areset_colors;
 	char				*walls[4];
 	t_map				map;
 	t_sprite			*sprites;
