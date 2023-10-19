@@ -20,22 +20,22 @@ static int	identify(char const *c)
 	if (!c)
 		return (0);
 	if (*c == '#')
-		return (99);
+		return (COMMENT);
 	if (ft_isdigit(*c))
 		return (-1);
 	if (!ft_strncmp(c, "F", 1))
-		return (1);
+		return (FLOOR);
 	if (!ft_strncmp(c, "C", 1))
-		return (2);
+		return (CEILING);
 	if (!ft_strncmp(c, "NO", 2))
-		return (4);
+		return (NORTH_WALL);
 	if (!ft_strncmp(c, "SO", 2))
-		return (6);
+		return (SOUTH_WALL);
 	if (!ft_strncmp(c, "WE", 2))
-		return (5);
+		return (WEST_WALL);
 	if (!ft_strncmp(c, "EA", 2))
-		return (3);
-	return (0);
+		return (EAST_WALL);
+	return (UNKNOWN);
 }
 
 /* >>"R,G,B"
@@ -85,9 +85,9 @@ int	set_scene_param(t_scene *scene, char const **param)
 	int	fd;
 
 	type = identify(param[0]);
-	if (!type)
+	if (type == UNKNOWN)
 		return (get_extra(scene, param));
-	if (type == 99)
+	if (type == COMMENT)
 		return (0);
 	if (type < 0)
 		return (type);

@@ -129,6 +129,18 @@ typedef struct s_animation
 	int		iter;
 }	t_animation;
 
+enum e_scene_identifiers
+{
+	UNKNOWN = 0,
+	FLOOR,
+	CEILING,
+	EAST_WALL,
+	NORTH_WALL,
+	WEST_WALL,
+	SOUTH_WALL,
+	COMMENT = 99
+};
+
 enum
 {
 	FLOOR_COLOR_SET = 1,
