@@ -42,13 +42,11 @@ static int	identify(char const *c)
  * [0 - 255]
  * << [RGBA]
  */
-static int	set_color(t_scene *scene, int type, char const **param)
+static int	check_color_validity(char const **param, int *color)
 {
-	int	color;
 	int	set;
 	int	tmp;
 
-	color = 0;
 	set = 0;
 	while (param[++set])
 	{
@@ -57,8 +55,20 @@ static int	set_color(t_scene *scene, int type, char const **param)
 		tmp = ft_atoi(param[set]);
 		if (tmp < 0 || tmp > 255)
 			return (throw_error("Irregular color input"));
-		color |= (tmp << ((3 - set) * 8));
+		*color |= (tmp << ((3 - set) * 8));
 	}
+	return (0);
+}
+
+static int	set_color(t_scene *scene, int type, char const **param)
+{
+	int color;
+
+	color = 0;
+	if (!param[1] || !param[2] || !param[3])
+		return (throw_error("Wrong number of parameters"));
+	if (check_color_validity(param, &color))
+		return (1);
 	if (type == 1)
 	{
 		if (scene->areset_colors & FLOOR_COLOR_SET)
