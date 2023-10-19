@@ -62,7 +62,7 @@ static int	check_color_validity(char const **param, int *color)
 
 static int	set_color(t_scene *scene, int type, char const **param)
 {
-	int color;
+	int	color;
 
 	color = 0;
 	if (!param[1] || !param[2] || !param[3])
