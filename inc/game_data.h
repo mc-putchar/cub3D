@@ -96,6 +96,7 @@ typedef struct s_extra
 	void				*key;
 	void				*value;
 	void				*next;
+	int					isloaded;
 }	t_extra;
 
 typedef struct s_sprite
@@ -107,6 +108,7 @@ typedef struct s_sprite
 	int					vdiv;
 	void				*texture;
 	void				*next;
+	int					isloaded;
 }	t_sprite;
 
 typedef struct s_sprite_data
@@ -129,10 +131,29 @@ typedef struct s_animation
 	int		iter;
 }	t_animation;
 
+enum e_scene_identifiers
+{
+	UNKNOWN = 0,
+	FLOOR,
+	CEILING,
+	WEST_WALL,
+	NORTH_WALL,
+	EAST_WALL,
+	SOUTH_WALL,
+	COMMENT = 99
+};
+
+enum
+{
+	FLOOR_COLOR_SET = 1,
+	CEILING_COLOR_SET = 2
+};
+
 typedef struct s_scene
 {
 	int					floor;
 	int					ceiling;
+	unsigned char		areset_colors;
 	char				*walls[4];
 	t_map				map;
 	t_sprite			*sprites;

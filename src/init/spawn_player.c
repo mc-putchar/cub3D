@@ -38,7 +38,7 @@ static void	set_direction(int c, t_vector *dir)
 		if (c >> 2)
 			dir->y = -1;
 		else
-			dir->x = 1;
+			dir->y = 1;
 	}
 }
 

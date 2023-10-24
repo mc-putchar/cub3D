@@ -24,7 +24,11 @@
 
 # --- TARGET ---
 
-NAME	:=	cub3D
+NAME		:=	cub3D
+
+# --- DOWNLOADABLES ---
+
+LIBMLXURL	:=	git@github.com:42Paris/minilibx-linux.git
 
 # --- DIRECTORIES ---
 
@@ -33,7 +37,6 @@ INCDIR		:=	inc
 OBJDIR		:=	obj
 SUBDIRS		:=	$(addprefix $(OBJDIR)/, init draw game utils)
 LIBFTDIR	:=	lib/libft
-# LIBMLXDIR	:=	lib/MLX42
 LIBMLXDIR	:=	lib/minilibx-linux
 
 # --- SOURCES ---
@@ -48,6 +51,7 @@ SRC		+=	draw/draw_sprite.c
 SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
 SRC		+=	game/raycaster.c game/wall_check.c game/fps.c
 SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
+SRC		+=	utils/sprites_to_array.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 
 # --- INCLUDES ---
@@ -55,8 +59,8 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
-# INCLUDES	+=	-I$(LIBMLXDIR)/include
 INCLUDES	+=	-I/usr/local/include -Imlx-linux
+INCLUDES	+=	-I$(LIBMLXDIR)
 
 # --- OBJECTS ---
 
@@ -64,27 +68,25 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
 # --- LIBRARIES ---
 
-LIBFT	:=	$(LIBFTDIR)/libft.a
-# LIBMLX	:=	$(LIBMLXDIR)/build/libmlx42.a
-LIBMLX	:=	/usr/local/lib/libmlx.a
-AUTHR	:=	./res/shiteam.nfo
-WHAT	:=	"\t\t\t\t presents"
-BANNER	:=	./res/splash.nfo
+LIBFT		:=	$(LIBFTDIR)/libft.a
+LIBMLX		:=	$(LIBMLXDIR)/libmlx.a
+LIBMLXLOCAL	:=	/usr/local/lib/libmlx.a
+AUTHR		:=	./res/shiteam.nfo
+WHAT		:=	"\t\t\t\t presents"
+BANNER		:=	./res/splash.nfo
 
 # --- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
 LDFLAGS	:=	-L$(LIBFTDIR)
-LDFLAGS	+=	-L/usr/local/lib -Lmlx_linux
+LDFLAGS	+=	-L/usr/local/lib
 LDLIBS	:=	-lft $(LIBMLX)
-# LFLAGS	:=	-ldl -lX11 -lglfw -pthread -lm
 LFLAGS	:=	-lXext -lX11 -lm -lz
 
 # --- DEBUG ---
 
 debug:		CFLAGS		+= -ggdb3 -O0
 debug:		CPPFLAGS	+= -DDEBUG=1
-# debug:		MLXDEBUG	:= -DDEBUG=1
 debug:		DEBUGFLAG	:= debug
 sanity:		CFLAGS		+= -fsanitize=address
 noleaks:	CPPFLAGS	+= -DNOLEAKS=1
@@ -114,8 +116,14 @@ $(NAME): $(HEADERS) $(OBJS)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
-# $(LIBMLX):
-#	@cmake $(MLXDEBUG) $(LIBMLXDIR) -B $(LIBMLXDIR)/build && $(MAKE) -C $(LIBMLXDIR)/build -j4
+$(LIBMLX):
+	@if [ -f $(LIBMLXLOCAL) ]; then \
+		ln $(LIBMLXLOCAL) $(LIBMLX); \
+	else \
+		[ -d $(LIBMLXDIR) ] || git clone $(LIBMLXURL) $(LIBMLXDIR);\
+		cd $(LIBMLXDIR) && $(MAKE); \
+	fi
+
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)
@@ -133,7 +141,6 @@ clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
 	@$(MAKE) -C $(LIBFTDIR) $@
-	# @$(RM) $(LIBMLXDIR)/build
 
 fclean: clean
 	@$(RM) $(NAME)

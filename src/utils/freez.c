@@ -38,8 +38,11 @@ void	free_extras(void *mlx, t_scene *scene)
 	{
 		next = scene->extras->next;
 		free(scene->extras->key);
-		img = scene->extras->value;
-		mlx_destroy_image(mlx, img->img);
+		if (scene->extras->isloaded)
+		{
+			img = scene->extras->value;
+			mlx_destroy_image(mlx, img->img);
+		}
 		free(scene->extras->value);
 		free(scene->extras);
 		scene->extras = next;
@@ -60,8 +63,11 @@ void	free_scene(void *mlx, t_scene *scene)
 	while (scene->sprites)
 	{
 		next = scene->sprites->next;
-		img = scene->sprites->texture;
-		mlx_destroy_image(mlx, img->img);
+		if (scene->sprites->isloaded)
+		{
+			img = scene->sprites->texture;
+			mlx_destroy_image(mlx, img->img);
+		}
 		free(scene->sprites->texture);
 		free(scene->sprites);
 		scene->sprites = next;

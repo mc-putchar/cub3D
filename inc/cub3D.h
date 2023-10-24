@@ -53,7 +53,6 @@ void		init_cub(t_cub *cub, t_scene *scene, t_camera *camera, \
 int			init_scene(char const *file, t_scene *scene);
 int			set_scene_param(t_scene *scene, char const **param);
 int			get_sprite(t_scene *scene, char const **param);
-int			sprites_to_array(t_scene *scn);
 int			get_extra(t_scene *scene, char const **param);
 int			read_map(char *line, int fd, t_map *map);
 int			load_textures(t_cub *cub, t_scene *scene);
@@ -91,5 +90,6 @@ int			get_fps(struct timeval *prev);
 
 /* UTILS */
 void		quicksort(t_sprite **tab, int size);
+int			sprites_to_array(t_scene *scn);
 
 #endif

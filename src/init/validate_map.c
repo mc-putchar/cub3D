@@ -34,9 +34,7 @@ static int	verify_symbols(t_map *map, char const *sym)
 
 inline static int	check(t_map *map, t_size x, t_size y)
 {
-	return (x < 0 || x >= map->width || \
-			y < 0 || y >= map->height || \
-			map->val[y][x] == ' ');
+	return (x >= map->width || y >= map->height || map->val[y][x] == ' ');
 }
 
 int	validate_map(t_map *map)
@@ -54,8 +52,8 @@ int	validate_map(t_map *map)
 		{
 			if (map->val[j][i] != '1' && map->val[j][i] != ' ')
 			{
-				if (check(map, i + 1, j) || check(map, i - 1, j) || \
-					check(map, i, j + 1) || check(map, i, j - 1))
+				if (check(map, i + 1, j) || (i && check(map, i - 1, j)) || \
+					check(map, i, j + 1) || (j && check(map, i, j - 1)))
 					return (throw_error("Map not enclosed by walls"));
 			}
 			++i;
