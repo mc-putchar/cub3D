@@ -103,11 +103,11 @@ SHOW	:=	cat
 # --- RULES ---
 .PHONY: all bonus clean debug fclean re sanity
 
-all: $(LIBFT) $(LIBMLX) $(NAME)
+all: $(NAME)
 
 bonus: all
 
-$(NAME): $(HEADERS) $(OBJS)
+$(NAME): $(LIBFT) $(LIBMLX) $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
 	@$(SHOW) $(AUTHR)
 	@$(ECHO) $(WHAT)
@@ -116,14 +116,13 @@ $(NAME): $(HEADERS) $(OBJS)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
-$(LIBMLX):
-	@if [ -f $(LIBMLXLOCAL) ]; then \
-		ln $(LIBMLXLOCAL) $(LIBMLX); \
-	else \
-		[ -d $(LIBMLXDIR) ] || git clone $(LIBMLXURL) $(LIBMLXDIR);\
-		cd $(LIBMLXDIR) && $(MAKE); \
+$(LIBMLX): | $(LIBMLXDIR)
+	@if [ -f $(LIBMLXLOCAL) ]; then ln -s $(LIBMLXLOCAL) $(LIBMLX); \
+	else git clone $(LIBMLXURL) $(LIBMLXDIR) && cd $(LIBMLXDIR) && $(MAKE); \
 	fi
 
+$(LIBMLXDIR):
+	$(MKDIR) $(LIBMLXDIR)
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)
