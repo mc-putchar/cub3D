@@ -51,13 +51,10 @@ void	free_extras(void *mlx, t_scene *scene)
 
 void	free_scene(void *mlx, t_scene *scene)
 {
-	int			i;
 	t_sprite	*next;
 	t_mlx_image	*img;
 
-	i = 0;
-	while (i < 4)
-		free(scene->walls[i++]);
+	scrap_scene(scene);
 	if (scene->map.val)
 		free_map(scene->map.val, scene->map.height);
 	while (scene->sprites)
