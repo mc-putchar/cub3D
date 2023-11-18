@@ -25,6 +25,11 @@
 /* Required for bonus */
 # include <sys/time.h> // for FPS calculation and sync
 
+/* Bonus mode switch */
+# ifndef BONUS
+#  define BONUS	0
+# endif
+
 /* Debug mode switch */
 # ifndef DEBUG
 #  define DEBUG	0

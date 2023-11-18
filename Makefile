@@ -82,6 +82,7 @@ LDFLAGS	:=	-L$(LIBFTDIR)
 LDFLAGS	+=	-L/usr/local/lib
 LDLIBS	:=	-lft $(LIBMLX)
 LFLAGS	:=	-lXext -lX11 -lm -lz
+bonus: CFLAGS += -DBONUS=1
 
 # --- DEBUG ---
 

@@ -18,7 +18,7 @@ int	get_fps(struct timeval *prev)
 	int				fps;
 
 	if (!prev || gettimeofday(&now, NULL))
-		throw_error("I don't have time for this");
+		return (throw_error("I don't have time for this"));
 	fps = (int)floor(1 / ((double)(now.tv_usec - prev->tv_usec) / 1000000 + \
 			(double)(now.tv_sec - prev->tv_sec)));
 	*prev = now;
