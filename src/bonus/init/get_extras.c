@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 
 inline static int	check_file(char const *path)
 {
@@ -27,6 +27,7 @@ static void	set_sprite_params(t_sprite *spr, char const **param)
 {
 	spr->next = NULL;
 	spr->isloaded = 0;
+	spr->collectable = 1;
 	spr->position.x = ft_atod_dirty(param[1]);
 	spr->position.y = ft_atod_dirty(param[2]);
 	spr->hdiv = 1;

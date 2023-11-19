@@ -12,14 +12,32 @@
 
 #include "cub3D_bonus.h"
 
-void	draw_hud(t_mlx_image *img)
+void	draw_hud(t_cub *cub)
 {
-	int const	k_color = 0x424242FF;
+	int const	bg_color = 0x420242;
+	int const	frame_color = 0x040004;
 	t_uint32	x;
+	t_uint32	y;
 
-	x = 0;
-	while (x < img->width)
+	y = 0;
+	while (y < cub->hud->height)
 	{
-		put_pixel(img, x, 0, k_color);
+		x = 0;
+		if (y < 16 || y > cub->hud->height - 16)
+		{
+			while (x < cub->hud->width)
+				put_pixel(cub->hud, x++, y, frame_color);
+		}
+		else
+		{
+			while (x < 16)
+				put_pixel(cub->hud, x++, y, frame_color);
+			while (x < cub->hud->width - 16)
+				put_pixel(cub->hud, x++, y, bg_color);
+			while (x < cub->hud->width)
+				put_pixel(cub->hud, x++, y, frame_color);
+		}
+		++y;
 	}
+	draw_minimap(cub->hud, &cub->scene->map, cub->player->position);
 }

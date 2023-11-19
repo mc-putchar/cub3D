@@ -29,12 +29,6 @@
 
 /* Norme adaptations */
 
-// typedef mlx_t			t_mlx;
-// typedef mlx_image_t		t_mlx_image;
-// typedef mlx_texture_t	t_mlx_texture;
-// typedef mlx_key_data_t	t_mlx_key_data;
-// typedef keys_t			t_keys;
-
 typedef size_t			t_size;
 typedef __uint32_t		t_uint32;
 
@@ -108,6 +102,7 @@ typedef struct s_sprite
 	int					vdiv;
 	void				*texture;
 	void				*next;
+	int					collectable;
 	int					isloaded;
 }	t_sprite;
 
@@ -140,6 +135,12 @@ enum e_scene_identifiers
 	NORTH_WALL,
 	EAST_WALL,
 	SOUTH_WALL,
+	WALL,
+	SPRITE,
+	COLLECTIBLE,
+	ITEM,
+	WEAPON,
+	ENEMY,
 	COMMENT = 99
 };
 
@@ -178,6 +179,8 @@ typedef struct s_cub
 	int					win_h;
 	int					win_w;
 	t_mlx_image			*img;
+	t_mlx_image			*hud;
+	t_mlx_image			*logo;
 	t_mlx_image			*minimap;
 	t_mlx_image			*walls[4];
 	t_scene				*scene;
@@ -185,6 +188,7 @@ typedef struct s_cub
 	t_player			*player;
 	double				*zbuffer;
 	struct timeval		time;
+	int					level;
 }	t_cub;
 
 #endif

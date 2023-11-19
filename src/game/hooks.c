@@ -59,8 +59,6 @@ int	keydown_hook(int key, void *param)
 		cub->player->turn_dir = 1;
 	if (key == KEY_SHIFT)
 		cub->player->move_speed *= 2;
-	if (BONUS && key == KEY_SPACE)
-		interact(param);
 	return (0);
 }
 
@@ -108,8 +106,6 @@ int	game_loop(void *param)
 	cub = param;
 	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
 	draw_screen(cub);
-	if (BONUS && cub->scene->sprites)
-		cast_sprites(cub, cub->player, cub->scene);
 	mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
@@ -118,7 +114,5 @@ int	game_loop(void *param)
 	move_player(cub->player, &cub->scene->map);
 	sidestep_player(cub->player, &cub->scene->map);
 	turn_player(cub->player, cub->camera);
-	if (BONUS)
-		display_fps(cub);
 	return (0);
 }

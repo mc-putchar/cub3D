@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 
 int	close_hook(void *param)
 {
@@ -27,8 +27,10 @@ int	close_hook(void *param)
 	free(cub->walls[2]);
 	mlx_destroy_image(cub->mlx, cub->walls[3]->img);
 	free(cub->walls[3]);
-	mlx_destroy_image(cub->mlx, cub->minimap->img);
-	free(cub->minimap);
+	mlx_destroy_image(cub->mlx, cub->logo->img);
+	free(cub->logo);
+	mlx_destroy_image(cub->mlx, cub->hud->img);
+	free(cub->hud);
 	mlx_destroy_image(cub->mlx, cub->img->img);
 	free(cub->img);
 	mlx_destroy_window(cub->mlx, cub->win);
@@ -59,7 +61,7 @@ int	keydown_hook(int key, void *param)
 		cub->player->turn_dir = 1;
 	if (key == KEY_SHIFT)
 		cub->player->move_speed *= 2;
-	if (BONUS && key == KEY_SPACE)
+	if (key == KEY_SPACE)
 		interact(param);
 	return (0);
 }
@@ -106,19 +108,19 @@ int	game_loop(void *param)
 	t_cub	*cub;
 
 	cub = param;
-	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
 	draw_screen(cub);
-	if (BONUS && cub->scene->sprites)
+	draw_hud(cub);
+	if (cub->scene->sprites)
 		cast_sprites(cub, cub->player, cub->scene);
 	mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
-		(cub->win_w - MINIMAP_SIZE - 20), 20);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->hud->img, \
+		0, cub->win_h - HUD_HEIGHT);
 	mlx_do_sync(cub->mlx);
 	move_player(cub->player, &cub->scene->map);
 	sidestep_player(cub->player, &cub->scene->map);
 	turn_player(cub->player, cub->camera);
-	if (BONUS)
-		display_fps(cub);
+	item_pickup(cub, cub->scene);
+	display_fps(cub);
 	return (0);
 }

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
+
+#define LEVEL_ONE	"scenes/bonus/level_one.cub"
 
 /* Take: 2
  * Bonus!
@@ -22,10 +24,8 @@ int	main(int ac, char **av)
 	t_player	player;
 	t_camera	camera;
 
-	if (ac != 2)
-		return (ft_printf("%s\n", USAGE), EXIT_FAILURE);
-	(void)ft_printf("Cub3D: 42RayCaster\nScene: %s\n", av[1]);
-	if (init_scene(av[1], &scene))
+	(void)ft_printf("Cub3D: Peer of Destiny\n");
+	if (init_scene(LEVEL_ONE, &scene))
 		return (scrap_scene(&scene) && throw_error("No scene no play"));
 	if (init_window(&cub))
 		return (EXIT_FAILURE);
@@ -39,5 +39,8 @@ int	main(int ac, char **av)
 		return (close_hook(&cub));
 	if (gettimeofday(&cub.time, NULL))
 		throw_error("I don't have time for this");
+	// draw_splash(&cub);
+	if (ac < 2 || ft_strncmp(av[1], "--skip", 7))
+		draw_intro(&cub);
 	return (mlx_loop(cub.mlx));
 }

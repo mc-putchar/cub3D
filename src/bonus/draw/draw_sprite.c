@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 
 static t_vector	transform_sprite(t_sprite *spr, t_vector *ppos, \
 	t_vector *plane, t_vector *dir)

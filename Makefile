@@ -57,16 +57,17 @@ SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
 SRC		+=	utils/sprites_to_array.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
-SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c)
-SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c)
+SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
+SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c)
 # SRCBON	+=	$(addprefix $(BONDIR)/init/, .c)
-SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c)
+SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c typewrite.c)
 SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
 # --- INCLUDES ---
 
 HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
+BONHEADERS	:=	$(addprefix $(INCDIR)/, $(HDRS) cub3D_bonus.h)
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
 INCLUDES	+=	-I/usr/local/include -Imlx-linux
 INCLUDES	+=	-I$(LIBMLXDIR)
@@ -81,6 +82,9 @@ BONOBJS	:=	$(SRCBON:%.c=$(OBJDIR)/%.o)
 LIBFT		:=	$(LIBFTDIR)/libft.a
 LIBMLX		:=	$(LIBMLXDIR)/libmlx.a
 LIBMLXLOCAL	:=	/usr/local/lib/libmlx.a
+
+# --- SPLASH ---
+TEAM		:=	./res/shiteam.nfo
 BANNER		:=	./res/splash.nfo
 
 # --- FLAGS ---
@@ -113,6 +117,7 @@ SHOW	:=	cat
 .PHONY: all bonus clean debug fclean re sanity
 
 all: $(NAME) bonus
+	@$(SHOW) $(TEAM)
 	@$(SHOW) $(BANNER)
 
 bonus: $(BONUS)

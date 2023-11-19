@@ -96,8 +96,7 @@ int	set_scene_param(t_scene *scene, char const **param)
 
 	type = identify(param[0]);
 	if (type == UNKNOWN)
-		return ((!BONUS && throw_error("Unrecognized scene identifier")) \
-				|| get_extra(scene, param));
+		return (throw_error("Unrecognized scene identifier"));
 	if (type == COMMENT)
 		return (0);
 	if (type < 0)

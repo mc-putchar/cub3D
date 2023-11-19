@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cub.c                                         :+:      :+:    :+:   */
+/*   ft_sleep.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 04:00:38 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/29 04:25:05 by mcutura          ###   ########.fr       */
+/*   Created: 2023/11/19 09:37:06 by mcutura           #+#    #+#             */
+/*   Updated: 2023/11/19 09:37:06 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include <unistd.h>
 
-void	init_cub(t_cub *cub, t_scene *scene, t_camera *camera, t_player *player)
+int	ft_sleep(unsigned int milisecs)
 {
-	cub->scene = scene;
-	cub->camera = camera;
-	cub->player = player;
-	cub->level = 0;
+	unsigned int	passed;
+
+	passed = 0;
+	while (passed < milisecs)
+	{
+		if (usleep(100000))
+			return (1);
+		passed += 100;
+	}
+	return (0);
 }
