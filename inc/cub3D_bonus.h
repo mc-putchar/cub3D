@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fps.c                                              :+:      :+:    :+:   */
+/*   cub3D_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/26 14:09:37 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/26 14:43:48 by mcutura          ###   ########.fr       */
+/*   Created: 2023/11/19 09:12:36 by mcutura           #+#    #+#             */
+/*   Updated: 2023/11/19 09:12:36 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
-int	get_fps(struct timeval *prev)
-{
-	struct timeval	now;
-	int				fps;
+/* for FPS calculation and sync */
+# include <sys/time.h>
 
-	if (!prev || gettimeofday(&now, NULL))
-		return (throw_error("I don't have time for this"));
-	fps = (int)floor(1 / ((double)(now.tv_usec - prev->tv_usec) / 1000000 + \
-			(double)(now.tv_sec - prev->tv_sec)));
-	*prev = now;
-	return (fps);
-}
+# include "cub3D.h"
+
+void		interact(t_cub *cub);
+void		display_fps(t_cub *cub);
+void		draw_hud(t_mlx_image *img);
+
+#endif

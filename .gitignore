@@ -1,8 +1,8 @@
 a.out
 cub3D
+cub3D_bonus
 .vscode
 *.o
 *.a
 en.subject.pdf
-lib/MLX42/build
 TODO

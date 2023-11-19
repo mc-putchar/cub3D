@@ -25,6 +25,7 @@
 # --- TARGET ---
 
 NAME		:=	cub3D
+BONUS		:=	cub3D_bonus
 
 # --- DOWNLOADABLES ---
 
@@ -35,7 +36,9 @@ LIBMLXURL	:=	git@github.com:42Paris/minilibx-linux.git
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
-SUBDIRS		:=	$(addprefix $(OBJDIR)/, init draw game utils)
+BONDIR		:=	bonus
+BONSUBDIRS	:=	$(addprefix $(BONDIR)/, init draw game utils)
+SUBDIRS		:=	$(addprefix $(OBJDIR)/, $(BONSUBDIRS) init draw game utils)
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/minilibx-linux
 
@@ -48,11 +51,17 @@ SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c
 SRC		+=	init/init_cub.c init/validate_map.c
 SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
 SRC		+=	draw/draw_sprite.c
-SRC		+=	game/move_player.c game/turn_player.c game/interact.c game/hooks.c
-SRC		+=	game/raycaster.c game/wall_check.c game/fps.c
+SRC		+=	game/move_player.c game/turn_player.c  game/hooks.c
+SRC		+=	game/raycaster.c game/wall_check.c
 SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
 SRC		+=	utils/sprites_to_array.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
+SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
+SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c)
+SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c)
+# SRCBON	+=	$(addprefix $(BONDIR)/init/, .c)
+SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c)
+SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
 # --- INCLUDES ---
 
@@ -65,28 +74,27 @@ INCLUDES	+=	-I$(LIBMLXDIR)
 # --- OBJECTS ---
 
 OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
+BONOBJS	:=	$(SRCBON:%.c=$(OBJDIR)/%.o)
 
 # --- LIBRARIES ---
 
 LIBFT		:=	$(LIBFTDIR)/libft.a
 LIBMLX		:=	$(LIBMLXDIR)/libmlx.a
 LIBMLXLOCAL	:=	/usr/local/lib/libmlx.a
-AUTHR		:=	./res/shiteam.nfo
-WHAT		:=	"\t\t\t\t presents"
 BANNER		:=	./res/splash.nfo
 
 # --- FLAGS ---
 
-CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
-LDFLAGS	:=	-L$(LIBFTDIR)
+CFLAGS	:=	-Wall -Wextra -Werror -pedantic -O3
+LDFLAGS	:=	-L$(LIBFTDIR) -L$(LIBMLXDIR)
 LDFLAGS	+=	-L/usr/local/lib
-LDLIBS	:=	-lft $(LIBMLX)
+LDLIBS	:=	-lft -lmlx
 LFLAGS	:=	-lXext -lX11 -lm -lz
 bonus: CFLAGS += -DBONUS=1
 
 # --- DEBUG ---
 
-debug:		CFLAGS		+= -ggdb3 -O0
+debug:		CFLAGS		+= -ggdb3 -Og
 debug:		CPPFLAGS	+= -DDEBUG=1
 debug:		DEBUGFLAG	:= debug
 sanity:		CFLAGS		+= -fsanitize=address
@@ -104,22 +112,23 @@ SHOW	:=	cat
 # --- RULES ---
 .PHONY: all bonus clean debug fclean re sanity
 
-all: $(NAME)
+all: $(NAME) bonus
+	@$(SHOW) $(BANNER)
 
-bonus: all
+bonus: $(BONUS)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(HEADERS) $(OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
-	@$(SHOW) $(AUTHR)
-	@$(ECHO) $(WHAT)
-	@$(SHOW) $(BANNER)
+
+$(BONUS): $(LIBFT) $(LIBMLX) $(BONHEADERS) $(BONOBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(BONOBJS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
 
 $(LIBMLX): | $(LIBMLXDIR)
 	@if [ -f $(LIBMLXLOCAL) ]; then ln -s $(LIBMLXLOCAL) $(LIBMLX); \
-	else git clone $(LIBMLXURL) $(LIBMLXDIR) && cd $(LIBMLXDIR) && $(MAKE); \
+	else git clone $(LIBMLXURL) $(LIBMLXDIR); cd $(LIBMLXDIR) && $(MAKE); \
 	fi
 
 $(LIBMLXDIR):
@@ -138,12 +147,12 @@ sanity: debug
 noleaks: debug
 
 clean:
-	@$(RM) $(OBJS)
 	@$(RM) $(OBJDIR)
 	@$(MAKE) -C $(LIBFTDIR) $@
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) $(BONUS)
 	@$(MAKE) -C $(LIBFTDIR) $@
 
 re: fclean all

@@ -12,8 +12,8 @@
 
 #include "cub3D.h"
 
-/* Take: 1
- * Action!
+/* Take: 2
+ * Bonus!
  */
 int	main(int ac, char **av)
 {
@@ -33,9 +33,11 @@ int	main(int ac, char **av)
 	init_cub(&cub, &scene, &camera, &player);
 	if (load_textures(&cub, &scene) || spawn_player(&player, &scene.map) || \
 		start_camera(&cub, &camera, player.direction) || \
-		validate_map(&scene.map))
+		validate_map(&scene.map) || sprites_to_array(&scene))
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	if (validate_map(&scene.map))
 		return (close_hook(&cub));
+	if (gettimeofday(&cub.time, NULL))
+		throw_error("I don't have time for this");
 	return (mlx_loop(cub.mlx));
 }

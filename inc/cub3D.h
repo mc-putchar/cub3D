@@ -20,10 +20,6 @@
 
 # include "libft.h"
 # include "mlx.h"
-// # include "MLX42/MLX42.h"
-
-/* Required for bonus */
-# include <sys/time.h> // for FPS calculation and sync
 
 /* Bonus mode switch */
 # ifndef BONUS
@@ -88,10 +84,8 @@ int			cast_sprites(t_cub *cub, t_player *pl, t_scene *scn);
 void		move_player(t_player *player, t_map *map);
 void		sidestep_player(t_player *player, t_map *map);
 void		turn_player(t_player *player, t_camera *camera);
-void		interact(t_cub *cub);
 int			raycaster(t_cub *cub, t_size i, double *dist, double *wallx);
 int			wall_check(t_map *map, int x, int y);
-int			get_fps(struct timeval *prev);
 
 /* UTILS */
 void		quicksort(t_sprite **tab, int size);
