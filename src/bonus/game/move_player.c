@@ -21,17 +21,22 @@ void	sidestep_player(t_player *player, t_map *map)
 		return ;
 	delta.x = -player->direction.y * player->move_speed * player->side_move;
 	delta.y = player->direction.x * player->move_speed * player->side_move;
-	spacer.x = 0.3;
-	spacer.y = 0.3;
+	spacer.x = 0.1;
+	spacer.y = 0.1;
 	if (delta.x < 0)
 		spacer.x *= -1;
 	if (delta.y < 0)
 		spacer.y *= -1;
 	if (!wall_check(map, \
 		(int)(player->position.x + delta.x + spacer.x), \
-		(int)(player->position.y)))
+		(int)(player->position.y + spacer.y)) && \
+		!wall_check(map, \
+		(int)(player->position.x + delta.x + spacer.x), \
+		(int)(player->position.y - spacer.y)))
 		player->position.x += delta.x;
-	if (!wall_check(map, (int)(player->position.x), \
+	if (!wall_check(map, (int)(player->position.x + spacer.x), \
+		(int)(player->position.y + delta.y + spacer.y)) && \
+		!wall_check(map, (int)(player->position.x - spacer.x), \
 		(int)(player->position.y + delta.y + spacer.y)))
 		player->position.y += delta.y;
 }
@@ -45,17 +50,22 @@ void	move_player(t_player *player, t_map *map)
 		return ;
 	delta.x = player->direction.x * player->move_speed * player->dir_move;
 	delta.y = player->direction.y * player->move_speed * player->dir_move;
-	spacer.x = 0.3;
-	spacer.y = 0.3;
+	spacer.x = 0.1;
+	spacer.y = 0.1;
 	if (delta.x < 0)
 		spacer.x *= -1;
 	if (delta.y < 0)
 		spacer.y *= -1;
 	if (!wall_check(map, \
 		(int)(player->position.x + delta.x + spacer.x), \
-		(int)(player->position.y)))
+		(int)(player->position.y + spacer.y)) && \
+		!wall_check(map, \
+		(int)(player->position.x + delta.x + spacer.x), \
+		(int)(player->position.y - spacer.y)))
 		player->position.x += delta.x;
-	if (!wall_check(map, (int)(player->position.x), \
+	if (!wall_check(map, (int)(player->position.x + spacer.x), \
+		(int)(player->position.y + delta.y + spacer.y)) && \
+		!wall_check(map, (int)(player->position.x - spacer.x), \
 		(int)(player->position.y + delta.y + spacer.y)))
 		player->position.y += delta.y;
 }
