@@ -51,7 +51,7 @@ static int	load_anim(t_cub *cub, t_sprite *spr)
 	spr->texture = spr->anim->frames[0];
 	spr->anim->current_frame = 0;
 	spr->anim->iter = 0;
-	spr->anim->delay = 10;
+	spr->anim->delay = 4;
 	return (0);
 }
 

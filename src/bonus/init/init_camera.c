@@ -14,8 +14,8 @@
 
 int	start_camera(t_cub *cub, t_camera *camera, t_vector plane)
 {
-	camera->height = cub->win_h;
-	camera->width = cub->win_w;
+	camera->height = cub->img->height;
+	camera->width = cub->img->width;
 	camera->plane.x = -plane.y;
 	camera->plane.y = plane.x;
 	cub->zbuffer = malloc(sizeof(double) * camera->width);

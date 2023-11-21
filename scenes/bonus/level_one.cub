@@ -13,26 +13,26 @@ F	40,40,40
 S ./res/key.xpm		25.5 14.5	2 2 150.0	key
 S ./res/badge.xpm	5.5 2.5		2 2 150.0	badge
 S ./res/nokia.xpm	5.5 4.5		2 1 150.0	phone
-A ./res/tig.xpm		5.5 3.5		3	80 40	2 2 100		tig
+A ./res/tig.xpm		5.5 3.5		12	80 40	2 2 100		tig
 
-A ./res/tig.xpm	13.5 4.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	20.5 4.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	15.5 9.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	17.5 9.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	15.5 11.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	17.5 11.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	26.5 16.5	3	80 40	2 2 100.0	tig
-A ./res/tig.xpm	8.5 19.5	3	80 40	2 2 100.0	tig
+A ./res/tig.xpm	13.5 4.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	20.5 4.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	15.5 9.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	17.5 9.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	15.5 11.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	17.5 11.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	26.5 16.5	12	80 40	2 2 100.0	tig
+A ./res/tig.xpm	8.5 19.5	12	80 40	2 2 100.0	tig
 
 #Animation [texture_file.xpm] <X Y> <n_frames> <frame_x frame_y>
 #							//* <scale_x scale_y> <offset> [tag]
-A ./res/death_idle.xpm	1.5 1.5		8	100 100
-A ./res/fx.xpm			16.5 6.5	64	100 100
+A ./res/death_idle.xpm	1.5 3.5		8	100 100
+A ./res/fx.xpm			16.5 5.5	64	100 100
 
 
 111 111
-101 1S1
-101 101    1111111111
+111 1S1
+111 101    1111111111
 101 101    1000000001
 101 101  111D11111101
 1L111D111100000101001
