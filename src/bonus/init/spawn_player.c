@@ -48,6 +48,8 @@ static void	reset_data(t_player *player, t_size x, t_size y, int d)
 	player->position.y = y + 0.5;
 	set_direction(d, &player->direction);
 	player->has_key = 0;
+	player->has_badge = 0;
+	player->has_phone = 0;
 	player->move_speed = P_MOVE_SPEED;
 	player->turn_speed = P_TURN_SPEED;
 	player->dir_move = 0;

@@ -19,6 +19,16 @@ static t_vector	transform_sprite(t_sprite *spr, t_vector *ppos, \
 	t_vector	spr_pos;
 	double		inv_deter;
 
+	if (spr->anim)
+	{
+		if ((++(spr->anim->iter) >= spr->anim->delay))
+		{
+			spr->anim->iter = 0;
+			if (++(spr->anim->current_frame) >= spr->anim->n_frames)
+				spr->anim->current_frame = 0;
+			spr->texture = spr->anim->frames[spr->anim->current_frame];
+		}
+	}
 	spr_pos.x = spr->position.x - ppos->x;
 	spr_pos.y = spr->position.y - ppos->y;
 	inv_deter = 1.0 / (plane->x * dir->y - dir->x * plane->y);

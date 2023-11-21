@@ -14,16 +14,13 @@
 
 static void	draw_player(t_mlx_image *img, int off)
 {
-	int	y;
-	int	x;
+	int const	color = 0xFF11AA99;
+	int const	radius = 8;
+	t_point		p;
 
-	y = 1;
-	while (++y < (1 << MINIMAP_PDIV) - 2)
-	{
-		x = 1;
-		while (++x < (1 << MINIMAP_PDIV) - 2)
-			put_pixel(img, x + off, y + off, 0xFF118899);
-	}
+	p.x = off + radius;
+	p.y = off + radius;
+	put_circle(img, &p, radius, color);
 }
 
 void	draw_minimap(t_mlx_image *img, t_map *map, t_vector position)

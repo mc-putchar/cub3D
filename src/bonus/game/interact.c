@@ -12,7 +12,7 @@
 
 #include "cub3D_bonus.h"
 
-static int	door_check(t_map *map, int x, int y, int haskey)
+static int	door_check(t_map *map, int x, int y, void *haskey)
 {
 	if (x < 0 || y < 0 || (t_size)x >= map->width || (t_size)y >= map->height)
 		return (0);

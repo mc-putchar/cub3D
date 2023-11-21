@@ -20,12 +20,39 @@ int	img_gen(void *mlx, t_mlx_image *img, int width, int height)
 	if (!img->img)
 		return (throw_error_free("MLX image failed", free, img));
 	img->pixels = mlx_get_data_addr(img->img, \
-		&img->bpp, &img->size_line, \
-		&img->endian);
+		&img->bpp, &img->size_line, &img->endian);
 	if (!img->pixels)
 		return (throw_error("MLX error"));
 	img->width = width;
 	img->height = height;
+	return (0);
+}
+
+int	tex_load(void *mlx, t_mlx_image *img, char *path)
+{
+	img->img = mlx_xpm_file_to_image(mlx, path, \
+		(int *)&img->width, (int *)&img->height);
+	if (!img->img)
+		return (throw_error("Failed to load texture"));
+	img->pixels = mlx_get_data_addr(img->img, &img->bpp, \
+		&img->size_line, &img->endian);
+	if (!img->pixels)
+		return (throw_error("MLX error"));
+	return (0);
+}
+
+static int	init_imgs(t_cub *cub)
+{
+	if (img_gen(cub->mlx, cub->cutscene, cub->win_w, cub->win_h))
+		return (1);
+	if (img_gen(cub->mlx, cub->img, cub->win_w, cub->win_h - HUD_HEIGHT))
+		return (1);
+	if (img_gen(cub->mlx, cub->hud, cub->win_w, HUD_HEIGHT))
+		return (1);
+	if (img_gen(cub->mlx, cub->minimap, MINIMAP_SIZE, MINIMAP_SIZE))
+		return (1);
+	if (tex_load(cub->mlx, cub->logo, LOGO_FILE))
+		return (1);
 	return (0);
 }
 
@@ -38,21 +65,15 @@ int	init_window(t_cub *cub)
 	cub->win = mlx_new_window(cub->mlx, cub->win_w, cub->win_h, TITLE);
 	if (!cub->win)
 		return (throw_error("MLX failed to create window"));
+	cub->cutscene = malloc(sizeof(t_mlx_image));
 	cub->img = malloc(sizeof(t_mlx_image));
 	cub->hud = malloc(sizeof(t_mlx_image));
 	cub->logo = malloc(sizeof(t_mlx_image));
-	if (!cub->img || !cub->hud || !cub->logo)
+	cub->minimap = malloc(sizeof(t_mlx_image));
+	if (!cub->cutscene || !cub->img || !cub->hud || !cub->logo || !cub->minimap)
 		return (throw_error("Memory allocation failed"));
-	if (img_gen(cub->mlx, cub->img, cub->win_w, cub->win_h - HUD_HEIGHT))
+	if (init_imgs(cub))
 		return (1);
-	if (img_gen(cub->mlx, cub->hud, cub->win_w, HUD_HEIGHT))
-		return (1);
-	cub->logo->img = mlx_xpm_file_to_image(cub->mlx, LOGO_FILE, \
-		(int *)&cub->logo->width, (int *)&cub->logo->height);
-	if (!cub->logo->img)
-		return (1);
-	cub->logo->pixels = mlx_get_data_addr(cub->logo->img, &cub->logo->bpp, \
-		&cub->logo->size_line, &cub->logo->endian);
 	init_hooks(cub);
 	return (0);
 }

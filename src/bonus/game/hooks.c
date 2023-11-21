@@ -29,9 +29,13 @@ int	close_hook(void *param)
 	free(cub->walls[3]);
 	mlx_destroy_image(cub->mlx, cub->logo->img);
 	free(cub->logo);
+	mlx_destroy_image(cub->mlx, cub->minimap->img);
+	free(cub->minimap);
 	mlx_destroy_image(cub->mlx, cub->hud->img);
 	free(cub->hud);
 	mlx_destroy_image(cub->mlx, cub->img->img);
+	free(cub->img);
+	mlx_destroy_image(cub->mlx, cub->cutscene->img);
 	free(cub->img);
 	mlx_destroy_window(cub->mlx, cub->win);
 	mlx_destroy_display(cub->mlx);
@@ -109,13 +113,14 @@ int	game_loop(void *param)
 
 	cub = param;
 	draw_screen(cub);
-	draw_hud(cub);
+	draw_minimap(cub->minimap, &cub->scene->map, cub->player->position);
 	if (cub->scene->sprites)
 		cast_sprites(cub, cub->player, cub->scene);
 	mlx_do_sync(cub->mlx);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->hud->img, \
 		0, cub->win_h - HUD_HEIGHT);
+	draw_hud(cub);
 	mlx_do_sync(cub->mlx);
 	move_player(cub->player, &cub->scene->map);
 	sidestep_player(cub->player, &cub->scene->map);

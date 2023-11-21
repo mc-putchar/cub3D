@@ -12,10 +12,10 @@
 
 #include "cub3D_bonus.h"
 
-void	draw_hud(t_cub *cub)
+void	init_hud(t_cub *cub)
 {
-	int const	bg_color = 0x420242;
 	int const	frame_color = 0x040004;
+	int const	bg_color = 0x420242;
 	t_uint32	x;
 	t_uint32	y;
 
@@ -39,5 +39,23 @@ void	draw_hud(t_cub *cub)
 		}
 		++y;
 	}
-	draw_minimap(cub->hud, &cub->scene->map, cub->player->position);
+}
+
+void	draw_hud(t_cub *cub)
+{
+	t_mlx_image	*img;
+
+	if (cub->player->has_badge)
+		mlx_put_image_to_window(cub->mlx, cub->win, cub->logo->img, \
+			20, cub->win_h - HUD_HEIGHT + 20);
+	if (cub->player->has_phone)
+		mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
+			(cub->win_w >> 1) - (MINIMAP_SIZE >> 1), cub->win_h - HUD_HEIGHT + 20);
+	if (cub->player->has_key)
+	{
+		img = cub->player->has_key;
+		mlx_put_image_to_window(cub->mlx, cub->win, img->img, \
+			cub->win_w - (img->width << 1), \
+			cub->win_h - HUD_HEIGHT + 20);
+	}
 }

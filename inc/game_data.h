@@ -34,17 +34,6 @@ typedef __uint32_t		t_uint32;
 
 /* Data structures */
 
-typedef struct s_mlx_image
-{
-	void		*img;
-	char		*pixels;
-	t_uint32	width;
-	t_uint32	height;
-	int			bpp;
-	int			endian;
-	int			size_line;
-}	t_mlx_image;
-
 enum e_mlx_events
 {
 	ON_KEYDOWN = 2,
@@ -55,6 +44,42 @@ enum e_mlx_events
 	ON_EXPOSE = 12,
 	ON_DESTROY = 17
 };
+
+enum e_scene_identifiers
+{
+	UNKNOWN = 0,
+	FLOOR,
+	CEILING,
+	WEST_WALL,
+	NORTH_WALL,
+	EAST_WALL,
+	SOUTH_WALL,
+	WALL,
+	SPRITE,
+	KEY,
+	COLLECTIBLE,
+	ITEM,
+	WEAPON,
+	ENEMY,
+	COMMENT = 99
+};
+
+enum
+{
+	FLOOR_COLOR_SET = 1,
+	CEILING_COLOR_SET = 2
+};
+
+typedef struct s_mlx_image
+{
+	void				*img;
+	char				*pixels;
+	t_uint32			width;
+	t_uint32			height;
+	int					bpp;
+	int					endian;
+	int					size_line;
+}	t_mlx_image;
 
 typedef struct s_map
 {
@@ -72,7 +97,9 @@ typedef struct s_player
 	int					dir_move;
 	int					side_move;
 	int					turn_dir;
-	int					has_key;
+	int					has_phone;
+	int					has_badge;
+	void				*has_key;
 }	t_player;
 
 typedef struct s_camera
@@ -84,6 +111,17 @@ typedef struct s_camera
 	int					brush;
 	t_vector			plane;
 }	t_camera;
+
+typedef struct s_animation
+{
+	t_mlx_image			**frames;
+	int					n_frames;
+	int					current_frame;
+	int					delay;
+	int					iter;
+	int					frame_x;
+	int					frame_y;
+}	t_animation;
 
 typedef struct s_extra
 {
@@ -103,52 +141,22 @@ typedef struct s_sprite
 	void				*texture;
 	void				*next;
 	int					collectable;
+	void				(*on_pickup)();
 	int					isloaded;
+	t_animation			*anim;
 }	t_sprite;
 
 typedef struct s_sprite_data
 {
-	int	height;
-	int	width;
-	int	screenx;
-	int	start_x;
-	int	start_y;
-	int	end_x;
-	int	end_y;
-	int	zoffset;
+	int					height;
+	int					width;
+	int					screenx;
+	int					start_x;
+	int					start_y;
+	int					end_x;
+	int					end_y;
+	int					zoffset;
 }	t_sprite_data;
-
-typedef struct s_animation
-{
-	int		n_frames;
-	int		current_frame;
-	int		delay;
-	int		iter;
-}	t_animation;
-
-enum e_scene_identifiers
-{
-	UNKNOWN = 0,
-	FLOOR,
-	CEILING,
-	WEST_WALL,
-	NORTH_WALL,
-	EAST_WALL,
-	SOUTH_WALL,
-	WALL,
-	SPRITE,
-	COLLECTIBLE,
-	ITEM,
-	WEAPON,
-	ENEMY,
-	COMMENT = 99
-};
-
-enum
-{
-	FLOOR_COLOR_SET = 1,
-	CEILING_COLOR_SET = 2
-};
 
 typedef struct s_scene
 {
@@ -165,11 +173,11 @@ typedef struct s_scene
 
 typedef struct s_ray
 {
-	t_vector	direction;
-	t_vector	delta;
-	t_vector	distance;
-	int			stepx;
-	int			stepy;
+	t_vector			direction;
+	t_vector			delta;
+	t_vector			distance;
+	int					stepx;
+	int					stepy;
 }	t_ray;
 
 typedef struct s_cub
@@ -178,6 +186,7 @@ typedef struct s_cub
 	void				*win;
 	int					win_h;
 	int					win_w;
+	t_mlx_image			*cutscene;
 	t_mlx_image			*img;
 	t_mlx_image			*hud;
 	t_mlx_image			*logo;

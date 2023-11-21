@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 
 void	free_map(char **map, int size)
 {
@@ -60,12 +60,14 @@ void	free_scene(void *mlx, t_scene *scene)
 	while (scene->sprites)
 	{
 		next = scene->sprites->next;
-		if (scene->sprites->isloaded)
+		if (scene->sprites->anim)
+			free_animation(mlx, scene->sprites->anim);
+		else if (scene->sprites->isloaded)
 		{
 			img = scene->sprites->texture;
 			mlx_destroy_image(mlx, img->img);
+			free(scene->sprites->texture);
 		}
-		free(scene->sprites->texture);
 		free(scene->sprites);
 		scene->sprites = next;
 	}

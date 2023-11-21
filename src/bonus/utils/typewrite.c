@@ -23,7 +23,8 @@ void	typewrite(t_cub *cub, t_point *p, char *font, char **text)
 	int			x;
 	int			y;
 
-	mlx_set_font(cub->mlx, cub->win, font);
+	// mlx_set_font(cub->mlx, cub->win, font);
+	(void)font;
 	y = p->y;
 	while (*text)
 	{

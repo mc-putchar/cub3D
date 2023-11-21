@@ -91,7 +91,7 @@ int	init_scene(char const *file, t_scene *scene)
 		if (error == -1)
 			return (complete(scene, line) || read_map(line, fd, &scene->map));
 		if ((free(line), 1) && error)
-			return (throw_error("Scene file misconfigured"));
+			return (close(fd), throw_error("Scene file misconfigured"));
 		line = get_next_line(fd);
 	}
 	return (close(fd), throw_error("Scene file misconfigured"));

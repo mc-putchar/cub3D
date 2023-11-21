@@ -10,7 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
+
+static void	get_frame(t_animation *anim, t_mlx_image *tex, int idx)
+{
+	t_size const	size = anim->frame_x * BPP;
+	int const		xoff = idx * anim->frame_x % tex->width;
+	int const		yoff = idx * anim->frame_x / tex->width;
+	int				j;
+
+	j = 0;
+	while (j < anim->frame_y)
+	{
+		(void)ft_memcpy(anim->frames[idx]->pixels + (j * anim->frame_x * BPP), \
+			tex->pixels + (((yoff + j) * tex->width + xoff) * BPP), size);
+		++j;
+	}
+}
+
+static int	load_anim(t_cub *cub, t_sprite *spr)
+{
+	int	i;
+
+	if (spr->anim->n_frames < 1)
+		return (throw_error("Incorrect number of animation frames"));
+	spr->anim->frames = malloc(spr->anim->n_frames * sizeof(t_mlx_image *));
+	if (!spr->anim->frames)
+		return (throw_error("Memory allocation failed"));
+	i = 0;
+	while (i < spr->anim->n_frames)
+	{
+		spr->anim->frames[i] = malloc(sizeof(t_mlx_image));
+		if (img_gen(cub->mlx, spr->anim->frames[i], spr->anim->frame_x, spr->anim->frame_y))
+			return (1); // TODO - destroy imgs and deallocate memory
+		get_frame(spr->anim, spr->texture, i);
+		++i;
+	}
+	mlx_destroy_image(cub->mlx, ((t_mlx_image *)spr->texture)->img);
+	free(spr->texture);
+	spr->texture = spr->anim->frames[0];
+	spr->anim->current_frame = 0;
+	spr->anim->iter = 0;
+	spr->anim->delay = 10;
+	return (0);
+}
 
 static int	load_sprites(t_cub *cub, t_scene *scene)
 {
@@ -25,16 +68,12 @@ static int	load_sprites(t_cub *cub, t_scene *scene)
 		img = malloc(sizeof(t_mlx_image));
 		if (!img)
 			return (throw_error("Memory allocation failed"));
-		img->img = mlx_xpm_file_to_image(cub->mlx, tmp, \
-					(int *)&img->width, (int *)&img->height);
-		if (!img->img)
-			return (throw_error("Failed to load texture"));
-		img->pixels = mlx_get_data_addr(img->img, &img->bpp, \
-					&img->size_line, &img->endian);
-		if (!img->pixels)
-			return (throw_error("MLX error"));
+		if (tex_load(cub->mlx, img, tmp))
+			return (1);
 		node->texture = img;
 		free(tmp);
+		if (node->anim && load_anim(cub, node))
+			return (1);
 		node->isloaded = 1;
 		node = node->next;
 	}

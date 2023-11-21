@@ -59,7 +59,7 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
 SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
 SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c)
-# SRCBON	+=	$(addprefix $(BONDIR)/init/, .c)
+SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c)
 SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c typewrite.c)
 SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
@@ -117,8 +117,6 @@ SHOW	:=	cat
 .PHONY: all bonus clean debug fclean re sanity
 
 all: $(NAME) bonus
-	@$(SHOW) $(TEAM)
-	@$(SHOW) $(BANNER)
 
 bonus: $(BONUS)
 
@@ -127,6 +125,8 @@ $(NAME): $(LIBFT) $(LIBMLX) $(HEADERS) $(OBJS)
 
 $(BONUS): $(LIBFT) $(LIBMLX) $(BONHEADERS) $(BONOBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(BONOBJS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
+	@$(SHOW) $(TEAM)
+	@$(SHOW) $(BANNER)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)

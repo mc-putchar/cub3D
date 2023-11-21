@@ -39,8 +39,11 @@ int	main(int ac, char **av)
 		return (close_hook(&cub));
 	if (gettimeofday(&cub.time, NULL))
 		throw_error("I don't have time for this");
-	// draw_splash(&cub);
 	if (ac < 2 || ft_strncmp(av[1], "--skip", 7))
+	{
+		draw_splash(&cub);
 		draw_intro(&cub);
+	}
+	init_hud(&cub);
 	return (mlx_loop(cub.mlx));
 }
