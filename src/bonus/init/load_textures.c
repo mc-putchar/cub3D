@@ -14,16 +14,16 @@
 
 static void	get_frame(t_animation *anim, t_mlx_image *tex, int idx)
 {
-	t_size const	size = anim->frame_x * BPP;
+	t_size const	line_len = anim->frame_x * BPP;
 	int const		xoff = idx * anim->frame_x % tex->width;
-	int const		yoff = idx * anim->frame_x / tex->width;
+	int const		yoff = (int)(idx * anim->frame_x / tex->width) * anim->frame_y;
 	int				j;
 
 	j = 0;
 	while (j < anim->frame_y)
 	{
-		(void)ft_memcpy(anim->frames[idx]->pixels + (j * anim->frame_x * BPP), \
-			tex->pixels + (((yoff + j) * tex->width + xoff) * BPP), size);
+		(void)ft_memcpy(anim->frames[idx]->pixels + (j * line_len), \
+			tex->pixels + (((yoff + j) * tex->width + xoff) * BPP), line_len);
 		++j;
 	}
 }

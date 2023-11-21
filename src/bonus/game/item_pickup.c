@@ -19,14 +19,18 @@ void	key_pickup(t_cub *cub, t_mlx_image *img)
 
 void	phone_pickup(t_cub *cub, t_mlx_image *img)
 {
-	++(cub->player->has_phone);
-	(void)img;
+	cub->player->has_phone = img;
 }
 
 void	badge_pickup(t_cub *cub, t_mlx_image *img)
 {
-	++(cub->player->has_badge);
+	cub->player->has_badge = img;
+}
+
+void	tig_pickup(t_cub *cub, t_mlx_image *img)
+{
 	(void)img;
+	++(cub->player->tigs);
 }
 
 void	register_pickup(t_sprite *spr, char const *type)
@@ -37,6 +41,8 @@ void	register_pickup(t_sprite *spr, char const *type)
 		spr->on_pickup = &badge_pickup;
 	else if (!ft_strncmp(type, "phone", 6))
 		spr->on_pickup = &phone_pickup;
+	else if (!ft_strncmp(type, "tig", 4))
+		spr->on_pickup = &tig_pickup;
 	spr->collectable = 1;
 }
 

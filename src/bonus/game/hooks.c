@@ -36,7 +36,7 @@ int	close_hook(void *param)
 	mlx_destroy_image(cub->mlx, cub->img->img);
 	free(cub->img);
 	mlx_destroy_image(cub->mlx, cub->cutscene->img);
-	free(cub->img);
+	free(cub->cutscene);
 	mlx_destroy_window(cub->mlx, cub->win);
 	mlx_destroy_display(cub->mlx);
 	free(cub->mlx);

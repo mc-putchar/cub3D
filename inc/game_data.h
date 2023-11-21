@@ -97,8 +97,9 @@ typedef struct s_player
 	int					dir_move;
 	int					side_move;
 	int					turn_dir;
-	int					has_phone;
-	int					has_badge;
+	int					tigs;
+	void				*has_phone;
+	void				*has_badge;
 	void				*has_key;
 }	t_player;
 

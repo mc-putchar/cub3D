@@ -42,9 +42,9 @@ void	draw_minimap(t_mlx_image *img, t_map *map, t_vector position)
 				offx + (x >> MINIMAP_PDIV) >= 0 && \
 				(t_size)(offx + (x >> MINIMAP_PDIV)) < map->width &&
 				map->val[tmp][offx + (x >> MINIMAP_PDIV)] > '0')
-				put_pixel(img, x, y, 0xFFFFFF55);
+				put_pixel(img, x, y, 0xFFFF55);
 			else
-				put_pixel(img, x, y, 0xFF333355);
+				put_pixel(img, x, y, 0x212142);
 		}
 	}
 	draw_player(img, MINIMAP_SIZE >> 1);

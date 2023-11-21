@@ -47,6 +47,7 @@ static void	reset_data(t_player *player, t_size x, t_size y, int d)
 	player->position.x = x + 0.5;
 	player->position.y = y + 0.5;
 	set_direction(d, &player->direction);
+	player->tigs = 0;
 	player->has_key = 0;
 	player->has_badge = 0;
 	player->has_phone = 0;

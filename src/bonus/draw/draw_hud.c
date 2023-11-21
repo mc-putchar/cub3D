@@ -14,8 +14,8 @@
 
 void	init_hud(t_cub *cub)
 {
-	int const	frame_color = 0x040004;
-	int const	bg_color = 0x420242;
+	int const	frame_color = 0x420242;
+	int const	bg_color = 0x0;
 	t_uint32	x;
 	t_uint32	y;
 
@@ -43,19 +43,32 @@ void	init_hud(t_cub *cub)
 
 void	draw_hud(t_cub *cub)
 {
+	int const	score_color = 0x42AA42;
 	t_mlx_image	*img;
+	char		*score;
 
 	if (cub->player->has_badge)
 		mlx_put_image_to_window(cub->mlx, cub->win, cub->logo->img, \
 			20, cub->win_h - HUD_HEIGHT + 20);
 	if (cub->player->has_phone)
 		mlx_put_image_to_window(cub->mlx, cub->win, cub->minimap->img, \
-			(cub->win_w >> 1) - (MINIMAP_SIZE >> 1), cub->win_h - HUD_HEIGHT + 20);
+		(cub->win_w >> 1) - (MINIMAP_SIZE >> 1), cub->win_h - HUD_HEIGHT + 20);
 	if (cub->player->has_key)
 	{
 		img = cub->player->has_key;
 		mlx_put_image_to_window(cub->mlx, cub->win, img->img, \
 			cub->win_w - (img->width << 1), \
 			cub->win_h - HUD_HEIGHT + 20);
+	}
+	if (cub->player->tigs)
+	{
+		score = ft_itoa(cub->player->tigs);
+		if (!score)
+			return ;
+		mlx_string_put(cub->mlx, cub->win, cub->win_w - 120, \
+			cub->win_h - HUD_HEIGHT + 120, score_color, "TIGs: ");
+		mlx_string_put(cub->mlx, cub->win, cub->win_w - 60, \
+			cub->win_h - HUD_HEIGHT + 120, score_color, score);
+		free(score);
 	}
 }

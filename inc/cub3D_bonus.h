@@ -20,7 +20,7 @@
 
 # undef TITLE
 # define TITLE		"Cub3D: Peer of Destiny"
-# define HUD_HEIGHT	290
+# define HUD_HEIGHT	288
 # define LOGO_FILE	"res/logo.xpm"
 # define INFO_FILE	"res/bios.nfo"
 # define SPLSH_FILE	"res/cubcover.xpm"
