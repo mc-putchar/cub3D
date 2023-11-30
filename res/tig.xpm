@@ -4,7 +4,7 @@ static char *tig_coin[] = {
 "240 160 4 1",
 "  c None",
 ". c #DDCC99",
-"$ c #E7C337",
+"$ c gold",
 "- c #666666",
 /* pixels */
 "                                                                                                                                                                                                                                                ",
