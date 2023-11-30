@@ -141,8 +141,8 @@ typedef struct s_sprite
 	int					vdiv;
 	void				*texture;
 	void				*next;
-	int					collectable;
 	void				(*on_pickup)();
+	int					collectable;
 	int					isloaded;
 	t_animation			*anim;
 }	t_sprite;
@@ -191,6 +191,7 @@ typedef struct s_cub
 	t_mlx_image			*img;
 	t_mlx_image			*hud;
 	t_mlx_image			*logo;
+	t_mlx_image			*tig;
 	t_mlx_image			*minimap;
 	t_mlx_image			*walls[4];
 	t_scene				*scene;

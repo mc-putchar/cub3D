@@ -53,6 +53,8 @@ static int	init_imgs(t_cub *cub)
 		return (1);
 	if (tex_load(cub->mlx, cub->logo, LOGO_FILE))
 		return (1);
+	if (tex_load(cub->mlx, cub->tig, COIN_FILE))
+		return (1);
 	return (0);
 }
 
@@ -69,8 +71,10 @@ int	init_window(t_cub *cub)
 	cub->img = malloc(sizeof(t_mlx_image));
 	cub->hud = malloc(sizeof(t_mlx_image));
 	cub->logo = malloc(sizeof(t_mlx_image));
+	cub->tig = malloc(sizeof(t_mlx_image));
 	cub->minimap = malloc(sizeof(t_mlx_image));
-	if (!cub->cutscene || !cub->img || !cub->hud || !cub->logo || !cub->minimap)
+	if (!cub->cutscene || !cub->img || !cub->hud || !cub->logo 
+	|| !cub->tig || !cub->minimap)
 		return (throw_error("Memory allocation failed"));
 	if (init_imgs(cub))
 		return (1);
