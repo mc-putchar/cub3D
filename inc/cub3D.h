@@ -21,11 +21,6 @@
 # include "libft.h"
 # include "mlx.h"
 
-/* Bonus mode switch */
-# ifndef BONUS
-#  define BONUS	0
-# endif
-
 /* Debug mode switch */
 # ifndef DEBUG
 #  define DEBUG	0
@@ -37,7 +32,7 @@
 # endif
 
 /* Usage message */
-# define USAGE	"Usage: cub3D [SCENE FILE]"
+# define USAGE	"Usage: ./cub3D [SCENE FILE]\nBonus: ./cub3D_bonus"
 
 /* Data structures */
 # include "game_data.h"
