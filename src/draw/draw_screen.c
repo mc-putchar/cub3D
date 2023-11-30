@@ -26,6 +26,8 @@ static t_mlx_image	*texture_lookup(t_cub *cub, int id)
 {
 	t_extra	*node;
 
+	if (id < 4)
+		return (cub->walls[id]);
 	node = cub->scene->extras;
 	while (node)
 	{
@@ -49,10 +51,7 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	double			texpos;
 	t_mlx_image		*tex;
 
-	if (info[0] < 4)
-		tex = cub->walls[info[0]];
-	else
-		tex = texture_lookup(cub, info[0]);
+	tex = texture_lookup(cub, info[0]);
 	if (!tex)
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
 	texx = (t_uint32)(wallx * tex->width);
@@ -62,10 +61,12 @@ static t_size	draw_wall(t_cub *cub, double wallx, int info[3], t_size pix)
 	texpos = ((int)pix - (cub->camera->height >> 1) + (info[2] >> 1)) * ppy;
 	while (info[2]--)
 	{
-		texy = (t_uint32)texpos & (tex->height - 1);
+		texy = (t_uint32)(texpos) * (tex->width) + texx;
+		if (texy > tex->width * tex->height)
+			texy = texx;
 		texpos += ppy;
 		put_pixel(cub->img, info[1], pix++, shade((int *)tex->pixels + \
-		((texy * tex->height + texx)), info[0]));
+		texy, info[0]));
 	}
 	return (pix);
 }
