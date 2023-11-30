@@ -21,8 +21,8 @@ static void	generate_storyline(t_cub *cub, t_point *origin)
 	if (!story)
 		return ;
 	ptr = story;
-	*ptr++ = ft_strdup(".....");
-	*ptr++ = ft_strdup("Manual override required");
+	*ptr++ = ft_strdup("Recovering              ..... ['??]");
+	*ptr++ = ft_strdup("Manual override required @BOCAL");
 	*ptr++ = ft_strdup("Providing support       ..... YOU CAN DO IT!");
 	*ptr++ = ft_strdup("Generating backstory    ..... DONE!");
 	*ptr++ = ft_strdup("STORY:");
@@ -65,14 +65,16 @@ static void	boot_system(t_cub *cub, t_point *origin)
 	ptr = boot;
 	*ptr++ = ft_strdup("Initializing project    ..... OK");
 	*ptr++ = ft_strdup("Questioning subject.pdf ..... OK");
-	*ptr++ = ft_strdup("Evaluating bonus parts  ..... OK");
 	*ptr++ = ft_strdup("Plugging memory leaks   ..... OK");
-	*ptr++ = ft_strdup("Raising FireWall        ..... KO");
+	*ptr++ = ft_strdup("Evaluating bonus parts  ..... OK");
+	*ptr++ = ft_strdup("Raising FireWall        ..... ");
 	*ptr = NULL;
 	typewrite(cub, origin, FONT_DEF, boot);
-	origin->y += 18 * 5;
+	origin->y += 18 * 4;
+	origin->x += 10 * 32;
 	blink_text(cub, origin, "ERROR Catastrophic failure", FONT_ERROR);
 	ft_sleep(1000);
+	origin->x -= 10 * 32;
 	origin->y += 18;
 	free_arr(boot);
 }
@@ -88,7 +90,6 @@ static void	draw_bios(t_cub *cub)
 	fd = open(INFO_FILE, O_RDONLY);
 	if (fd == -1)
 		return ;
-	// mlx_set_font(cub->mlx, cub->win, FONT_DEF);
 	line = get_next_line(fd);
 	y += 16;
 	while (line)
@@ -107,8 +108,7 @@ int	draw_intro(t_cub *cub)
 {
 	t_point		origin;
 
-	ft_bzero(cub->cutscene->pixels, \
-		cub->cutscene->width * cub->cutscene->height * BPP);
+	mlx_clear_window(cub->mlx, cub->win);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->cutscene->img, 0, 0);
 	origin.x = 200;
 	origin.y = 360;
@@ -117,11 +117,9 @@ int	draw_intro(t_cub *cub)
 	boot_system(cub, &origin);
 	generate_storyline(cub, &origin);
 	ft_sleep(2000);
-	// mlx_set_font(cub->mlx, cub->win, FONT_DEF);
 	origin.x = 270;
 	origin.y += 10;
 	blink_text(cub, &origin, "PEER OF DESTINY", FONT_COLOR);
-	// mlx_set_font(cub->mlx, cub->win, FONT_DEF);
 	ft_sleep(4000);
 	return (0);
 }

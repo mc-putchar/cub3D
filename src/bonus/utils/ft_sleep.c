@@ -19,9 +19,9 @@ int	ft_sleep(unsigned int milisecs)
 	passed = 0;
 	while (passed < milisecs)
 	{
-		if (usleep(100000))
+		if (usleep(50000))
 			return (1);
-		passed += 100;
+		passed += 50;
 	}
 	return (0);
 }

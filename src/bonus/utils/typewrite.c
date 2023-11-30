@@ -37,7 +37,7 @@ void	typewrite(t_cub *cub, t_point *p, char *font, char **text)
 		{
 			typed = *line++;
 			mlx_string_put(cub->mlx, cub->win, x, y, font_color, &typed);
-			ft_sleep(100);
+			ft_sleep(50);
 			x += OFFSET_H;
 		}
 		++text;
