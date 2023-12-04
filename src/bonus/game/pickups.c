@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sleep.c                                         :+:      :+:    :+:   */
+/*   pickups.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 09:37:06 by mcutura           #+#    #+#             */
-/*   Updated: 2023/11/19 09:37:06 by mcutura          ###   ########.fr       */
+/*   Created: 2023/12/04 17:04:04 by mcutura           #+#    #+#             */
+/*   Updated: 2023/12/04 17:04:04 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "cub3D_bonus.h"
 
-int	ft_sleep(unsigned int milisecs)
+void	key_pickup(t_cub *cub, t_mlx_image *img)
 {
-	unsigned int	passed;
+	cub->player->has_key = img;
+}
 
-	passed = 0;
-	while (passed < milisecs)
-	{
-		if (usleep(50000))
-			return (1);
-		passed += 50;
-	}
-	return (0);
+void	phone_pickup(t_cub *cub, t_mlx_image *img)
+{
+	cub->player->has_phone = img;
+}
+
+void	badge_pickup(t_cub *cub, t_mlx_image *img)
+{
+	cub->player->has_badge = img;
+}
+
+void	tig_pickup(t_cub *cub, t_mlx_image *img)
+{
+	(void)img;
+	++(cub->player->tigs);
 }

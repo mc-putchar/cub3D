@@ -58,10 +58,11 @@ SRC		+=	utils/sprites_to_array.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
 SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
-SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c)
-SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c)
+SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c pickups.c)
+SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c load_thread.c)
 SRCBON	+=	$(addprefix $(BONDIR)/sound/, play_sound.c)
-SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c typewrite.c)
+SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c)
+SRCBON	+=	$(addprefix $(BONDIR)/utils/, typewrite.c img_shredder.c)
 SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
 # --- INCLUDES ---

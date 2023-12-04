@@ -24,7 +24,6 @@ void	put_pixel(t_mlx_image *img, int x, int y, int color)
 	img->pixels[pix] = color & 0xFF;
 	img->pixels[++pix] = (color >> 8) & 0xFF;
 	img->pixels[++pix] = (color >> 16) & 0xFF;
-	// img->pixels[++pix] = (color >> 24) & 0xFF;
 }
 
 void	put_circle(t_mlx_image *img, t_point *center, int r, int color)

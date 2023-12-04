@@ -47,6 +47,7 @@ int			img_gen(void *mlx, t_mlx_image *img, int width, int height);
 int			tex_load(void *mlx, t_mlx_image *img, char *path);
 int			set_animation(t_sprite *spr, char const **param);
 void		free_animation(void *mlx, t_animation *anim);
+void		*load_resources(void *arg);
 
 /* DRAW */
 void		draw_splash(t_cub *cub);
@@ -62,14 +63,17 @@ void		register_pickup(t_sprite *spr, char const *type);
 void		key_pickup(t_cub *cub, t_mlx_image *img);
 void		phone_pickup(t_cub *cub, t_mlx_image *img);
 void		badge_pickup(t_cub *cub, t_mlx_image *img);
+void		tig_pickup(t_cub *cub, t_mlx_image *img);
 
 /* SOUND */
 int			load_sound(char const *path, char **data, size_t *bytes);
 int			play_sound(char const *raw, size_t bytes);
+void		*play_intro_sound(void *ignore);
 
 /* UTILS */
 void		display_fps(t_cub *cub);
 int			ft_sleep(unsigned int milisecs);
 void		typewrite(t_cub *cub, t_point *p, char *font, char **text);
+void		img_shredder(t_cub *cub);
 
 #endif

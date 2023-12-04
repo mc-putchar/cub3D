@@ -73,3 +73,15 @@ int	play_sound(char const *raw, size_t bytes)
 	pa_simple_free(s);
 	return (0);
 }
+
+void	*play_intro_sound(void *ignore)
+{
+	char		*sound;
+	size_t		sound_bytes;
+
+	if (load_sound(INTRO_RIFF, &sound, &sound_bytes))
+		return (NULL);
+	play_sound(sound, sound_bytes);
+	free(sound);
+	return (ignore);
+}

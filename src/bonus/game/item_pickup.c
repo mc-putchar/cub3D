@@ -12,27 +12,6 @@
 
 #include "cub3D_bonus.h"
 
-void	key_pickup(t_cub *cub, t_mlx_image *img)
-{
-	cub->player->has_key = img;
-}
-
-void	phone_pickup(t_cub *cub, t_mlx_image *img)
-{
-	cub->player->has_phone = img;
-}
-
-void	badge_pickup(t_cub *cub, t_mlx_image *img)
-{
-	cub->player->has_badge = img;
-}
-
-void	tig_pickup(t_cub *cub, t_mlx_image *img)
-{
-	(void)img;
-	++(cub->player->tigs);
-}
-
 void	register_pickup(t_sprite *spr, char const *type)
 {
 	if (!ft_strncmp(type, "key", 4))

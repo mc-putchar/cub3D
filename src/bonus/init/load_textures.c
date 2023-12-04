@@ -16,7 +16,8 @@ static void	get_frame(t_animation *anim, t_mlx_image *tex, int idx)
 {
 	t_size const	line_len = anim->frame_x * BPP;
 	int const		xoff = idx * anim->frame_x % tex->width;
-	int const		yoff = (int)(idx * anim->frame_x / tex->width) * anim->frame_y;
+	int const		yoff = (int)(idx * anim->frame_x / tex->width) \
+					* anim->frame_y;
 	int				j;
 
 	j = 0;
@@ -28,6 +29,7 @@ static void	get_frame(t_animation *anim, t_mlx_image *tex, int idx)
 	}
 }
 
+// TODO - destroy imgs and deallocate memory
 static int	load_anim(t_cub *cub, t_sprite *spr)
 {
 	int	i;
@@ -41,8 +43,9 @@ static int	load_anim(t_cub *cub, t_sprite *spr)
 	while (i < spr->anim->n_frames)
 	{
 		spr->anim->frames[i] = malloc(sizeof(t_mlx_image));
-		if (img_gen(cub->mlx, spr->anim->frames[i], spr->anim->frame_x, spr->anim->frame_y))
-			return (1); // TODO - destroy imgs and deallocate memory
+		if (img_gen(cub->mlx, spr->anim->frames[i], \
+		spr->anim->frame_x, spr->anim->frame_y))
+			return (1);
 		get_frame(spr->anim, spr->texture, i);
 		++i;
 	}

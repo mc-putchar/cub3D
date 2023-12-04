@@ -109,7 +109,9 @@ static void	draw_bios(t_cub *cub)
 int	draw_intro(t_cub *cub)
 {
 	t_point		origin;
+	pthread_t	sound_thread;
 
+	(void)pthread_create(&sound_thread, NULL, play_intro_sound, NULL);
 	mlx_clear_window(cub->mlx, cub->win);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->cutscene->img, 0, 0);
 	origin.x = 200;
@@ -118,10 +120,10 @@ int	draw_intro(t_cub *cub)
 	ft_sleep(2000);
 	boot_system(cub, &origin);
 	generate_storyline(cub, &origin);
-	ft_sleep(2000);
+	ft_sleep(1000);
 	origin.x = 270;
 	origin.y += 10;
 	blink_text(cub, &origin, "PEER OF DESTINY", FONT_COLOR);
-	ft_sleep(4000);
+	ft_sleep(3000);
 	return (0);
 }

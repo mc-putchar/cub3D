@@ -73,7 +73,7 @@ int	init_window(t_cub *cub)
 	cub->logo = malloc(sizeof(t_mlx_image));
 	cub->tig = malloc(sizeof(t_mlx_image));
 	cub->minimap = malloc(sizeof(t_mlx_image));
-	if (!cub->cutscene || !cub->img || !cub->hud || !cub->logo 
+	if (!cub->cutscene || !cub->img || !cub->hud || !cub->logo \
 	|| !cub->tig || !cub->minimap)
 		return (throw_error("Memory allocation failed"));
 	if (init_imgs(cub))

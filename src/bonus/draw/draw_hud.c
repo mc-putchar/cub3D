@@ -41,11 +41,26 @@ void	init_hud(t_cub *cub)
 	}
 }
 
-void	draw_hud(t_cub *cub)
+static void	draw_score(t_cub *cub)
 {
 	int const	score_color = 0x42AA42;
-	t_mlx_image	*img;
 	char		*score;
+
+	score = ft_itoa(cub->player->tigs);
+	if (!score)
+		return ;
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->tig->img, \
+		cub->win_w - 120, cub->win_h - HUD_HEIGHT + 120);
+	mlx_string_put(cub->mlx, cub->win, cub->win_w - 120, \
+		cub->win_h - HUD_HEIGHT + 180, score_color, "Score: ");
+	mlx_string_put(cub->mlx, cub->win, cub->win_w - 60, \
+		cub->win_h - HUD_HEIGHT + 180, score_color, score);
+	free(score);
+}
+
+void	draw_hud(t_cub *cub)
+{
+	t_mlx_image	*img;
 
 	if (cub->player->has_badge)
 		mlx_put_image_to_window(cub->mlx, cub->win, cub->logo->img, \
@@ -63,16 +78,5 @@ void	draw_hud(t_cub *cub)
 			cub->win_h - HUD_HEIGHT + 20);
 	}
 	if (cub->player->tigs)
-	{
-		score = ft_itoa(cub->player->tigs);
-		if (!score)
-			return ;
-		mlx_put_image_to_window(cub->mlx, cub->win, cub->tig->img, \
-			cub->win_w - 120, cub->win_h - HUD_HEIGHT + 120);
-		mlx_string_put(cub->mlx, cub->win, cub->win_w - 120, \
-			cub->win_h - HUD_HEIGHT + 180, score_color, "Score: ");
-		mlx_string_put(cub->mlx, cub->win, cub->win_w - 60, \
-			cub->win_h - HUD_HEIGHT + 180, score_color, score);
-		free(score);
-	}
+		draw_score(cub);
 }

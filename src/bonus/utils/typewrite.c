@@ -15,6 +15,7 @@
 #define OFFSET_H	10
 #define OFFSET_V	18
 
+// mlx_set_font(cub->mlx, cub->win, font);
 void	typewrite(t_cub *cub, t_point *p, char *font, char **text)
 {
 	int const	font_color = 0x0042AA42;
@@ -23,7 +24,6 @@ void	typewrite(t_cub *cub, t_point *p, char *font, char **text)
 	int			x;
 	int			y;
 
-	// mlx_set_font(cub->mlx, cub->win, font);
 	(void)font;
 	y = p->y;
 	while (*text)
