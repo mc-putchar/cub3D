@@ -32,19 +32,15 @@ static int	validate_path(char const *path, int *fd)
 	return (0);
 }
 
-/* 2 colors w/ 4 walls pls
+/* 2 colors w/ wall(s) pls
  * (Y/n)? $ 
 */
 static int	complete(t_scene *scene, char *line)
 {
-	int	i;
-
 	if (scene->areset_colors != (FLOOR_COLOR_SET | CEILING_COLOR_SET))
 		return (free(line), 1);
-	i = 0;
-	while (i < 4)
-		if (!scene->walls[i++])
-			return (free(line), 1);
+	if (!scene->walls[0])
+		return (free(line), 1);
 	return (0);
 }
 
@@ -55,9 +51,9 @@ static int	reset_scene(t_scene *scene)
 	scene->areset_colors = 0;
 	scene->ceiling = -1;
 	scene->floor = -1;
-	i = 0;
-	while (i < 4)
-		scene->walls[i++] = NULL;
+	i = -1;
+	while (++i < 10)
+		scene->walls[i] = NULL;
 	scene->sprites = NULL;
 	scene->spr_arr = NULL;
 	scene->n_sprites = 0;

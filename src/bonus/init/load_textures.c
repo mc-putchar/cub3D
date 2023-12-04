@@ -113,8 +113,8 @@ int	load_textures(t_cub *cub, t_scene *scene)
 {
 	int	i;
 
-	i = 4;
-	while (i--)
+	i = -1;
+	while (++i < 4 && scene->walls[i])
 	{
 		cub->walls[i] = malloc(sizeof(t_mlx_image));
 		if (!cub->walls[i])

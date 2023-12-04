@@ -1,11 +1,11 @@
-NO	./res/hires/grunge-wall-24.xpm
-SO	./res/hires/grunge-wall-white.xpm
-WE	./res/hires/wall-texture-gray.xpm
-EA	./res/hires/wall-paint-peeling-plaster.xpm
+NO	./res/hires/walls/grunge-wall-24.xpm
+SO	./res/hires/walls/grunge-wall-white.xpm
+WE	./res/hires/walls/wall-texture-gray.xpm
+EA	./res/hires/walls/wall-paint-peeling-plaster.xpm
 
 H	./res/brick_wall.xpm
-D	./res/hires/door-rusty.xpm
-L	./res/wolf_eagle.xpm
+D	./res/hires/doors/door_27.xpm
+L	./res/hires/spec/graffiti_queen.xpm
 
 C	100,100,120
 F	40,40,40

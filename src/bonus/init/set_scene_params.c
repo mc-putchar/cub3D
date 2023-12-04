@@ -35,6 +35,8 @@ static int	identify(char const *c)
 		return (WEST_WALL);
 	if (!ft_strncmp(c, "EA", 2))
 		return (EAST_WALL);
+	if (c[0] == 'W' && ft_isdigit(c[1]) && !c[2])
+		return (WALL);
 	return (UNKNOWN);
 }
 
@@ -86,13 +88,31 @@ static int	set_color(t_scene *scene, int type, char const **param)
 	return (0);
 }
 
+static int	set_wall(t_scene *scene, int type, char const **param)
+{
+	int const	n = type - 3;
+	int			fd;
+
+	if (!param[1] || param[2])
+		return (throw_error("Wrong number of parameters"));
+	fd = open(param[1], O_RDONLY);
+	if (fd < 0)
+		return (throw_error("Can't open texture file"));
+	close(fd);
+	if (scene->walls[n])
+		return (throw_error("Duplicate identifier found"));
+	scene->walls[n] = ft_strdup(param[1]);
+	if (!scene->walls[n])
+		return (throw_error("Memory allocation failed"));
+	return (0);
+}
+
 /* Get 'em, bytes!
  * Byttery POWered
  */
 int	set_scene_param(t_scene *scene, char const **param)
 {
 	int	type;
-	int	fd;
 
 	type = identify(param[0]);
 	if (type == UNKNOWN)
@@ -103,16 +123,5 @@ int	set_scene_param(t_scene *scene, char const **param)
 		return (type);
 	if (type < 3)
 		return (set_color(scene, type, param));
-	if (!param[1] || param[2])
-		return (throw_error("Wrong number of parameters"));
-	if (scene->walls[type - 3])
-		return (throw_error("Duplicate identifier found"));
-	scene->walls[type - 3] = ft_strdup(param[1]);
-	if (!scene->walls[type - 3])
-		return (throw_error("Memory allocation failed"));
-	fd = open(scene->walls[type - 3], O_RDONLY);
-	if (fd < 0)
-		return (throw_error("Can't open texture file"));
-	close(fd);
-	return (0);
+	return (set_wall(scene, type, param));
 }
