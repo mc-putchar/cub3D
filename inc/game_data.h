@@ -24,6 +24,7 @@
 # define DIRECTIONS		"ESWN"
 # define P_MOVE_SPEED	0.05
 # define P_TURN_SPEED	0.03
+/* P is for player */
 # define MINIMAP_SIZE	256
 # define MINIMAP_PDIV	4
 
@@ -164,7 +165,7 @@ typedef struct s_scene
 	int					floor;
 	int					ceiling;
 	unsigned char		areset_colors;
-	char				*walls[4];
+	char				*walls[10];
 	t_map				map;
 	t_sprite			*sprites;
 	t_sprite			**spr_arr;
@@ -193,7 +194,7 @@ typedef struct s_cub
 	t_mlx_image			*logo;
 	t_mlx_image			*tig;
 	t_mlx_image			*minimap;
-	t_mlx_image			*walls[4];
+	t_mlx_image			*walls[10];
 	t_scene				*scene;
 	t_camera			*camera;
 	t_player			*player;

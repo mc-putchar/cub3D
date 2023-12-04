@@ -22,7 +22,7 @@ static void	generate_storyline(t_cub *cub, t_point *origin)
 		return ;
 	ptr = story;
 	*ptr++ = ft_strdup("Recovering              ..... ['??]");
-	*ptr++ = ft_strdup("Manual override required @BOCAL");
+	*ptr++ = ft_strdup("Manual override required..... @BOCAL");
 	*ptr++ = ft_strdup("Providing support       ..... YOU CAN DO IT!");
 	*ptr++ = ft_strdup("Generating backstory    ..... DONE!");
 	*ptr++ = ft_strdup("STORY:");
@@ -59,7 +59,7 @@ static void	boot_system(t_cub *cub, t_point *origin)
 	char	**boot;
 	char	**ptr;
 
-	boot = malloc(6 * sizeof(*boot));
+	boot = malloc(7 * sizeof(*boot));
 	if (!boot)
 		return ;
 	ptr = boot;
@@ -67,13 +67,15 @@ static void	boot_system(t_cub *cub, t_point *origin)
 	*ptr++ = ft_strdup("Questioning subject.pdf ..... OK");
 	*ptr++ = ft_strdup("Plugging memory leaks   ..... OK");
 	*ptr++ = ft_strdup("Evaluating bonus parts  ..... OK");
+	*ptr++ = ft_strdup("Joining destiny threads ..... OK");
 	*ptr++ = ft_strdup("Raising FireWall        ..... ");
 	*ptr = NULL;
 	typewrite(cub, origin, FONT_DEF, boot);
-	origin->y += 18 * 4;
+	origin->y += 18 * 5;
 	origin->x += 10 * 32;
-	blink_text(cub, origin, "ERROR Catastrophic failure", FONT_ERROR);
 	ft_sleep(1000);
+	blink_text(cub, origin, "ERROR Catastrophic failure", FONT_ERROR);
+	ft_sleep(1500);
 	origin->x -= 10 * 32;
 	origin->y += 18;
 	free_arr(boot);

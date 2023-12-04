@@ -12,23 +12,23 @@
 
 # --- USAGE ---
 
-# make			compile the project to an executable file
+# make			compile the project into two executable files
 # make all		^same
-# make bonus	^same (too lazy to make separate dumbed down binary w/out bonus)
+# make bonus	compile bonus part only
 # make clean	remove binary object files
 # make fclean	remove all compiled files
 # make re		remove all compiled files and recompile again
 # make debug	compile all with debug flags
-# make sanity	compile debug with memory address sanitize injected
-# make noleaks	compile debug without leaky external functions
+# make sanity	compile debug with memory address sanitizer injected
+# make noleaks	compile debug without \"leaky\" external function
 
-# --- TARGET ---
+# --- TARGETS ---
 
 NAME		:=	cub3D
 BONUS		:=	cub3D_bonus
 
 # --- DOWNLOADABLES ---
-
+# /* Merci! Paris! */
 LIBMLXURL	:=	git@github.com:42Paris/minilibx-linux.git
 
 # --- DIRECTORIES ---
@@ -37,7 +37,7 @@ SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
 BONDIR		:=	bonus
-BONSUBDIRS	:=	$(addprefix $(BONDIR)/, init draw game utils)
+BONSUBDIRS	:=	$(addprefix $(BONDIR)/, draw game init sound utils)
 SUBDIRS		:=	$(addprefix $(OBJDIR)/, $(BONSUBDIRS) init draw game utils)
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/minilibx-linux
@@ -60,6 +60,7 @@ SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
 SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
 SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c)
 SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c)
+SRCBON	+=	$(addprefix $(BONDIR)/sound/, play_sound.c)
 SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c typewrite.c)
 SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
@@ -94,6 +95,7 @@ LDFLAGS	:=	-L$(LIBFTDIR) -L$(LIBMLXDIR)
 LDFLAGS	+=	-L/usr/local/lib
 LDLIBS	:=	-lft -lmlx
 LFLAGS	:=	-lXext -lX11 -lm -lz
+bonus:	LFLAGS	+=	-lpthread -lpulse -lpulse-simple
 
 # --- DEBUG ---
 

@@ -13,10 +13,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <math.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 # include "libft.h"
 # include "mlx.h"

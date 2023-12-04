@@ -16,6 +16,12 @@
 /* for FPS calculation and sync */
 # include <sys/time.h>
 
+/* for playing sounds */
+# include <pulse/simple.h>
+
+/* for asynchronous loading screens */
+# include <pthread.h>
+
 # include "cub3D.h"
 
 # undef TITLE
@@ -25,6 +31,7 @@
 # define COIN_FILE	"res/coin.xpm"
 # define INFO_FILE	"res/bios.nfo"
 # define SPLSH_FILE	"res/cubcover.xpm"
+# define INTRO_RIFF	"res/peerofdestiny-intro.wav"
 /* TODO figure out how to set font portably (maybe make one?)
 # define FONT		"-sony-fixed-medium-r-normal-*-16-*-*-*-*-*-iso8859-1"
 # define FONT2		"-sony-fixed-medium-r-normal-*-24-*-*-*-*-*-iso8859-1"
@@ -55,6 +62,10 @@ void		register_pickup(t_sprite *spr, char const *type);
 void		key_pickup(t_cub *cub, t_mlx_image *img);
 void		phone_pickup(t_cub *cub, t_mlx_image *img);
 void		badge_pickup(t_cub *cub, t_mlx_image *img);
+
+/* SOUND */
+int			load_sound(char const *path, char **data, size_t *bytes);
+int			play_sound(char const *raw, size_t bytes);
 
 /* UTILS */
 void		display_fps(t_cub *cub);
