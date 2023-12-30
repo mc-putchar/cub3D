@@ -1,5 +1,5 @@
 /* XPM */
-static char *result[] = {
+static char *XPM_ber_square[] = {
 /* columns rows colors chars-per-pixel */
 "225 225 42 1 ",
 "  c #010101",

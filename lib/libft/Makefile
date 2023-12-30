@@ -15,6 +15,23 @@
 
 NAME	:=	libft.a
 
+#--- CMDS ---
+CC		:=	cc
+AR		:=	ar -rcs
+ifdef OS
+	MKDIR	= md
+	PWD		= cd
+	RM		= del /Q
+	FixPath = $(subst /,\,$1)
+else
+	ifeq ($(shell uname), Linux)
+		MKDIR	= mkdir -pm 775
+		PWD		= $(shell pwd)
+		RM		= rm -fr
+		FixPath	= $1
+	endif
+endif
+
 #--- DIRECTORIES ---
 
 SRCDIR		:=	src
@@ -44,23 +61,15 @@ OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 
 #--- HEADERS ---
 
-HEADER	:=	libft.h src/ft_printf.h src/get_next_line.h
+HEADERS	:=	libft.h src/ft_printf.h src/get_next_line.h
 
 #--- FLAGS ---
 
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic-errors
-debug: CFLAGS += -ggdb3
-
-#--- CMDS ---
-
-CC		:=	cc
-AR		:=	ar -rcs
-RM		:=	rm -rf
-MKDIR	:=	mkdir
 
 #--- RULES ---
 
-.PHONY: all clean debug fclean re
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
@@ -73,10 +82,7 @@ $(OBJDIR):
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -I. -c $< -o $@
 
-debug: re
-
 clean:
-	$(RM) $(OBJS)
 	$(RM) $(OBJDIR)
 
 fclean: clean

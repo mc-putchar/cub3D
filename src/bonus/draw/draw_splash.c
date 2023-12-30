@@ -19,9 +19,13 @@ void	draw_splash(t_cub *cub)
 	img = malloc(sizeof(*img));
 	if (!img)
 		return ;
-	tex_load(cub->mlx, img, SPLSH_FILE);
-	mlx_put_image_to_window(cub->mlx, cub->win, img->img, 0, 0);
-	ft_sleep(2000);
+	mlx_clear_window(cub->mlx, cub->win);
+	if (tex_load(cub->mlx, img, SPLSH_FILE))
+		return ;
+	mlx_put_image_to_window(cub->mlx, cub->win, img->img, \
+		(cub->win_w >> 1) - (img->width >> 1), \
+		(cub->win_h >> 1) - (img->height));
+	ft_sleep(3000);
 	mlx_destroy_image(cub->mlx, img->img);
 	free(img);
 }

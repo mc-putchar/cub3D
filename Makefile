@@ -11,39 +11,38 @@
 # **************************************************************************** #
 
 # --- USAGE ---
-
-# make			compile the project into two executable files
-# make all		^same
+# make help	print these very helpful messages! you're welcome!
+# make		compile the project into two executable files
+# make all	^same
 # make bonus	compile bonus part only
 # make clean	remove binary object files
 # make fclean	remove all compiled files
-# make re		remove all compiled files and recompile again
+# make re	remove all compiled files and recompile again
 # make debug	compile all with debug flags
 # make sanity	compile debug with memory address sanitizer injected
 # make noleaks	compile debug without \"leaky\" external function
 
 # --- TARGETS ---
-
 NAME		:=	cub3D
 BONUS		:=	cub3D_bonus
 
 # --- DOWNLOADABLES ---
 # /* Merci! Paris! */
-LIBMLXURL	:=	git@github.com:42Paris/minilibx-linux.git
+LIBMLXURL	:=	https://github.com/42Paris/minilibx-linux.git
 
 # --- DIRECTORIES ---
-
 SRCDIR		:=	src
 INCDIR		:=	inc
 OBJDIR		:=	obj
 BONDIR		:=	bonus
+
 BONSUBDIRS	:=	$(addprefix $(BONDIR)/, draw game init sound utils)
 SUBDIRS		:=	$(addprefix $(OBJDIR)/, $(BONSUBDIRS) init draw game utils)
+
 LIBFTDIR	:=	lib/libft
 LIBMLXDIR	:=	lib/minilibx-linux
 
 # --- SOURCES ---
-
 SRC		:=	main.c
 SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
 SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
@@ -56,6 +55,7 @@ SRC		+=	game/raycaster.c game/wall_check.c
 SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
 SRC		+=	utils/sprites_to_array.c
 SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
+
 SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
 SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
 SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c pickups.c)
@@ -65,22 +65,21 @@ SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c)
 SRCBON	+=	$(addprefix $(BONDIR)/utils/, typewrite.c img_shredder.c)
 SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 
-# --- INCLUDES ---
 
+# --- INCLUDES ---
 HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
 BONHEADERS	:=	$(addprefix $(INCDIR)/, $(HDRS) cub3D_bonus.h)
+
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
 INCLUDES	+=	-I/usr/local/include -Imlx-linux
 INCLUDES	+=	-I$(LIBMLXDIR)
 
 # --- OBJECTS ---
-
 OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
 BONOBJS	:=	$(SRCBON:%.c=$(OBJDIR)/%.o)
 
 # --- LIBRARIES ---
-
 LIBFT		:=	$(LIBFTDIR)/libft.a
 LIBMLX		:=	$(LIBMLXDIR)/libmlx.a
 LIBMLXLOCAL	:=	/usr/local/lib/libmlx.a
@@ -90,16 +89,15 @@ TEAM		:=	./res/shiteam.nfo
 BANNER		:=	./res/splash.nfo
 
 # --- FLAGS ---
-
 CFLAGS	:=	-Wall -Wextra -Werror -pedantic -O3
 LDFLAGS	:=	-L$(LIBFTDIR) -L$(LIBMLXDIR)
 LDFLAGS	+=	-L/usr/local/lib
 LDLIBS	:=	-lft -lmlx
 LFLAGS	:=	-lXext -lX11 -lm -lz
+
 bonus:	LFLAGS	+=	-lpthread -lpulse -lpulse-simple
 
 # --- DEBUG ---
-
 debug:		CFLAGS		+= -ggdb3 -Og
 debug:		CPPFLAGS	+= -DDEBUG=1
 debug:		DEBUGFLAG	:= debug
@@ -107,26 +105,27 @@ sanity:		CFLAGS		+= -fsanitize=address
 noleaks:	CPPFLAGS	+= -DNOLEAKS=1
 
 # --- CMDS ---
-
-CC		:=	cc
-CD		:=	cd
-RM		:=	rm -fr
-MKDIR	:=	mkdir -pm 775
-ECHO	:=	echo
-SHOW	:=	cat
+CC			:=	cc
+CD			:=	cd
+PWD			:=	$(shell pwd)
+RM			:=	rm -fr
+MKDIR		:=	mkdir -pm 775
+ECHO		:=	echo
+SHOW		:=	cat
+GITCLONE	:=	git clone
 
 # --- RULES ---
-.PHONY: all bonus clean debug fclean re sanity
+.PHONY: all bonus clean debug fclean help re sanity
 
 all: $(NAME) bonus
 
 bonus: $(BONUS)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(HEADERS) $(OBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LFLAGS) -o $(NAME)
+	$(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(NAME)
 
 $(BONUS): $(LIBFT) $(LIBMLX) $(BONHEADERS) $(BONOBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LDFLAGS) $(BONOBJS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
+	$(CC) $(BONOBJS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
 	@$(SHOW) $(TEAM)
 	@$(SHOW) $(BANNER)
 
@@ -135,7 +134,7 @@ $(LIBFT):
 
 $(LIBMLX): | $(LIBMLXDIR)
 	@if [ -f $(LIBMLXLOCAL) ]; then ln -s $(LIBMLXLOCAL) $(LIBMLX); \
-	else git clone $(LIBMLXURL) $(LIBMLXDIR); cd $(LIBMLXDIR) && $(MAKE); \
+	else $(GITCLONE) $(LIBMLXURL) $(LIBMLXDIR); $(MAKE) -C $(LIBMLXDIR); \
 	fi
 
 $(LIBMLXDIR):
@@ -163,3 +162,6 @@ fclean: clean
 	@$(MAKE) -C $(LIBFTDIR) $@
 
 re: fclean all
+
+help:
+	@head -n 23 Makefile | tail

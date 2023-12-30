@@ -35,7 +35,5 @@ int	main(int ac, char **av)
 		start_camera(&cub, &camera, player.direction) || \
 		validate_map(&scene.map))
 		return (throw_error("Catastrophic failure"), close_hook(&cub));
-	if (validate_map(&scene.map))
-		return (close_hook(&cub));
 	return (mlx_loop(cub.mlx));
 }

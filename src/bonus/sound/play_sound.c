@@ -85,3 +85,15 @@ void	*play_intro_sound(void *ignore)
 	free(sound);
 	return (ignore);
 }
+
+int	init_sound_thread(void)
+{
+	
+	pthread_t	sound_thread;
+
+	if (pthread_create(&sound_thread, NULL, play_intro_sound, NULL))
+	{
+		return (throw_error("Failed creating thread"));
+	}
+	return (0);
+}

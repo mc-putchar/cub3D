@@ -37,9 +37,11 @@ int	main(int ac, char **av)
 		return (throw_error("Failed creating thread"), close_hook(&cub));
 	if (ac < 2 || ft_strncmp(av[1], "--skip", 7))
 	{
-		draw_splash(&cub);
+		if (ac < 2 || ft_strncmp(av[1], "--no-sound", 11))
+			init_sound_thread();
 		draw_intro(&cub);
 	}
+	draw_splash(&cub);
 	pthread_join(load_thread, NULL);
 	init_hud(&cub);
 	return (mlx_loop(cub.mlx));

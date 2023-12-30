@@ -200,6 +200,7 @@ typedef struct s_cub
 	t_player			*player;
 	double				*zbuffer;
 	struct timeval		time;
+	int					fps;
 	int					level;
 }	t_cub;
 

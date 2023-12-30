@@ -30,7 +30,7 @@ void	item_pickup(t_cub *cub, t_scene *scn)
 	t_size	idx;
 
 	idx = 0;
-	while (idx < scn->n_sprites && scn->spr_arr[idx]->dist < 1)
+	while (idx < scn->n_sprites && scn->spr_arr[idx]->dist < 0.5)
 	{
 		if (scn->spr_arr[idx]->collectable)
 		{

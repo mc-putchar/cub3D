@@ -29,7 +29,8 @@ void	display_fps(t_cub *cub)
 {
 	char	*fps;
 
-	fps = ft_itoa(get_fps(&cub->time));
+	cub->fps = get_fps(&cub->time);
+	fps = ft_itoa(cub->fps);
 	mlx_string_put(cub->mlx, cub->win, 10, 30, 0xFFFFFFFF, "FPS: ");
 	mlx_string_put(cub->mlx, cub->win, 50, 30, 0xFFFFFFFF, fps);
 	free(fps);

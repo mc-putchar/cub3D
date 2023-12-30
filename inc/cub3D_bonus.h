@@ -19,7 +19,7 @@
 /* for playing sounds */
 # include <pulse/simple.h>
 
-/* for asynchronous loading screens */
+/* ONLY for asynchronous loading screens and soundtrack loop */
 # include <pthread.h>
 
 # include "cub3D.h"
@@ -30,17 +30,13 @@
 # define LOGO_FILE	"res/logo.xpm"
 # define COIN_FILE	"res/coin.xpm"
 # define INFO_FILE	"res/bios.nfo"
-# define SPLSH_FILE	"res/cubcover.xpm"
+# define SPLSH_FILE	"res/cub3d-pod_logo.xpm"
 # define INTRO_RIFF	"res/peerofdestiny-intro.wav"
-/* TODO figure out how to set font portably (maybe make one?)
-# define FONT		"-sony-fixed-medium-r-normal-*-16-*-*-*-*-*-iso8859-1"
-# define FONT2		"-sony-fixed-medium-r-normal-*-24-*-*-*-*-*-iso8859-1"
-# define FONT3		"-schumacher-clean-*-*-*-*-17-*-*-*-*-*-iso10646-1"
-*/
 # define FONT_DEF	"-misc-fixed-*-*-*-*-17-*-*-*-*-*-*-*"
 # define FONT_COLOR	0x0042AA42
 # define FONT_ERROR	0x00AA4242
 # define FONT_BLACK	0x00000000
+# define ANIMATION_FRAME_DELAY	2
 
 /* INIT */
 int			img_gen(void *mlx, t_mlx_image *img, int width, int height);
@@ -69,6 +65,7 @@ void		tig_pickup(t_cub *cub, t_mlx_image *img);
 int			load_sound(char const *path, char **data, size_t *bytes);
 int			play_sound(char const *raw, size_t bytes);
 void		*play_intro_sound(void *ignore);
+int			init_sound_thread(void);
 
 /* UTILS */
 void		display_fps(t_cub *cub);

@@ -1,9 +1,9 @@
 
 F	10,10,10
 C	10,10,30
-NO	./res/hires/grunge-wall-24.xpm
-SO	./res/hires/grunge-wall-white.xpm
-WE	./res/hires/wall-paint-peeling-plaster.xpm
+NO	./res/hires/walls/grunge-wall-24.xpm
+SO	./res/microscheme.xpm
+WE	./res/hires/walls/wall-paint-peeling-plaster.xpm
 EA	./res/microscheme.xpm
 
 

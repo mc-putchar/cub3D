@@ -22,7 +22,5 @@ void	*load_resources(void *arg)
 	|| start_camera(cub, cub->camera, cub->player->direction) \
 	|| sprites_to_array(cub->scene))
 		return (throw_error("Catastrophic failure"), NULL);
-	if (gettimeofday(&cub->time, NULL))
-		throw_error("I don't have time for this");
 	return (cub);
 }
