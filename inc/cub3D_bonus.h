@@ -23,6 +23,7 @@
 # include <pthread.h>
 
 # include "cub3D.h"
+# include "bonus_data.h"
 
 # undef TITLE
 # define TITLE		"Cub3D: Peer of Destiny"
@@ -44,6 +45,8 @@ int			tex_load(void *mlx, t_mlx_image *img, char *path);
 int			set_animation(t_sprite *spr, char const **param);
 void		free_animation(void *mlx, t_animation *anim);
 void		*load_resources(void *arg);
+int			load_basic_enemy(t_cub *cub);
+void		enemy_turn(t_cub *cub); /// TODO: Relocate
 
 /* DRAW */
 void		draw_splash(t_cub *cub);

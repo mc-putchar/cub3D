@@ -107,14 +107,14 @@ int	cast_sprites(t_cub *cub, t_player *pl, t_scene *scn)
 	t_vector		xform;
 	t_sprite_data	data;
 	t_size			i;
-	t_vector		*p;
+	t_vector		p;
 
 	i = 0;
 	while (i < scn->n_sprites)
 	{
-		p = &scn->spr_arr[i]->position;
-		scn->spr_arr[i]->dist = (pl->position.x - p->x) * (pl->position.x - \
-		p->x) + (pl->position.y - p->y) * (pl->position.y - p->y);
+		p = scn->spr_arr[i]->position;
+		scn->spr_arr[i]->dist = (pl->position.x - p.x) * (pl->position.x - \
+		p.x) + (pl->position.y - p.y) * (pl->position.y - p.y);
 		++i;
 	}
 	quicksort(scn->spr_arr, scn->n_sprites);

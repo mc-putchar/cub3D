@@ -22,8 +22,8 @@
 # define TITLE			"Cub3D"
 # define BPP			4
 # define DIRECTIONS		"ESWN"
-# define P_MOVE_SPEED	0.05
-# define P_TURN_SPEED	0.03
+# define P_MOVE_SPEED	0.1
+# define P_TURN_SPEED	0.05
 /* P is for player */
 # define MINIMAP_SIZE	256
 # define MINIMAP_PDIV	4
@@ -202,6 +202,7 @@ typedef struct s_cub
 	struct timeval		time;
 	int					fps;
 	int					level;
+	void				*bonus;
 }	t_cub;
 
 #endif

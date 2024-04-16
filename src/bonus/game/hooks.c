@@ -104,11 +104,11 @@ int	game_loop(void *param)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->hud->img, \
 		0, cub->win_h - HUD_HEIGHT);
 	draw_hud(cub);
-	mlx_do_sync(cub->mlx);
+	display_fps(cub);
 	move_player(cub->player, &cub->scene->map);
 	sidestep_player(cub->player, &cub->scene->map);
 	turn_player(cub->player, cub->camera);
 	item_pickup(cub, cub->scene);
-	display_fps(cub);
+	enemy_turn(cub);
 	return (0);
 }

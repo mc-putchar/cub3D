@@ -59,7 +59,7 @@ SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
 SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
 SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
 SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c pickups.c)
-SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c load_thread.c)
+SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c load_thread.c load_enemies.c)
 SRCBON	+=	$(addprefix $(BONDIR)/sound/, play_sound.c)
 SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c)
 SRCBON	+=	$(addprefix $(BONDIR)/utils/, typewrite.c img_shredder.c)
@@ -69,7 +69,7 @@ SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
 # --- INCLUDES ---
 HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
 HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
-BONHEADERS	:=	$(addprefix $(INCDIR)/, $(HDRS) cub3D_bonus.h)
+BONHEADERS	:=	$(addprefix $(INCDIR)/, $(HDRS) cub3D_bonus.h bonus_data.h)
 
 INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
 INCLUDES	+=	-I/usr/local/include -Imlx-linux

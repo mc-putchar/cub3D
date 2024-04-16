@@ -20,6 +20,7 @@ void	*load_resources(void *arg)
 	|| spawn_player(cub->player, &cub->scene->map) \
 	|| validate_map(&cub->scene->map) \
 	|| start_camera(cub, cub->camera, cub->player->direction) \
+	|| load_basic_enemy(cub) \
 	|| sprites_to_array(cub->scene))
 		return (throw_error("Catastrophic failure"), NULL);
 	return (cub);
