@@ -5,128 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/05 19:54:46 by mcutura           #+#    #+#             */
-/*   Updated: 2023/06/08 13:29:17 by mcutura          ###   ########.fr       */
+/*   Created: 2024/04/16 18:04:33 by mcutura           #+#    #+#             */
+/*   Updated: 2024/04/16 21:33:20 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdarg.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include "ft_printf.h"
 
-static int	parse_flags(const char *fmt, int *i)
-{
-	int	flags;
-	int	j;
-
-	flags = 0;
-	j = 0;
-	while (fmt[*i] && j != -1)
-	{
-		j = indexof(fmt[*i], FT_PRINTF_FLAGS);
-		if (j == -1)
-			break ;
-		flags |= 1 << j;
-		++(*i);
-	}
-	return (flags);
-}
-
-static t_format	*init_format(void)
-{
-	t_format	*fmt;
-
-	fmt = malloc(sizeof(t_format));
-	if (!fmt)
-		return (NULL);
-	fmt->flags = 0;
-	fmt->width = 0;
-	fmt->prec = -1;
-	return (fmt);
-}
-
-/*
-**	This function parses the format string, moving the index along
-**	to the specifier at the end.
-**	Returns the struct for the required format of next argument.
-**	Use free() to deallocate the struct.
-**	Format: %[flags][width][.precision]type
-**	[size] not implemented
-*/
-static t_format	*parse_format(const char *fmt, int *i)
-{
-	t_format	*f;
-	int			j;
-
-	f = init_format();
-	if (!f)
-		return (NULL);
-	if (fmt[*i])
-	{
-		f->flags = parse_flags(fmt, i);
-		if (ft_isdigit(fmt[*i]))
-			f->width = get_min_width(fmt, i);
-		if (fmt[*i] == '.')
-			f->prec = get_precision(fmt, i);
-		j = indexof(fmt[*i], FT_PRINTF_SPECIFIERS);
-		if (j != -1)
-			return (f->specifier = j, f);
-	}
-	return (NULL);
-}
+int			ft_vprintf(int fd, const char *format, va_list ap);
+static int	print_substr(const char *str, int start, int end, int fd);
+static int	print_formatted(const char *fmt, int *i, va_list ap, int fd);
 
 int	ft_printf(const char *format, ...)
 {
-	int			c;
-	int			s;
-	int			i;
-	va_list		ap;
-	t_format	*f;
+	va_list	ap;
+	int		ret;
 
-	c = 0;
-	i = -1;
-	s = 0;
 	va_start(ap, format);
-	while (format[++i])
-	{
-		if (format[i] == '%')
-		{
-			if (i++ > s)
-				c += ft_print(format, s, i - 1, STDOUT_FILENO);
-			f = parse_format(format, &i);
-			c += ft_printf_format(f, ap, STDOUT_FILENO);
-			free(f);
-			s = i + 1;
-		}
-	}
-	if (i > s)
-		c += ft_print(format, s, i, STDOUT_FILENO);
-	return (va_end(ap), c);
+	ret = ft_vprintf(STDOUT_FILENO, format, ap);
+	va_end(ap);
+	return (ret);
 }
 
 int	ft_dprintf(int fd, const char *format, ...)
 {
-	int			c;
-	int			s;
-	int			i;
-	va_list		ap;
-	t_format	*f;
+	va_list	ap;
+	int		ret;
 
-	c = 0;
-	i = -1;
-	s = 0;
 	va_start(ap, format);
+	ret = ft_vprintf(fd, format, ap);
+	va_end(ap);
+	return (ret);
+}
+
+int	ft_vprintf(int fd, const char *format, va_list ap)
+{
+	int		ret;
+	int		i;
+	int		j;
+
+	ret = 0;
+	i = -1;
+	j = 0;
 	while (format[++i])
 	{
 		if (format[i] == '%')
 		{
-			if (i++ > s)
-				c += ft_print(format, s, i - 1, fd);
-			f = parse_format(format, &i);
-			c += ft_printf_format(f, ap, fd);
-			free(f);
-			s = i + 1;
+			j = print_substr(format, j, i, fd);
+			if (j == -1)
+				return (-1);
+			ret += j;
+			j = print_formatted(format, &i, ap, fd);
+			if (j == -1)
+				return (-1);
+			ret += j;
+			j = i + 1;
 		}
 	}
-	if (i > s)
-		c += ft_print(format, s, i, fd);
-	return (va_end(ap), c);
+	if (i > j)
+		ret += print_substr(format, j, i, fd);
+	return (ret);
+}
+
+int	print_substr(const char *str, int start, int end, int fd)
+{
+	ssize_t	printed;
+	int		remain;
+	int		ret;
+
+	ret = 0;
+	remain = end - start;
+	while (remain > 0)
+	{
+		printed = write(fd, str + start, end - start);
+		if (printed < 0)
+			return (-1);
+		remain = end - start - (int)printed;
+		ret += printed;
+		start += printed;
+	}
+	return (ret);
+}
+
+int	print_formatted(const char *fmt, int *i, va_list ap, int fd)
+{
+	static t_converter const	converter[8] = {char_con, int_con, int_con, \
+		uint_con, hex_con, uhex_con, str_con, ptr_con};
+	t_format					format;
+	int							ret;
+
+	ret = 0;
+	parse_format(&format, fmt, i);
+	if (format.specifier < 0)
+		return (0);
+	if (!format.specifier)
+		return (write(fd, &"%", 1));
+	if (format.specifier > 6)
+		format.u_arg.p = va_arg(ap, void *);
+	else if (format.specifier > 3)
+		format.u_arg.ui = (unsigned int)va_arg(ap, unsigned int);
+	else
+		format.u_arg.i = va_arg(ap, int);
+	format.out = converter[format.specifier - 1](&format);
+	if (!format.out)
+		return (-1);
+	// TODO
+	// apply flag modifications
+	ret = write(fd, format.out, format.len);
+	free(format.out);
+	return (ret);
 }

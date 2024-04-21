@@ -6,17 +6,17 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 22:05:21 by mcutura           #+#    #+#             */
-/*   Updated: 2023/03/20 11:56:04 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:01:48 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	ft_bzero(void *s, size_t n)
 {
-	unsigned char	*p;
+	size_t	i;
 
-	p = s;
-	while (n--)
-		*p++ = 0;
+	i = 0;
+	while (i < n)
+		((unsigned char *)s)[i++] = 0;
 }

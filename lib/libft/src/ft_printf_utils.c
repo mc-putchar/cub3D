@@ -5,82 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/13 22:21:50 by mcutura           #+#    #+#             */
-/*   Updated: 2023/05/27 01:06:09 by mcutura          ###   ########.fr       */
+/*   Created: 2024/04/16 20:58:32 by mcutura           #+#    #+#             */
+/*   Updated: 2024/04/16 22:45:06 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-int	ft_print(const char *str, int s, int e, int fd)
-{
-	int	ret;
-	int	printed;
-	int	remain;
-
-	ret = 0;
-	remain = -1;
-	while (remain)
-	{
-		printed = write(fd, str + s, e - s);
-		if (printed == -1)
-			continue ;
-		remain = e - s - printed;
-		ret += printed;
-		s += printed;
-	}
-	return (ret);
-}
+#include "libft.h"
 
 int	indexof(char c, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
+	while (str[i] && str[i] != c)
+		++i;
+	if (str[i])
+		return (i);
 	return (-1);
 }
 
-int	get_min_width(const char *fmt, int *i)
-{
-	int	width;
-
-	width = 0;
-	while (ft_isdigit(fmt[*i]))
-		width = width * 10 + fmt[(*i)++] - '0';
-	return (width);
-}
-
-int	get_precision(const char *fmt, int *i)
+static int	get_precision(const char *format, int *i)
 {
 	int	precision;
 	int	reset;
 
 	precision = 0;
 	reset = 0;
-	if (fmt[(*i) + 1] == '-')
+	if (format[(*i) + 1] == '-')
+	{
 		reset = -1;
-	while (ft_isdigit(fmt[++(*i)]))
-		precision = precision * 10 + fmt[*i] - '0';
+		++(*i);
+	}
+	while (ft_isdigit(format[++(*i)]))
+		precision = precision * 10 + format[*i] - '0';
 	if (reset)
 		return (reset);
 	return (precision);
 }
 
-char	*gen_padding(int c, int n)
+static int	parse_flags(const char *format, int *i)
 {
-	char	*str;
+	int	flags;
+	int	n;
 
-	str = malloc(n + 1);
-	if (!str)
-		return (NULL);
-	str[n] = 0;
-	while (n--)
-		str[n] = (unsigned char)c;
-	return (str);
+	flags = 0;
+	while (format[*i])
+	{
+		n = indexof(format[*i], PRINTF_FLAGS);
+		if (n < 0)
+			break ;
+		flags |= 1 << n;
+		++(*i);
+	}
+	return (flags);
+}
+
+/*
+ * Format: %[flags][width][.precision]type
+ */
+void	parse_format(t_format *fmt, const char *format, int *i)
+{
+	fmt->flags = 0;
+	fmt->width = 0;
+	fmt->precision = -1;
+	fmt->specifier = -1;
+	if (format[++(*i)])
+	{
+		fmt->flags = parse_flags(format, i);
+		while (ft_isdigit(format[*i]))
+			fmt->width = fmt->width * 10 + format[(*i)++] - '0';
+		if (format[*i] == '.')
+			fmt->precision = get_precision(format, i);
+		fmt->specifier = indexof(format[*i], PRINTF_SPECIFIERS);
+	}
 }

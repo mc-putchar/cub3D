@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa2.c                                         :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 05:12:32 by mcutura           #+#    #+#             */
-/*   Updated: 2023/07/07 05:22:33 by mcutura          ###   ########.fr       */
+/*   Created: 2023/03/18 17:34:55 by mcutura           #+#    #+#             */
+/*   Updated: 2024/03/16 14:07:16 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-static int	ft_intlen(int n)
+static size_t	intlen(int n)
 {
-	int		len;
+	size_t	len;
 
-	len = 1;
-	if (n < 0)
-		++len;
-	while (n && ++len)
+	len = (n < 0);
+	while (++len && (n > 9 || n < -9))
 		n /= 10;
 	return (len);
 }
 
-static int	ft_uintlen(unsigned int n)
+static size_t	uintlen(unsigned int n)
 {
-	int		len;
+	size_t	len;
 
 	len = 1;
-	while (n && ++len)
+	while (n > 9 && ++len)
 		n /= 10;
 	return (len);
 }
@@ -37,25 +35,25 @@ static int	ft_uintlen(unsigned int n)
 char	*ft_itoa(int n)
 {
 	char	*str;
-	int		len;
+	size_t	len;
 	int		neg;
 
-	if (!n)
-		return (ft_strdup("0"));
-	len = ft_intlen(n);
-	str = malloc(len);
+	len = intlen(n);
+	str = malloc(++len);
 	if (!str)
 		return (NULL);
 	str[--len] = '\0';
 	neg = 1;
 	if (n < 0)
 		neg = -1;
+	if (!n)
+		str[0] = '0';
 	while (n)
 	{
 		str[--len] = (n % 10) * neg + '0';
 		n /= 10;
 	}
-	if (neg == -1)
+	if (neg < 0)
 		str[0] = '-';
 	return (str);
 }
@@ -63,15 +61,15 @@ char	*ft_itoa(int n)
 char	*ft_uitoa(unsigned int n)
 {
 	char	*str;
-	int		len;
+	size_t	len;
 
-	if (!n)
-		return (ft_strdup("0"));
-	len = ft_uintlen(n);
-	str = malloc(len);
+	len = uintlen(n);
+	str = malloc(++len);
 	if (!str)
 		return (NULL);
 	str[--len] = '\0';
+	if (!n)
+		str[0] = '0';
 	while (n)
 	{
 		str[--len] = (n % 10) + '0';

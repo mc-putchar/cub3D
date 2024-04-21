@@ -5,20 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/13 22:36:15 by mcutura           #+#    #+#             */
-/*   Updated: 2023/09/13 22:36:15 by mcutura          ###   ########.fr       */
+/*   Created: 2024/04/16 23:15:24 by mcutura           #+#    #+#             */
+/*   Updated: 2024/04/16 23:15:24 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_isnumber(char const *str)
 {
-	while (*str)
+	if (*str == '-' || *str == '+')
+		++str;
+	while(*str)
 	{
-		if (!ft_isdigit(*str))
+		if (*str < '0' || *str > '9')
 			return (0);
-		str++;
+		++str;
 	}
 	return (1);
 }

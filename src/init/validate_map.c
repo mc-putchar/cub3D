@@ -14,8 +14,8 @@
 
 static int	verify_symbols(t_map *map, char const *sym)
 {
-	t_size	i;
-	t_size	j;
+	size_t	i;
+	size_t	j;
 
 	j = 0;
 	while (j < map->height)
@@ -32,18 +32,18 @@ static int	verify_symbols(t_map *map, char const *sym)
 	return (0);
 }
 
-inline static int	check(t_map *map, t_size x, t_size y)
+inline static int	check(t_map *map, size_t x, size_t y)
 {
 	return (x >= map->width || y >= map->height || map->val[y][x] == ' ');
 }
 
 int	validate_map(t_map *map)
 {
-	t_size	i;
-	t_size	j;
+	size_t	i;
+	size_t	j;
 
 	if (verify_symbols(map, " 01DL"))
-		return (throw_error("Unrecognized symbol on map"));
+		return (throw_error(UNKNOWN_MAPSYM));
 	j = 0;
 	while (j < map->height)
 	{
@@ -54,7 +54,7 @@ int	validate_map(t_map *map)
 			{
 				if (check(map, i + 1, j) || (i && check(map, i - 1, j)) || \
 					check(map, i, j + 1) || (j && check(map, i, j - 1)))
-					return (throw_error("Map not enclosed by walls"));
+					return (throw_error(MAP_NOT_CLOSED));
 			}
 			++i;
 		}

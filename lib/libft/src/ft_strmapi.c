@@ -6,18 +6,20 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:51:57 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 17:04:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/16 14:12:18 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
 	char	*map;
 	size_t	len;
 
-	len = ft_strlen(s);
+	len = 0;
+	while (s[len])
+		++len;
 	map = malloc(len + 1);
 	if (!map)
 		return (NULL);

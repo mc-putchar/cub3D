@@ -6,79 +6,83 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 06:00:52 by mcutura           #+#    #+#             */
-/*   Updated: 2023/05/04 12:44:14 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/16 14:12:18 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-static int	count_words(const char *s, char c)
+static size_t	word_count(const char *s, char c)
 {
-	int	count;
-	int	word;
+	size_t	words;
+	size_t	inword;
 
-	count = 0;
-	word = 0;
+	words = 0;
+	inword = 0;
 	while (*s)
 	{
-		if (*s++ == c)
-		{
-			if (word)
-			{
-				++count;
-				word = 0;
-			}
-		}
-		else
-			++word;
+		if (*s++ != c)
+			++inword;
+		else if (inword && ++words)
+			inword = 0;
 	}
-	if (word)
-		++count;
-	return (count);
+	if (inword)
+		++words;
+	return (words);
 }
 
-static char	*get_word(const char *s, int *size)
+static void	word_copy(char *cpy, const char *s, size_t len)
 {
-	char	*word;
+	size_t	i;
 
-	word = ft_substr(s, 0, *size);
-	*size = 0;
-	return (word);
+	i = 0;
+	while (i + sizeof(size_t) <= len)
+	{
+		((size_t *)cpy)[i / sizeof(size_t)] = ((size_t *)s)[i / sizeof(size_t)];
+		i += sizeof(size_t);
+	}
+	while (i < len)
+	{
+		cpy[i] = s[i];
+		++i;
+	}
+	cpy[i] = 0;
 }
 
-static void	graciously_exit(char **spl, int i)
+static inline void	*cleanup(char **spl, size_t idx)
 {
-	while (i--)
-		free(spl[i]);
+	while (idx--)
+		free(spl[idx]);
 	free(spl);
+	return (NULL);
 }
 
-/* DEPRECATED */
 char	**ft_split(const char *s, char c)
 {
-	char	**spl;
-	int		count;
-	int		word;
-	int		i;
+	size_t const	words = word_count(s, c);
+	size_t			idx;
+	size_t			wordlen;
+	char			**spl;
 
-	count = count_words(s, c);
-	spl = malloc(sizeof(char *) * (count + 1));
+	spl = malloc(sizeof(char *) * (words + 1));
 	if (!spl)
 		return (NULL);
-	i = 0;
-	word = 0;
-	while (i < count)
+	idx = 0;
+	while (idx < words)
 	{
-		if ((*s == c || !*s) && word)
-		{
-			spl[i] = get_word(s - word, &word);
-			if (!spl[i++])
-				return (graciously_exit(spl, i), NULL);
-		}
-		else if (*s != c)
-			++word;
-		++s;
+		while (*s && *s == c)
+			++s;
+		wordlen = 0;
+		while (s[wordlen] && s[wordlen] != c)
+			++wordlen;
+		spl[idx] = malloc(wordlen + 1);
+		if (!spl[idx])
+			return (cleanup(spl, idx));
+		word_copy(spl[idx], s, wordlen);
+		s += wordlen;
+		++idx;
 	}
-	spl[i] = NULL;
+	spl[words] = 0;
 	return (spl);
 }

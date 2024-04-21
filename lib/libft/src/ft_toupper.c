@@ -6,15 +6,13 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 21:46:44 by mcutura           #+#    #+#             */
-/*   Updated: 2023/03/18 05:12:27 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:01:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 int	ft_toupper(int c)
 {
-	if (ft_islower(c))
+	if (c >= 'a' && c <= 'z')
 		return (c - 32);
 	return (c);
 }

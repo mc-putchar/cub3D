@@ -6,21 +6,23 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 19:58:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:11 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/16 14:12:18 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	srclen;
 	size_t	i;
 
-	srclen = ft_strlen(src);
+	srclen = 0;
+	while (src[srclen])
+		++srclen;
 	if (size && src && dst)
 	{
-		if (size > srclen + 1)
+		if (size > srclen)
 			size = srclen + 1;
 		i = 0;
 		while (i < size - 1)

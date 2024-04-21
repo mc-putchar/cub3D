@@ -40,9 +40,11 @@ static void	set_direction(int c, t_vector *dir)
 		else
 			dir->y = 1;
 	}
+	dir->x *= CAMERA_PLANE_DIST;
+	dir->y *= CAMERA_PLANE_DIST;
 }
 
-static void	reset_data(t_player *player, t_size x, t_size y, int d)
+static void	reset_data(t_player *player, size_t x, size_t y, int d)
 {
 	player->position.x = x + 0.5;
 	player->position.y = y + 0.5;
@@ -57,8 +59,8 @@ static void	reset_data(t_player *player, t_size x, t_size y, int d)
 
 int	spawn_player(t_player *player, t_map *map)
 {
-	t_size	x;
-	t_size	y;
+	size_t	x;
+	size_t	y;
 	int		d;
 	int		has_player;
 
@@ -73,13 +75,13 @@ int	spawn_player(t_player *player, t_map *map)
 			if (!d)
 				continue ;
 			if (has_player)
-				return (throw_error("Multiple player spawns"));
+				return (throw_error(MULTIPLAYER));
 			reset_data(player, x, y, d);
 			map->val[y][x] = '0';
 			has_player = 1;
 		}
 	}
 	if (!has_player)
-		return (throw_error("No player spawn on the map"));
-	return (ft_printf("Player spawned\n"), 0);
+		return (throw_error(NO_PLAYER));
+	return (0);
 }

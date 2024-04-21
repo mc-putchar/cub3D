@@ -6,15 +6,18 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 22:02:01 by mcutura           #+#    #+#             */
-/*   Updated: 2023/05/03 11:21:34 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:04:25 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	while (n--)
-		((unsigned char *)s)[n] = (unsigned char) c;
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+		((unsigned char *)s)[i++] = (unsigned char)c;
 	return (s);
 }

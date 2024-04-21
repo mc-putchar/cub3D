@@ -29,56 +29,36 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-void	free_extras(void *mlx, t_scene *scene)
-{
-	t_extra		*next;
-	t_mlx_image	*img;
-
-	while (scene->extras)
-	{
-		next = scene->extras->next;
-		free(scene->extras->key);
-		if (scene->extras->isloaded)
-		{
-			img = scene->extras->value;
-			mlx_destroy_image(mlx, img->img);
-		}
-		free(scene->extras->value);
-		free(scene->extras);
-		scene->extras = next;
-	}
-}
-
-void	free_scene(void *mlx, t_scene *scene)
-{
-	t_sprite	*next;
-	t_mlx_image	*img;
-
-	scrap_scene(scene);
-	if (scene->map.val)
-		free_map(scene->map.val, scene->map.height);
-	while (scene->sprites)
-	{
-		next = scene->sprites->next;
-		if (scene->sprites->isloaded)
-		{
-			img = scene->sprites->texture;
-			mlx_destroy_image(mlx, img->img);
-		}
-		free(scene->sprites->texture);
-		free(scene->sprites);
-		scene->sprites = next;
-	}
-	if (scene->spr_arr)
-		free(scene->spr_arr);
-	free_extras(mlx, scene);
-}
-
 int	scrap_scene(t_scene *scene)
 {
 	free(scene->walls[0]);
 	free(scene->walls[1]);
 	free(scene->walls[2]);
 	free(scene->walls[3]);
+	if (scene->map.height)
+		free_map(scene->map.val, scene->map.height);
 	return (1);
+}
+
+void	cleanup(t_cub *cub)
+{
+	if (cub->camera->zbuffer)
+		free(cub->camera->zbuffer);
+	if (cub->canvas)
+	{
+		mlx_destroy_image(cub->mlx, cub->canvas->img);
+		free(cub->canvas);
+	}
+	if (cub->walls[0])
+	{
+		mlx_destroy_image(cub->mlx, cub->walls[0]->img);
+		free(cub->walls[0]);
+		mlx_destroy_image(cub->mlx, cub->walls[1]->img);
+		free(cub->walls[1]);
+		mlx_destroy_image(cub->mlx, cub->walls[2]->img);
+		free(cub->walls[2]);
+		mlx_destroy_image(cub->mlx, cub->walls[3]->img);
+		free(cub->walls[3]);
+	}
+	(void)scrap_scene(cub->scene);
 }

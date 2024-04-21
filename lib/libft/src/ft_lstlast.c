@@ -6,11 +6,11 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:29:26 by mcutura           #+#    #+#             */
-/*   Updated: 2023/04/03 14:48:44 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:03:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft_lst.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {

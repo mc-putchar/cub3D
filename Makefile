@@ -5,163 +5,115 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/14 16:48:19 by mcutura           #+#    #+#              #
-#    Updated: 2023/09/29 05:13:28 by mcutura          ###   ########.fr        #
+#    Created: 2024/04/16 11:35:47 by mcutura           #+#    #+#              #
+#    Updated: 2024/04/21 03:08:18 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# --- USAGE ---
-# make help	print these very helpful messages! you're welcome!
-# make		compile the project into two executable files
-# make all	^same
-# make bonus	compile bonus part only
-# make clean	remove binary object files
-# make fclean	remove all compiled files
-# make re	remove all compiled files and recompile again
-# make debug	compile all with debug flags
-# make sanity	compile debug with memory address sanitizer injected
-# make noleaks	compile debug without \"leaky\" external function
+NAME := cub3D
+BONUS := cub3D_PoD
 
-# --- TARGETS ---
-NAME		:=	cub3D
-BONUS		:=	cub3D_bonus
+SRCDIR := src
+INCDIR := include
+LIBDIR := lib
+BINDIR := bin
+BONUSBINDIR := bin/bonus
+SUBDIRS := $(addprefix $(BINDIR)/, core gfx init utils)
+SUBDIRS += $(addprefix $(BONUSBINDIR)/, core gfx init sound utils)
 
-# --- DOWNLOADABLES ---
+LIBFTDIR := $(LIBDIR)/libft
+LIBFT := $(LIBFTDIR)/libft.a
+
 # /* Merci! Paris! */
-LIBMLXURL	:=	https://github.com/42Paris/minilibx-linux.git
+LIBMLXURL := https://github.com/42Paris/minilibx-linux.git
+LIBMLXDIR := $(LIBDIR)/minilibx-linux
+LIBMLX := $(LIBMLXDIR)/libmlx.a
+LIBMLXLOCAL := /usr/local/include/mlx.h
 
-# --- DIRECTORIES ---
-SRCDIR		:=	src
-INCDIR		:=	inc
-OBJDIR		:=	obj
-BONDIR		:=	bonus
+HEADER := $(INCDIR)/cub3D.h
+BONUSHEADER := $(INCDIR)/cub3D_bonus.h
 
-BONSUBDIRS	:=	$(addprefix $(BONDIR)/, draw game init sound utils)
-SUBDIRS		:=	$(addprefix $(OBJDIR)/, $(BONSUBDIRS) init draw game utils)
+# Binaries
+CORE := $(addprefix core/, player_control.o)
+GFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o)
+GFX += $(addprefix gfx/, draw_map.o render_scene.o raycaster.o)
+INIT := $(addprefix init/, init_scene.o init_scene_params.o init_canvas.o)
+INIT += $(addprefix init/, init_hooks.o init_window.o init_camera.o)
+INIT += $(addprefix init/, init_map.o validate_map.o spawn_player.o)
+UTILS := $(addprefix utils/, error_handler.o freez.o validators.o)
+BINS := $(addprefix $(BINDIR)/, launcher.o $(CORE) $(GFX) $(INIT) $(UTILS))
 
-LIBFTDIR	:=	lib/libft
-LIBMLXDIR	:=	lib/minilibx-linux
+# Bonus binaries
+BONUSCORE := $(addprefix core/, player_control.o player_interact.o)
+BONUSGFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o)
+BONUSGFX += $(addprefix gfx/, draw_map.o render_scene.o raycaster.o)
+BONUSGFX += $(addprefix gfx/, draw_splash.o)
+BONUSINIT := $(addprefix init/, init_scene_bonus.o init_scene_params_bonus.o)
+BONUSINIT += $(addprefix init/, init_camera.o init_canvas.o)
+BONUSINIT += $(addprefix init/, init_map.o validate_map.o spawn_player.o)
+BONUSINIT += $(addprefix init/, init_window_bonus.o init_hooks_bonus.o)
+BONUSINIT += $(addprefix init/, load_thread.o init_extra.o init_sprite.o)
+# BONUSSOUND := $(addprefix sound/, play_sound.o)
+BONUSUTILS := $(addprefix utils/, error_handler.o freez.o validators.o)
+BONUSUTILS += $(addprefix utils/, freez_bonus.o)
+BONUSBINS := $(addprefix $(BONUSBINDIR)/, launcher_bonus.o \
+	$(BONUSCORE) $(BONUSGFX) $(BONUSINIT) $(BONUSSOUND) $(BONUSUTILS))
 
-# --- SOURCES ---
-SRC		:=	main.c
-SRC		+=	init/init_scene.c init/init_window.c init/read_map.c
-SRC		+=	init/set_scene_params.c init/load_textures.c init/init_hooks.c
-SRC		+=	init/spawn_player.c init/init_camera.c init/get_extras.c 
-SRC		+=	init/init_cub.c init/validate_map.c
-SRC		+=	draw/put_pixel.c draw/draw_screen.c draw/draw_minimap.c
-SRC		+=	draw/draw_sprite.c
-SRC		+=	game/move_player.c game/turn_player.c  game/hooks.c
-SRC		+=	game/raycaster.c game/wall_check.c
-SRC		+=	utils/error_handler.c utils/freez.c utils/quicksort.c
-SRC		+=	utils/sprites_to_array.c
-SRCS	:=	$(addprefix $(SRCDIR)/, $(SRC))
+CC := cc
+CFLAGS := -Wall -Wextra -Werror -pedantic -std=c99
+debug: CFLAGS += -g -Og
+release: CFLAGS += -O3 -march=native
+CPPFLAGS := -I$(INCDIR) -I$(LIBFTDIR)/include -I$(LIBMLXDIR)
+LDFLAGS := -L$(LIBFTDIR) -L$(LIBMLXDIR)
+LDLIBS := -lft -lmlx
+LFLAGS := -lXext -lX11 -lm -lz -lpulse-simple
 
-SRCBON	:=	$(addprefix $(BONDIR)/, $(SRC))
-SRCBON	+=	$(addprefix $(BONDIR)/draw/, draw_hud.c draw_intro.c draw_splash.c)
-SRCBON	+=	$(addprefix $(BONDIR)/game/, interact.c item_pickup.c pickups.c)
-SRCBON	+=	$(addprefix $(BONDIR)/init/, set_animation.c load_thread.c load_enemies.c)
-SRCBON	+=	$(addprefix $(BONDIR)/sound/, play_sound.c)
-SRCBON	+=	$(addprefix $(BONDIR)/utils/, fps.c ft_sleep.c)
-SRCBON	+=	$(addprefix $(BONDIR)/utils/, typewrite.c img_shredder.c)
-SRCSBON	:=	$(addprefix $(SRCDIR)/, $(SRCBON))
+TEAM := ./res/shiteam.nfo
+BANNER := ./res/splash.nfo
 
+MKDIR := mkdir -pm 775
+GITCLONE := git clone
+ECHO := echo
+SHOW := cat
 
-# --- INCLUDES ---
-HDRS		:=	cub3D.h game_data.h point.h vector.h keycodes.h
-HEADERS		:=	$(addprefix $(INCDIR)/, $(HDRS))
-BONHEADERS	:=	$(addprefix $(INCDIR)/, $(HDRS) cub3D_bonus.h bonus_data.h)
+.PHONY: all bonus nobonus clean fclean re debug release
 
-INCLUDES	:=	-I$(INCDIR) -I$(LIBFTDIR)
-INCLUDES	+=	-I/usr/local/include -Imlx-linux
-INCLUDES	+=	-I$(LIBMLXDIR)
-
-# --- OBJECTS ---
-OBJS	:=	$(SRC:%.c=$(OBJDIR)/%.o)
-BONOBJS	:=	$(SRCBON:%.c=$(OBJDIR)/%.o)
-
-# --- LIBRARIES ---
-LIBFT		:=	$(LIBFTDIR)/libft.a
-LIBMLX		:=	$(LIBMLXDIR)/libmlx.a
-LIBMLXLOCAL	:=	/usr/local/lib/libmlx.a
-
-# --- SPLASH ---
-TEAM		:=	./res/shiteam.nfo
-BANNER		:=	./res/splash.nfo
-
-# --- FLAGS ---
-CFLAGS	:=	-Wall -Wextra -Werror -pedantic -O3
-LDFLAGS	:=	-L$(LIBFTDIR) -L$(LIBMLXDIR)
-LDFLAGS	+=	-L/usr/local/lib
-LDLIBS	:=	-lft -lmlx
-LFLAGS	:=	-lXext -lX11 -lm -lz
-
-bonus:	LFLAGS	+=	-lpthread -lpulse -lpulse-simple
-
-# --- DEBUG ---
-debug:		CFLAGS		+= -ggdb3 -Og
-debug:		CPPFLAGS	+= -DDEBUG=1
-debug:		DEBUGFLAG	:= debug
-sanity:		CFLAGS		+= -fsanitize=address
-noleaks:	CPPFLAGS	+= -DNOLEAKS=1
-
-# --- CMDS ---
-CC			:=	cc
-CD			:=	cd
-PWD			:=	$(shell pwd)
-RM			:=	rm -fr
-MKDIR		:=	mkdir -pm 775
-ECHO		:=	echo
-SHOW		:=	cat
-GITCLONE	:=	git clone
-
-# --- RULES ---
-.PHONY: all bonus clean debug fclean help re sanity
-
-all: $(NAME) bonus
-
+release: all
+all: $(NAME) $(BONUS)
 bonus: $(BONUS)
+nobonus: $(NAME)
 
-$(NAME): $(LIBFT) $(LIBMLX) $(HEADERS) $(OBJS)
-	$(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(NAME)
+$(NAME): $(HEADER) $(BINS) $(LIBMLX) | $(LIBFT)
+	$(CC) $(BINS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(NAME)
 
-$(BONUS): $(LIBFT) $(LIBMLX) $(BONHEADERS) $(BONOBJS)
-	$(CC) $(BONOBJS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
+$(BONUS): $(HEADER) $(BONUSHEADER) $(BONUSBINS) $(LIBMLX) | $(LIBFT)
+	$(CC) $(BONUSBINS) $(LDFLAGS) $(LDLIBS) $(LFLAGS) -o $(BONUS)
 	@$(SHOW) $(TEAM)
 	@$(SHOW) $(BANNER)
 
-$(LIBFT):
-	@$(MAKE) -C $(LIBFTDIR) $(DEBUGFLAG)
+$(BINS): $(BINDIR)/%.o: $(SRCDIR)/%.c $(HEADER) | $(SUBDIRS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-$(LIBMLX): | $(LIBMLXDIR)
-	@if [ -f $(LIBMLXLOCAL) ]; then ln -s $(LIBMLXLOCAL) $(LIBMLX); \
-	else $(GITCLONE) $(LIBMLXURL) $(LIBMLXDIR); $(MAKE) -C $(LIBMLXDIR); \
-	fi
-
-$(LIBMLXDIR):
-	$(MKDIR) $(LIBMLXDIR)
+$(BONUSBINS): $(BONUSBINDIR)/%.o: $(SRCDIR)/%.c $(BONUSHEADER) $(HEADER) | $(SUBDIRS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(SUBDIRS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -c $< -o $@
+$(LIBFT):
+	$(MAKE) -C $(LIBFTDIR) release
 
-debug: all
-
-sanity: debug
-
-noleaks: debug
+$(LIBMLX):
+	$(GITCLONE) $(LIBMLXURL) $(LIBMLXDIR)
+	$(MAKE) -C $(LIBMLXDIR)
 
 clean:
-	@$(RM) $(OBJDIR)
-	@$(MAKE) -C $(LIBFTDIR) $@
+	$(RM) $(BINS)
+	$(RM) $(BONUSBINS)
 
 fclean: clean
-	@$(RM) $(NAME)
-	@$(RM) $(BONUS)
-	@$(MAKE) -C $(LIBFTDIR) $@
+	$(RM) $(NAME)
+	$(RM) $(BONUS)
 
 re: fclean all
-
-help:
-	@head -n 23 Makefile | tail
+debug: all

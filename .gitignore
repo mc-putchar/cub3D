@@ -1,10 +1,12 @@
 a.out
 cub3D
-cub3D_bonus
-.vscode
+cub3D_PoD
 *.o
 *.a
 en.subject.pdf
 TODO
-assets/*
-extra/*
+/.vscode
+/assets
+/bin
+/deprecated
+/extra

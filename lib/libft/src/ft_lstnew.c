@@ -6,11 +6,12 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:17:38 by mcutura           #+#    #+#             */
-/*   Updated: 2023/05/04 13:57:06 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:03:41 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+#include "libft_lst.h"
 
 t_list	*ft_lstnew(void *content)
 {

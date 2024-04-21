@@ -6,24 +6,22 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 22:14:02 by mcutura           #+#    #+#             */
-/*   Updated: 2023/05/03 11:23:39 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:04:25 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
-	unsigned char		*pd;
-	unsigned char const	*ps;
+	size_t	i;
 
-	pd = dest;
-	ps = src;
-	while (n--)
+	i = 0;
+	while (i < n)
 	{
-		*pd = *ps++;
-		if (*pd++ == c)
-			return (pd);
+		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		if (((unsigned char *)dest)[i++] == (unsigned char)c)
+			return ((void *)((unsigned char *)dest + i));
 	}
 	return (NULL);
 }
