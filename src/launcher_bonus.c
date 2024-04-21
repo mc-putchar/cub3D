@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:06:51 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/21 03:00:32 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:33:29 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,18 @@ int	main(int ac, char **av)
 	static t_cub		cub;
 	static t_camera		camera;
 	static t_player		player;
-	static t_sound_data	sound_data;
+	static t_bonus_data	bonus_data;
 
 	(void)ac;
 	(void)av;
 	(void)ft_printf("Cub3D: Peer of Destiny\n");
 	cub.camera = &camera;
 	cub.player = &player;
-	cub.bonus = &sound_data;
+	cub.bonus = &bonus_data;
 	if (init_window_bonus(&cub, FULLSCREEN))
 		return (EXIT_FAILURE);
 	init_hooks_bonus(&cub);
 	if (load_thread(&cub, LEVEL_ONE))
 		return (close_hook(&cub));
-	// if (pthread_create(&((t_sound_data *)cub.bonus)->sound_thread, NULL, play_intro_sound, NULL))
-	// 	return (throw_error(THREAD_FAIL));
 	return (mlx_loop(cub.mlx));
 }

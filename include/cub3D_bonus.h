@@ -6,10 +6,9 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:25:20 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/21 03:04:27 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:21:42 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H

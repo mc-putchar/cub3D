@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 03:23:15 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/20 03:24:13 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:21:14 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	init_sprite(t_scene *scene, char const **param)
 {
-	(void)scene; (void)param;
+	(void)scene;
+	(void)param;
 	return (0);
 }

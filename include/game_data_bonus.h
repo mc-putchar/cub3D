@@ -6,10 +6,9 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 02:14:28 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/21 02:24:46 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:33:45 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GAME_DATA_BONUS_H
 # define GAME_DATA_BONUS_H
@@ -27,9 +26,10 @@
 # define INFO_FILE		"res/bios.nfo"
 # define INTRO_RIFF		"res/peerofdestiny-intro.wav"
 
-typedef struct s_sound_data
+typedef struct s_bonus_data
 {
 	pthread_t	sound_thread;
-}	t_sound_data;
+	void		*sprite_atlas;
+}	t_bonus_data;
 
 #endif // GAME_DATA_BONUS_H

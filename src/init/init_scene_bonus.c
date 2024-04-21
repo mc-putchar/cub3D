@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 03:37:09 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/20 03:37:53 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:21:02 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	init_scene(char const *file, t_scene *scene)
 	return (0);
 }
 
-static inline void flush_gnl(int fd)
+static inline void	flush_gnl(int fd)
 {
 	char	*tmp;
 

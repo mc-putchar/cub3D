@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:15:15 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/20 18:06:52 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:16:18 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ int	load_texture(void *mlx, t_mlx_image *img, char *path)
 	return (0);
 }
 
+static int	unload(t_cub *cub, int i)
+{
+	while (i)
+	{
+		mlx_destroy_image(cub->mlx, cub->walls[--i]->img);
+		free(cub->walls[i]);
+		cub->walls[i] = NULL;
+	}
+	return (1);
+}
+
 int	load_scene_textures(t_cub *cub)
 {
 	int				i;
@@ -33,26 +44,12 @@ int	load_scene_textures(t_cub *cub)
 	while (i < 4)
 	{
 		cub->walls[i] = malloc(sizeof(t_mlx_image));
-		if (!cub->walls[i])
-		{
-			while (i)
-			{
-				mlx_destroy_image(cub->mlx, cub->walls[--i]->img);
-				free(cub->walls[i]);
-				cub->walls[i] = NULL;
-			}
+		if (!cub->walls[i] && unload(cub, i))
 			return (throw_error(MALLOC_FAIL));
-		}
 		if (load_texture(cub->mlx, cub->walls[i], cub->scene->walls[i]))
 		{
 			free(cub->walls[i]);
-			while (i)
-			{
-				mlx_destroy_image(cub->mlx, cub->walls[--i]->img);
-				free(cub->walls[i]);
-				cub->walls[i] = NULL;
-			}
-			return (1);
+			return (unload(cub, i));
 		}
 		++i;
 	}

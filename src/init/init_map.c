@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:59:08 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/17 00:15:27 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:24:20 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 static int	add_line_to_list(char *line, t_list **list, size_t *width);
 static int	convert_map(t_map *map, t_list *maplist);
+
+static inline int	flush_gnl(char *line, int fd)
+{
+	close(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (1);
+}
 
 int	read_map(char *line, int fd, t_map *map)
 {
@@ -27,13 +38,7 @@ int	read_map(char *line, int fd, t_map *map)
 		if (add_line_to_list(line, &maplist, &map->width))
 		{
 			ft_lstclear(&maplist, free);
-			close(fd);
-			while (line)
-			{
-				free(line);
-				line = get_next_line(fd);
-			}
-			return (1);
+			return (flush_gnl(line, fd));
 		}
 		free(line);
 		line = get_next_line(fd);

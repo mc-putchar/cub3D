@@ -34,7 +34,6 @@ int	close_hook(void *param)
 	mlx_destroy_window(cub->mlx, cub->win);
 	mlx_destroy_display(cub->mlx);
 	free(cub->mlx);
-	// pthread_join(((t_sound_data *)cub->bonus)->sound_thread, NULL);
 	ft_printf("Exiting\n");
 	exit(EXIT_SUCCESS);
 }

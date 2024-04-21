@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:52:25 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/20 01:39:05 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:06:27 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	main(int ac, char **av)
 	|| validate_map(&cub.scene->map))
 		return (scrap_scene(cub.scene));
 	cub.player = &player_one;
-	if (init_window(&cub, FULLSCREEN) || init_canvas(&cub)
-	|| init_camera(&cub, &camera, player_one.direction)
+	if (init_window(&cub, FULLSCREEN) || init_canvas(&cub) \
+	|| init_camera(&cub, &camera, player_one.direction) \
 	|| load_scene_textures(&cub))
 		return (cleanup(&cub), EXIT_FAILURE);
 	init_hooks(&cub);

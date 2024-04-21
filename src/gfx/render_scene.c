@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:29:24 by mcutura           #+#    #+#             */
-/*   Updated: 2024/04/21 03:10:18 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/04/21 07:17:50 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ static void			draw_wall(t_mlx_image *tex, t_mlx_image *canv, \
 					t_ray *ray, t_point *xy);
 static int			close_wall(t_mlx_image *tex, t_mlx_image *canv, \
 					t_ray *ray, t_point *xy);
-
-/*
- * 011111110111111101111111
- */
-static inline int	shade(int color, int side)
-{
-	if (side & 1)
-		color = (color >> 1) & 8355711;
-	return (color);
-}
 
 void	render_scene(t_cub *cub, t_mlx_image *canvas)
 {
@@ -74,7 +64,8 @@ t_mlx_image	*select_texture(t_cub *cub, t_ray *ray)
 void	draw_wall(t_mlx_image *tex, t_mlx_image *canv, t_ray *ray, t_point *xy)
 {
 	uint32_t const	texx = texture_x_offset(tex, ray);
-	double const	ppy = (double)tex->height / (((canv->height >> 1) - xy->y) << 1);
+	double const	ppy = (double)tex->height / \
+					(((canv->height >> 1) - xy->y) << 1);
 	uint32_t		h;
 	uint32_t		texoff;
 
