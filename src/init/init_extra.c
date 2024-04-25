@@ -25,6 +25,7 @@ int	init_extra(t_scene *scene, char const **param)
 		return (throw_error(PARAM_ERROR));
 	if (validate_file(param[1], &fd))
 		return (throw_error(BAD_FILEPATH));
+	close(fd);
 	if (!ft_strncmp(param[0], "S", 2) || !ft_strncmp(param[0], "A", 2))
 		return (init_sprite(scene, param));
 	ex = malloc(sizeof(t_extra));
@@ -46,11 +47,15 @@ int	set_extra_params(t_extra *ex, char const **param)
 {
 	ex->key = ft_strdup(param[0]);
 	if (!ex->key)
+	{
+		free(ex);
 		return (1);
+	}
 	ex->value = ft_strdup(param[1]);
 	if (!ex->value)
 	{
 		free(ex->key);
+		free(ex);
 		return (1);
 	}
 	ex->next = NULL;

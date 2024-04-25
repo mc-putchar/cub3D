@@ -37,13 +37,14 @@ int	scrap_scene_bonus(t_scene *scene)
 	free(scene->walls[3]);
 	if (scene->map.height)
 		free_map(scene->map.val, scene->map.height);
+	free(scene);
 	return (1);
 }
 
 void	cleanup_bonus(t_cub *cub)
 {
-	if (cub->camera->zbuffer)
-		free(cub->camera->zbuffer);
+	if (cub->camera->zbuff)
+		free(cub->camera->zbuff);
 	if (cub->canvas)
 	{
 		mlx_destroy_image(cub->mlx, cub->canvas->img);
@@ -60,7 +61,9 @@ void	cleanup_bonus(t_cub *cub)
 		mlx_destroy_image(cub->mlx, cub->walls[3]->img);
 		free(cub->walls[3]);
 	}
-	if (cub->scene && cub->scene->extras)
+	if (!cub->scene)
+		return ;
+	if (cub->scene->extras)
 		free_extras(cub, cub->scene->extras);
 	(void)scrap_scene_bonus(cub->scene);
 }

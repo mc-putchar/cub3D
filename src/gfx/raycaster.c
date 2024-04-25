@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static void		dda(t_vector *origin, t_map *map, t_ray *ray);
+static void		dda(t_vector *origin, t_map *map, t_ray *ray, double *zbuff);
 static double	get_wallx(t_ray *ray, t_vector *pos);
 static int		wall_check(t_map *map, int x, int y);
 
@@ -42,10 +42,10 @@ void	cast_ray(t_cub *cub, t_ray *ray, size_t n)
 		ray->distance.y *= ray->delta.y;
 	else
 		ray->distance.y = (1 - ray->distance.y) * ray->delta.y;
-	dda(&cub->player->position, &cub->scene->map, ray);
+	dda(&cub->player->position, &cub->scene->map, ray, cub->camera->zbuff + n);
 }
 
-void	dda(t_vector *origin, t_map *map, t_ray *ray)
+void	dda(t_vector *origin, t_map *map, t_ray *ray, double *zbuff)
 {
 	int	mapx;
 	int	mapy;
@@ -70,6 +70,7 @@ void	dda(t_vector *origin, t_map *map, t_ray *ray)
 		ray->hit = wall_check(map, mapx, mapy);
 	}
 	ray->wallx = get_wallx(ray, origin);
+	*zbuff = ray->wall_dist;
 }
 
 int	wall_check(t_map *map, int x, int y)

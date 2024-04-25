@@ -42,8 +42,8 @@ int	scrap_scene(t_scene *scene)
 
 void	cleanup(t_cub *cub)
 {
-	if (cub->camera->zbuffer)
-		free(cub->camera->zbuffer);
+	if (cub->camera->zbuff)
+		free(cub->camera->zbuff);
 	if (cub->canvas)
 	{
 		mlx_destroy_image(cub->mlx, cub->canvas->img);

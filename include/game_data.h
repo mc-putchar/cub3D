@@ -91,6 +91,16 @@ typedef struct s_map
 	char				**val;
 }	t_map;
 
+typedef struct s_sprite_data
+{
+	t_vector		position;
+	t_vector		scale;
+	void			*texture;
+	double			v_offset;
+	char			*tag;
+	struct s_sprite	*next;
+}	t_sprite_data;
+
 typedef struct s_extra
 {
 	char			*key;
@@ -132,7 +142,7 @@ typedef struct s_camera
 	int					distance;
 	int					brush;
 	t_vector			plane;
-	double				*zbuffer;
+	double				*zbuff;
 }	t_camera;
 
 typedef struct s_cub
@@ -147,6 +157,7 @@ typedef struct s_cub
 	t_mlx_image		*canvas;
 	t_mlx_image		*walls[4];
 	void			*bonus;
+	double			frame_time;
 }	t_cub;
 
 #endif // GAME_DATA_H

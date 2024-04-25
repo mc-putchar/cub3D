@@ -19,8 +19,8 @@ int	init_camera(t_cub *cub, t_camera *cam, t_vector player_dir)
 	cam->width = cub->win_w;
 	cam->plane.x = -player_dir.y;
 	cam->plane.y = player_dir.x;
-	cam->zbuffer = malloc(sizeof(double) * cam->width);
-	if (!cam->zbuffer)
+	cam->zbuff = malloc(sizeof(double) * cam->width);
+	if (!cam->zbuff)
 		return (throw_error(MALLOC_FAIL));
 	return (0);
 }

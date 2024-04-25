@@ -9,10 +9,10 @@
 
 # Wall textures
 # WW	[texture path]
-NO	./res/texture_wall_north
-SO	./res/texture_wall_south
-WE	./res/texture_wall_west
-EA	./res/texture_wall_east
+NO	./path/to/texture_wall_north
+SO	./path/to/texture_wall_south
+WE	./path/to/texture_wall_west
+EA	./path/to/texture_wall_east
 
 # Floor and ceiling colors 
 # C	<R,G,B :(0 - 255)>
@@ -20,16 +20,16 @@ F	10, 20, 30
 C	255, 0, 230
 
 # Optional door/extra textures (only in bonus)
-# X [texture path]
-D	./res/texture_door
-L	./res/texture_door_locked
+# D/L/O/H/X [texture path]
+D	./path/to/texture_door
+L	./path/to/texture_door_locked
 
 # Sprite textures (only in bonus)
 # S [texture path]			<X, Y>
 #							//* <divisor: H, V> <vertical offset> [tag]
-S	./res/texture_sprite	3.5, 4.5
-S	./res/texture_sprite	5.5, 6.5	2, 2 250
-S	./res/texture_key		15.5, 6.5	1, 1 0		key
+S	./path/to/texture_sprite	3.5, 4.5
+S	./path/to/texture_sprite	5.5, 6.5	2, 2 250
+S	./path/to/texture_key		15.5, 6.5	1, 1 0		key
 
 # Animated sprites (only in bonus)
 # A [texture_file.xpm] <X Y> <n_frames> <frame_x frame_y>

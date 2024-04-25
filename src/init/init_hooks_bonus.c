@@ -19,18 +19,18 @@ static int	keyup_hook(int key, void *param);
 
 void	init_hooks_bonus(t_cub *cub)
 {
-	(void)mlx_hook(cub->win, ON_DESTROY, 1L << 17, close_hook, cub);
+	(void)mlx_hook(cub->win, ON_DESTROY, 1L << 17, close_hook_bonus, cub);
 	(void)mlx_hook(cub->win, ON_KEYDOWN, 1L << 0, keydown_hook, cub);
 	(void)mlx_hook(cub->win, ON_KEYUP, 1L << 1, keyup_hook, cub);
 	(void)mlx_loop_hook(cub->mlx, game_loop_bonus, cub);
 }
 
-int	close_hook(void *param)
+int	close_hook_bonus(void *param)
 {
 	t_cub	*cub;
 
 	cub = param;
-	cleanup(cub);
+	cleanup_bonus(cub);
 	mlx_destroy_window(cub->mlx, cub->win);
 	mlx_destroy_display(cub->mlx);
 	free(cub->mlx);
@@ -46,6 +46,8 @@ int	game_loop_bonus(void *param)
 	render_scene(cub, cub->canvas);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->canvas->img, 0, 0);
 	mlx_do_sync(cub->mlx);
+	do_frame_sync(cub);
+	display_fps(cub);
 	turn_player(cub->player, cub->camera);
 	move_player(cub->player, &cub->scene->map);
 	return (0);
@@ -56,7 +58,7 @@ int	keydown_hook(int key, void *param)
 	t_cub const	*cub = param;
 
 	if (key == KEY_ESC)
-		close_hook(param);
+		close_hook_bonus(param);
 	if (key == KEY_W)
 		cub->player->dir_move = 1;
 	if (key == KEY_A)

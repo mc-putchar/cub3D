@@ -33,6 +33,6 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	init_hooks_bonus(&cub);
 	if (load_thread(&cub, LEVEL_ONE))
-		return (close_hook(&cub));
+		return (close_hook_bonus(&cub));
 	return (mlx_loop(cub.mlx));
 }

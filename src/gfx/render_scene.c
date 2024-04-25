@@ -24,6 +24,7 @@ void	render_scene(t_cub *cub, t_mlx_image *canvas)
 	t_point		xy;
 	t_ray		ray;
 	uint32_t	wall_height;
+	t_mlx_image	*texture;
 
 	xy.x = 0;
 	while (xy.x < canvas->width)
@@ -32,13 +33,15 @@ void	render_scene(t_cub *cub, t_mlx_image *canvas)
 		cast_ray(cub, &ray, xy.x);
 		if (ray.hit == -1 && ++xy.x)
 			continue ;
-		if (ray.wall_dist < 1 \
-		&& close_wall(select_texture(cub, &ray), canvas, &ray, &xy))
+		texture = select_texture(cub, &ray);
+		if (!texture && ++xy.x)
+			continue ;
+		if (ray.wall_dist < 1 && close_wall(texture, canvas, &ray, &xy))
 			continue ;
 		wall_height = canvas->height / ray.wall_dist;
 		while (xy.y < (canvas->height >> 1) - (wall_height >> 1))
 			put_pixel(canvas, xy.x, xy.y++, cub->scene->ceiling);
-		draw_wall(select_texture(cub, &ray), canvas, &ray, &xy);
+		draw_wall(texture, canvas, &ray, &xy);
 		while (xy.y < canvas->height)
 			put_pixel(canvas, xy.x, xy.y++, cub->scene->floor);
 		++xy.x;
@@ -54,7 +57,7 @@ t_mlx_image	*select_texture(t_cub *cub, t_ray *ray)
 	ex = cub->scene->extras;
 	while (ex)
 	{
-		if (*ex->key == ray->hit)
+		if (*ex->key == ray->hit && ex->isloaded)
 			return (ex->value);
 		ex = ex->next;
 	}
@@ -64,31 +67,37 @@ t_mlx_image	*select_texture(t_cub *cub, t_ray *ray)
 void	draw_wall(t_mlx_image *tex, t_mlx_image *canv, t_ray *ray, t_point *xy)
 {
 	uint32_t const	texx = texture_x_offset(tex, ray);
-	double const	ppy = (double)tex->height / \
-					(((canv->height >> 1) - xy->y) << 1);
+	uint32_t const	wall_height = (((canv->height >> 1) - xy->y) << 1);
 	uint32_t		h;
 	uint32_t		texoff;
+	double			ppy;
 
+	ppy = (double)tex->height / wall_height;
 	h = 0;
-	while (h < (((canv->height >> 1) - xy->y) << 1))
+	while (h < wall_height)
 	{
 		texoff = ((uint32_t)(ppy * h)) * tex->width + texx;
 		put_pixel(canv, xy->x, xy->y + h++, ((int *)tex->pixels)[texoff]);
 	}
-	xy->y += h;
+	xy->y += wall_height;
 }
 
 int	close_wall(t_mlx_image *tex, t_mlx_image *canv, t_ray *ray, t_point *xy)
 {
 	uint32_t const	texx = texture_x_offset(tex, ray);
-	double const	ppy = ray->wall_dist * tex->height / canv->height;
+	uint32_t const	wall_h = canv->height / (0.01 * (ray->wall_dist == 0) \
+					+ ray->wall_dist);
 	double			texi;
+	double			ppy;
 	uint32_t		texoff;
 
-	texi = (uint32_t)(ppy * canv->height * (1 - ray->wall_dist)) * tex->width;
-	while (xy->y < canv->height)
+	ppy = (double)tex->height / wall_h;
+	texi = 0;
+	if (ray->wall_dist < 1)
+		texi = (ppy * ((wall_h >> 1) - (canv->height >> 1)));
+	while (xy->y < canv->height && xy->y < (canv->height >> 1) + (wall_h >> 1))
 	{
-		texoff = (uint32_t)(ppy * xy->y) * tex->width + texx + texi;
+		texoff = (uint32_t)(ppy * xy->y + texi) * tex->width + texx;
 		put_pixel(canv, xy->x, xy->y, ((int *)tex->pixels)[texoff]);
 		++xy->y;
 	}

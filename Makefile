@@ -45,6 +45,7 @@ BINS := $(addprefix $(BINDIR)/, launcher.o $(CORE) $(GFX) $(INIT) $(UTILS))
 
 # Bonus binaries
 BONUSCORE := $(addprefix core/, player_control.o player_interact.o)
+BONUSCORE += $(addprefix core/, frame_sync.o)
 BONUSGFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o)
 BONUSGFX += $(addprefix gfx/, draw_map.o render_scene.o raycaster.o)
 BONUSGFX += $(addprefix gfx/, draw_splash.o)
@@ -63,10 +64,12 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -pedantic -std=c99
 debug: CFLAGS += -g -Og
 release: CFLAGS += -O3 -march=native
+multithread: CFLAGS += -DSINGLE_THREADED=0
 CPPFLAGS := -I$(INCDIR) -I$(LIBFTDIR)/include -I$(LIBMLXDIR)
 LDFLAGS := -L$(LIBFTDIR) -L$(LIBMLXDIR)
 LDLIBS := -lft -lmlx
-LFLAGS := -lXext -lX11 -lm -lz -lpulse-simple
+LFLAGS := -lXext -lX11 -lm -lz
+# LFLAGS += -lpulse-simple
 
 TEAM := ./res/shiteam.nfo
 BANNER := ./res/splash.nfo
@@ -76,9 +79,10 @@ GITCLONE := git clone
 ECHO := echo
 SHOW := cat
 
-.PHONY: all bonus nobonus clean fclean re debug release
+.PHONY: all bonus nobonus clean fclean re debug release multithread
 
 release: all
+multithread: all
 all: $(NAME) $(BONUS)
 bonus: $(BONUS)
 nobonus: $(NAME)
