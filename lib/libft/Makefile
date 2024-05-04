@@ -6,7 +6,7 @@
 #    By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 12:21:15 by mcutura           #+#    #+#              #
-#    Updated: 2024/04/18 16:57:58 by mcutura          ###   ########.fr        #
+#    Updated: 2024/05/02 12:14:58 by mcutura          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ INCDIR := include
 
 IDN := $(addprefix $(BINDIR)/, ft_isalnum.o ft_isalpha.o ft_isascii.o \
 	ft_isdigit.o ft_isprint.o ft_isnumber.o)
-CON := $(addprefix $(BINDIR)/, ft_atoi.o ft_tolower.o ft_toupper.o ft_itoa.o)
+CON := $(addprefix $(BINDIR)/, ft_atoi.o ft_tolower.o ft_toupper.o ft_itoa.o \
+	ft_atod.o)
 MEM := $(addprefix $(BINDIR)/, ft_bzero.o ft_calloc.o ft_memchr.o ft_memrchr.o \
 	ft_memcmp.o ft_memcpy.o ft_memccpy.o ft_memset.o ft_memmove.o)
 STR := $(addprefix $(BINDIR)/, ft_strchr.o ft_strdup.o ft_strjoin.o \
@@ -33,8 +34,6 @@ LST := $(addprefix $(BINDIR)/, ft_lstadd_front.o ft_lstadd_back.o \
 GNL := $(BINDIR)/get_next_line.o
 PRNTF := $(addprefix $(BINDIR)/, ft_printf.o ft_printf_utils.o \
 	ft_printf_converters.o ft_printf_converters_hex.o)
-
-BINS := $(IDN) $(CON) $(MEM) $(STR) $(I/O) $(LST) $(GNL) $(PRNTF)
 
 HEADER := libft.h
 MEMH := libft_mem.h
@@ -65,10 +64,11 @@ $(LST): $(INCDIR)/$(LSTH)
 $(GNL): $(INCDIR)/$(GNLH)
 $(PRNTF): $(INCDIR)/$(PRNTFH)
 
-$(NAME): $(INCDIR)/$(HEADER) $(BINS)
-	$(AR) $(ARFLAGS) $(NAME) $(BINS)
+$(NAME): $(INCDIR)/$(HEADER) $(IDN) $(CON) $(MEM) $(STR) $(I/O) $(LST) $(GNL) $(PRNTF)
+	$(AR) $(ARFLAGS) $(NAME) $(IDN) $(CON) $(MEM) $(STR) $(I/O) $(LST) $(GNL) $(PRNTF)
 
-$(BINS): $(BINDIR)/%.o: $(SRCDIR)/%.c |$(BINDIR)
+$(IDN) $(CON) $(MEM) $(STR) $(I/O) $(LST) $(GNL) $(PRNTF): \
+  $(BINDIR)/%.o: $(SRCDIR)/%.c |$(BINDIR)
 	$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 
 $(BINDIR):

@@ -6,7 +6,7 @@
 /*   By: mcutura <mcutura@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:36:59 by mcutura           #+#    #+#             */
-/*   Updated: 2024/03/17 06:09:15 by mcutura          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:12:40 by mcutura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,16 @@ static int	read_more(int fd, struct s_gnl_data *dat, char **line)
 {
 	dat->off = 0;
 	dat->end = read(fd, dat->buff, BUFFER_SIZE);
-	if (dat->end < 1)
+	if (dat->end > 0)
+		return (0);
+	if (dat->end)
 	{
-		if (dat->end)
-		{
-			if (*line)
-				free(*line);
-			*line = NULL;
-		}
+		if (*line)
+			free(*line);
+		*line = NULL;
 		dat->end = 0;
-		return (1);
 	}
-	return (0);
+	return (1);
 }
 
 char	*get_delim(int fd, int delim)

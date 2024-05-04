@@ -13,14 +13,14 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static int	is_separator(char c, const char *sep)
+static inline int	is_separator(char c, const char *sep)
 {
 	int	i;
 
 	i = 0;
 	while (sep[i] && sep[i] != c)
 		++i;
-	return (sep[i] != 0);
+	return (sep[i]);
 }
 
 static size_t	word_count(const char *s, const char *c)
