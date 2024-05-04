@@ -55,8 +55,11 @@ int		init_canvas_bonus(t_cub *cub);
 /* DRAW */
 void	draw_splash(t_cub *cub, char const *splash_file);
 int		load_extras(t_cub *cub);
+int		load_sprites(t_cub *cub);
+int		cast_sprites(t_cub *cub, t_sprite **arr, t_player *pl);
 
 /* GAME */
+int		game_loop_bonus(void *param);
 void	player_interact(t_player *player, t_map *map);
 void	do_frame_sync(t_cub *cub);
 void	display_fps(t_cub *cub);
@@ -67,5 +70,6 @@ void	*play_intro_sound(void *ignore);
 /* UTILS */
 void	cleanup_bonus(t_cub *cub);
 void	free_extras(t_cub *cub, t_extra *ex);
+void	quicksort(t_sprite **tab, int size);
 
 #endif

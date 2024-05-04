@@ -43,8 +43,7 @@ int	read_map(char *line, int fd, t_map *map)
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
-	close(fd);
+	flush_gnl(line, fd);
 	error = convert_map(map, maplist);
 	ft_lstclear(&maplist, free);
 	return (error);

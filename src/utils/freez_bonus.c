@@ -29,6 +29,25 @@ void	free_extras(t_cub *cub, t_extra *ex)
 	}
 }
 
+void	free_sprites(t_cub *cub, t_sprite *spr)
+{
+	t_sprite	*tmp;
+
+	while (spr)
+	{
+		tmp = spr;
+		spr = spr->next;
+		if (tmp->tag)
+			free(tmp->tag);
+		if (tmp->isloaded)
+			mlx_destroy_image(cub->mlx, ((t_mlx_image *)tmp->texture)->img);
+		free(tmp->texture);
+		free(tmp);
+	}
+	if (((t_bonus_data *)cub->bonus)->sprite_arr)
+		free(((t_bonus_data *)cub->bonus)->sprite_arr);
+}
+
 int	scrap_scene_bonus(t_scene *scene)
 {
 	free(scene->walls[0]);
@@ -47,23 +66,20 @@ void	cleanup_bonus(t_cub *cub)
 		free(cub->camera->zbuff);
 	if (cub->canvas)
 	{
-		mlx_destroy_image(cub->mlx, cub->canvas->img);
-		free(cub->canvas);
+		shred_image(cub->mlx, cub->canvas);
 	}
 	if (cub->walls[0])
 	{
-		mlx_destroy_image(cub->mlx, cub->walls[0]->img);
-		free(cub->walls[0]);
-		mlx_destroy_image(cub->mlx, cub->walls[1]->img);
-		free(cub->walls[1]);
-		mlx_destroy_image(cub->mlx, cub->walls[2]->img);
-		free(cub->walls[2]);
-		mlx_destroy_image(cub->mlx, cub->walls[3]->img);
-		free(cub->walls[3]);
+		shred_image(cub->mlx, cub->walls[0]);
+		shred_image(cub->mlx, cub->walls[1]);
+		shred_image(cub->mlx, cub->walls[2]);
+		shred_image(cub->mlx, cub->walls[3]);
 	}
 	if (!cub->scene)
 		return ;
 	if (cub->scene->extras)
 		free_extras(cub, cub->scene->extras);
+	if (cub->scene->sprites)
+		free_sprites(cub, cub->scene->sprites);
 	(void)scrap_scene_bonus(cub->scene);
 }

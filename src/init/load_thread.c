@@ -21,7 +21,8 @@ void	*load_resources(void *arg)
 	|| validate_map(&cub->scene->map) || init_canvas_bonus(cub) \
 	|| init_camera(cub, cub->camera, cub->player->direction) \
 	|| load_scene_textures(cub) \
-	|| load_extras(cub))
+	|| load_extras(cub) \
+	|| load_sprites(cub))
 		return (cleanup_bonus(cub), NULL);
 	return (cub);
 }
@@ -44,8 +45,7 @@ static int	splash(t_cub *cub, char const *splash_file)
 		(cub->win_w >> 1) - (img->width >> 1), \
 		(cub->win_h >> 1) - (img->height >> 1));
 	res = load_resources(cub);
-	mlx_destroy_image(cub->mlx, img->img);
-	free(img);
+	shred_image(cub->mlx, img);
 	if (!res)
 		return (1);
 	return (0);

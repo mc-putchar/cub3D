@@ -31,14 +31,28 @@
 # define INFO_FILE		"res/bios.nfo"
 # define INTRO_RIFF		"res/peerofdestiny-intro.wav"
 
+
 typedef struct s_sprite
 {
+	struct s_sprite	*next;
 	t_vector		position;
 	t_vector		scale;
-	void			*texture;
-	double			v_offset;
+	double			z_offset;
+	double			dist;
 	char			*tag;
+	void			*texture;
+	int				isanimated;
+	int				isloaded;
 }	t_sprite;
+
+typedef struct s_sprite_data
+{
+	t_point	dimension;
+	t_point	start;
+	t_point	end;
+	int		screenx;
+	int		zoffset;
+}	t_sprite_data;
 
 typedef struct s_animation
 {
@@ -48,8 +62,8 @@ typedef struct s_animation
 
 typedef struct s_bonus_data
 {
+	t_sprite		**sprite_arr;
 	pthread_t		sound_thread;
-	void			*sprite_atlas;
 }	t_bonus_data;
 
 #endif // GAME_DATA_BONUS_H

@@ -19,6 +19,7 @@
 # include <unistd.h>
 
 /* Libraries */
+# include "ft_printf.h"
 # include "libft.h"
 # include "mlx.h"
 
@@ -84,6 +85,7 @@ int		init_canvas(t_cub *cub);
 void	put_pixel(t_mlx_image *img, int x, int y, int color);
 int		new_image(void *mlx, t_mlx_image *img, int width, int height);
 int		load_texture(void *mlx, t_mlx_image *img, char *path);
+int		flip_axes(void *mlx, t_mlx_image **img);
 int		load_scene_textures(t_cub *cub);
 void	draw_map(t_mlx_image *img, t_map *map);
 void	cast_ray(t_cub *cub, t_ray *ray, size_t n);
@@ -100,6 +102,7 @@ int		validate_file(char const *path, int *fd);
 int		validate_extension(char const *path, char const *extension);
 void	free_arr(char **arr);
 void	free_map(char **map, int size);
+void	shred_image(void *mlx, t_mlx_image *img);
 int		scrap_scene(t_scene *scene);
 void	cleanup(t_cub *cub);
 

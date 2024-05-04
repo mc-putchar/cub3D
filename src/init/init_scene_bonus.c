@@ -85,6 +85,8 @@ void	reset_scene(t_scene *scene)
 	scene->map.height = 0;
 	scene->map.val = NULL;
 	scene->extras = NULL;
+	scene->sprites = NULL;
+	scene->n_sprites = 0;
 }
 
 int	is_complete(t_scene *scene)

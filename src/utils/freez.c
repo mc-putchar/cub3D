@@ -12,6 +12,12 @@
 
 #include "cub3D.h"
 
+void	shred_image(void *mlx, t_mlx_image *img)
+{
+	mlx_destroy_image(mlx, img->img);
+	free(img);
+}
+
 void	free_map(char **map, int size)
 {
 	while (size--)
@@ -45,20 +51,13 @@ void	cleanup(t_cub *cub)
 	if (cub->camera->zbuff)
 		free(cub->camera->zbuff);
 	if (cub->canvas)
-	{
-		mlx_destroy_image(cub->mlx, cub->canvas->img);
-		free(cub->canvas);
-	}
+		shred_image(cub->mlx, cub->canvas);
 	if (cub->walls[0])
 	{
-		mlx_destroy_image(cub->mlx, cub->walls[0]->img);
-		free(cub->walls[0]);
-		mlx_destroy_image(cub->mlx, cub->walls[1]->img);
-		free(cub->walls[1]);
-		mlx_destroy_image(cub->mlx, cub->walls[2]->img);
-		free(cub->walls[2]);
-		mlx_destroy_image(cub->mlx, cub->walls[3]->img);
-		free(cub->walls[3]);
+		shred_image(cub->mlx, cub->walls[0]);
+		shred_image(cub->mlx, cub->walls[1]);
+		shred_image(cub->mlx, cub->walls[2]);
+		shred_image(cub->mlx, cub->walls[3]);
 	}
 	(void)scrap_scene(cub->scene);
 }

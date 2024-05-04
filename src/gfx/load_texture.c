@@ -25,6 +25,34 @@ int	load_texture(void *mlx, t_mlx_image *img, char *path)
 	return (0);
 }
 
+int	flip_axes(void *mlx, t_mlx_image **img)
+{
+	t_mlx_image	*tmp;
+	uint32_t	x;
+	uint32_t	y;
+
+	tmp = malloc(sizeof(t_mlx_image));
+	if (!tmp)
+		return (throw_error(MALLOC_FAIL));
+	if (new_image(mlx, tmp, (*img)->height, (*img)->width))
+		return (free(tmp), 1);
+	y = 0;
+	while (y < tmp->height)
+	{
+		x = 0;
+		while (x < tmp->width)
+		{
+			put_pixel(tmp, x, y, \
+			((int *)((*img)->pixels))[x * (*img)->width + y]);
+			++x;
+		}
+		++y;
+	}
+	shred_image(mlx, *img);
+	*img = tmp;
+	return (0);
+}
+
 static int	unload(t_cub *cub, int i)
 {
 	while (i)
@@ -46,7 +74,8 @@ int	load_scene_textures(t_cub *cub)
 		cub->walls[i] = malloc(sizeof(t_mlx_image));
 		if (!cub->walls[i] && unload(cub, i))
 			return (throw_error(MALLOC_FAIL));
-		if (load_texture(cub->mlx, cub->walls[i], cub->scene->walls[i]))
+		if (load_texture(cub->mlx, cub->walls[i], cub->scene->walls[i])
+		|| flip_axes(cub->mlx, &cub->walls[i]))
 		{
 			free(cub->walls[i]);
 			return (unload(cub, i));
@@ -69,7 +98,8 @@ int	load_extras(t_cub *cub)
 			texture = malloc(sizeof(t_mlx_image));
 			if (!texture)
 				return (throw_error(MALLOC_FAIL));
-			if (load_texture(cub->mlx, texture, ex->value))
+			if (load_texture(cub->mlx, texture, ex->value)
+			|| flip_axes(cub->mlx, &texture))
 				return ((free(texture), 1));
 			free(ex->value);
 			ex->value = texture;

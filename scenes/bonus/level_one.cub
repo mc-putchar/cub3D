@@ -3,7 +3,7 @@ SO	./res/hires/walls/grunge-wall-white.xpm
 WE	./res/hires/walls/wall-texture-gray.xpm
 EA	./res/hires/walls/wall-paint-peeling-plaster.xpm
 
-H	./res/brick_wall.xpm
+H	./res/hires/walls/wall-texture-gray.xpm
 D	./res/hires/doors/door_27.xpm
 L	./res/hires/spec/graffiti_queen.xpm
 
@@ -31,8 +31,8 @@ A ./res/fx.xpm			16.5 5.5	60	100 100
 
 
   1111111111111111111
-  101S100001000000001
-111010111111111111111
+  101S10000H000000H01
+111010111111111111101
 101010100001000000001
 101010100111D11111101
 1L111D111100000101001

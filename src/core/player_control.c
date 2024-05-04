@@ -57,8 +57,8 @@ void	move_player(t_player *player, t_map *map)
 		(int)(player->position.y - spacer.y)))
 		player->position.x += delta.x;
 	if (!wall_check(map, (int)(player->position.x + spacer.x), \
-		(int)(player->position.y + delta.x + spacer.y)) \
+		(int)(player->position.y + delta.y + spacer.y)) \
 	&& !wall_check(map, (int)(player->position.x - spacer.x), \
-		(int)(player->position.y + delta.x + spacer.y)))
+		(int)(player->position.y + delta.y + spacer.y)))
 		player->position.y += delta.y;
 }

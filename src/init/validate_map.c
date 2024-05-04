@@ -42,7 +42,8 @@ int	validate_map(t_map *map)
 	size_t	i;
 	size_t	j;
 
-	if (verify_symbols(map, " 01DL"))
+	if ((!BONUS && verify_symbols(map, MAP_SYMS)) \
+	|| (BONUS && verify_symbols(map, MAP_SYMS_BONUS)))
 		return (throw_error(UNKNOWN_MAPSYM));
 	j = 0;
 	while (j < map->height)

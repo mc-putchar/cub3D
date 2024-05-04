@@ -19,7 +19,6 @@ int	init_canvas(t_cub *cub)
 		return (throw_error(MALLOC_FAIL));
 	if (new_image(cub->mlx, cub->canvas, cub->win_w, cub->win_h))
 		return (1);
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->canvas->img, 0, 0);
 	return (0);
 }
 

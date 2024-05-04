@@ -1,6 +1,6 @@
 # .cub Scene template - Example only
 
-# whitespaces, tabs and commas are valid separators
+# whitespaces, tabs and commas are valid field separators
 # <numeric values>
 # [text values]
 
@@ -20,7 +20,7 @@ F	10, 20, 30
 C	255, 0, 230
 
 # Optional door/extra textures (only in bonus)
-# D/L/O/H/X [texture path]
+# D/L/H/X [texture path]
 D	./path/to/texture_door
 L	./path/to/texture_door_locked
 
@@ -36,12 +36,12 @@ S	./path/to/texture_key		15.5, 6.5	1, 1 0		key
 #							//* <scale_x scale_y> <offset> [tag]
 
 # Map
-# 1 = wall, 0 = no wall, X = extra textures, space = outer space padding
+# 1 = wall, 0 = no wall, DLHX = extra textures, space = outer space padding
 # Player spawn defined by one of [N S E W] indicating starting compass facing
 
  1 11
 1S1001
 101001
-101011
-100001
+101L11
+10D001
  1111 

@@ -35,28 +35,26 @@ BONUSHEADER := $(INCDIR)/cub3D_bonus.h
 
 # Binaries
 CORE := $(addprefix core/, player_control.o)
-GFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o)
-GFX += $(addprefix gfx/, draw_map.o render_scene.o raycaster.o)
-INIT := $(addprefix init/, init_scene.o init_scene_params.o init_canvas.o)
-INIT += $(addprefix init/, init_hooks.o init_window.o init_camera.o)
-INIT += $(addprefix init/, init_map.o validate_map.o spawn_player.o)
+GFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o draw_map.o \
+	render_scene.o raycaster.o)
+INIT := $(addprefix init/, init_scene.o init_scene_params.o init_canvas.o \
+	init_hooks.o init_window.o init_camera.o init_map.o validate_map.o \
+	spawn_player.o)
 UTILS := $(addprefix utils/, error_handler.o freez.o validators.o)
 BINS := $(addprefix $(BINDIR)/, launcher.o $(CORE) $(GFX) $(INIT) $(UTILS))
 
 # Bonus binaries
-BONUSCORE := $(addprefix core/, player_control.o player_interact.o)
-BONUSCORE += $(addprefix core/, frame_sync.o)
-BONUSGFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o)
-BONUSGFX += $(addprefix gfx/, draw_map.o render_scene.o raycaster.o)
-BONUSGFX += $(addprefix gfx/, draw_splash.o)
-BONUSINIT := $(addprefix init/, init_scene_bonus.o init_scene_params_bonus.o)
-BONUSINIT += $(addprefix init/, init_camera.o init_canvas.o)
-BONUSINIT += $(addprefix init/, init_map.o validate_map.o spawn_player.o)
-BONUSINIT += $(addprefix init/, init_window_bonus.o init_hooks_bonus.o)
-BONUSINIT += $(addprefix init/, load_thread.o init_extra.o init_sprite.o)
+BONUSCORE := $(addprefix core/, player_control.o player_interact.o \
+	frame_sync.o game_control.o)
+BONUSGFX := $(addprefix gfx/, put_pixel.o new_img.o load_texture.o draw_map.o \
+	render_scene.o raycaster.o draw_splash.o load_sprites.o draw_sprites.o)
+BONUSINIT := $(addprefix init/, init_scene_bonus.o init_scene_params_bonus.o \
+	init_camera.o init_canvas.o init_map.o validate_map.o spawn_player.o \
+	init_window_bonus.o init_hooks_bonus.o load_thread.o init_extra.o \
+	init_sprite.o)
 # BONUSSOUND := $(addprefix sound/, play_sound.o)
-BONUSUTILS := $(addprefix utils/, error_handler.o freez.o validators.o)
-BONUSUTILS += $(addprefix utils/, freez_bonus.o)
+BONUSUTILS := $(addprefix utils/, error_handler.o freez.o validators.o \
+	freez_bonus.o quicksort.o)
 BONUSBINS := $(addprefix $(BONUSBINDIR)/, launcher_bonus.o \
 	$(BONUSCORE) $(BONUSGFX) $(BONUSINIT) $(BONUSSOUND) $(BONUSUTILS))
 
@@ -98,8 +96,9 @@ $(BONUS): $(HEADER) $(BONUSHEADER) $(BONUSBINS) $(LIBMLX) | $(LIBFT)
 $(BINS): $(BINDIR)/%.o: $(SRCDIR)/%.c $(HEADER) | $(SUBDIRS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-$(BONUSBINS): $(BONUSBINDIR)/%.o: $(SRCDIR)/%.c $(BONUSHEADER) $(HEADER) | $(SUBDIRS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+$(BONUSBINS): $(BONUSBINDIR)/%.o: $(SRCDIR)/%.c \
+ $(BONUSHEADER) $(HEADER) | $(SUBDIRS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -DBONUS=1 -c $< -o $@
 
 $(SUBDIRS):
 	$(MKDIR) $(SUBDIRS)

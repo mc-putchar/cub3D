@@ -14,6 +14,7 @@
 #include "cub3D_bonus.h"
 
 // TODO switch to preset scenario
+#define LEVEL_ZERO	"scenes/bonus/level_zero.cub"
 #define LEVEL_ONE	"scenes/bonus/level_one.cub"
 
 int	main(int ac, char **av)
@@ -32,7 +33,7 @@ int	main(int ac, char **av)
 	if (init_window_bonus(&cub, FULLSCREEN))
 		return (EXIT_FAILURE);
 	init_hooks_bonus(&cub);
-	if (load_thread(&cub, LEVEL_ONE))
+	if (load_thread(&cub, LEVEL_ZERO))
 		return (close_hook_bonus(&cub));
 	return (mlx_loop(cub.mlx));
 }

@@ -16,9 +16,14 @@
 # include <stddef.h>
 # include <stdint.h>
 
+# ifndef BONUS
+#  define BONUS				0
+# endif
 # define DIRECTIONS			"ESWN"
 # define CAMERA_PLANE_DIST	0.6
 # define WALL_BUFFER		0.2
+# define MAP_SYMS			" 01"
+# define MAP_SYMS_BONUS		" 01ODLH"
 /* P is for player */
 # define P_MOVE_SPEED		0.1
 # define P_TURN_SPEED		0.05
@@ -50,8 +55,8 @@ enum e_scene_identifiers
 
 typedef struct s_point
 {
-	uint32_t	x;
-	uint32_t	y;
+	int	x;
+	int	y;
 }	t_point;
 
 typedef struct s_vector
@@ -91,16 +96,6 @@ typedef struct s_map
 	char				**val;
 }	t_map;
 
-typedef struct s_sprite_data
-{
-	t_vector		position;
-	t_vector		scale;
-	void			*texture;
-	double			v_offset;
-	char			*tag;
-	struct s_sprite	*next;
-}	t_sprite_data;
-
 typedef struct s_extra
 {
 	char			*key;
@@ -112,12 +107,14 @@ typedef struct s_extra
 
 typedef struct s_scene
 {
+	t_map				map;
+	unsigned char		areset_colors;
 	int					floor;
 	int					ceiling;
-	unsigned char		areset_colors;
-	t_map				map;
 	char				*walls[4];
 	t_extra				*extras;
+	void				*sprites;
+	int					n_sprites;
 }	t_scene;
 
 typedef struct s_player

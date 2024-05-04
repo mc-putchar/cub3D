@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-/* RGBA but Alpha channel is ignored on minilibx Linux implementation */
+/* ARGB but Alpha channel is ignored on minilibx Linux implementation */
 void	put_pixel(t_mlx_image *img, int x, int y, int color)
 {
 	uint32_t	pix;

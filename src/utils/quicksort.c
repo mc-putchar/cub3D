@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "cub3D_bonus.h"
 
-static void	swap_ptr(t_sprite **p1, t_sprite **p2)
+static inline void	swap_ptr(t_sprite **p1, t_sprite **p2)
 {
 	t_sprite	*tmp;
 

@@ -27,7 +27,7 @@ void	render_scene(t_cub *cub, t_mlx_image *canvas)
 	t_mlx_image	*texture;
 
 	xy.x = 0;
-	while (xy.x < canvas->width)
+	while (xy.x < (int)canvas->width)
 	{
 		xy.y = 0;
 		cast_ray(cub, &ray, xy.x);
@@ -39,10 +39,10 @@ void	render_scene(t_cub *cub, t_mlx_image *canvas)
 		if (ray.wall_dist < 1 && close_wall(texture, canvas, &ray, &xy))
 			continue ;
 		wall_height = canvas->height / ray.wall_dist;
-		while (xy.y < (canvas->height >> 1) - (wall_height >> 1))
+		while (xy.y < (int)((canvas->height >> 1) - (wall_height >> 1)))
 			put_pixel(canvas, xy.x, xy.y++, cub->scene->ceiling);
 		draw_wall(texture, canvas, &ray, &xy);
-		while (xy.y < canvas->height)
+		while (xy.y < (int)canvas->height)
 			put_pixel(canvas, xy.x, xy.y++, cub->scene->floor);
 		++xy.x;
 	}
@@ -72,11 +72,11 @@ void	draw_wall(t_mlx_image *tex, t_mlx_image *canv, t_ray *ray, t_point *xy)
 	uint32_t		texoff;
 	double			ppy;
 
-	ppy = (double)tex->height / wall_height;
+	ppy = (double)tex->width / wall_height;
 	h = 0;
 	while (h < wall_height)
 	{
-		texoff = ((uint32_t)(ppy * h)) * tex->width + texx;
+		texoff = ((uint32_t)(ppy * h)) + texx * tex->width;
 		put_pixel(canv, xy->x, xy->y + h++, ((int *)tex->pixels)[texoff]);
 	}
 	xy->y += wall_height;
@@ -91,13 +91,14 @@ int	close_wall(t_mlx_image *tex, t_mlx_image *canv, t_ray *ray, t_point *xy)
 	double			ppy;
 	uint32_t		texoff;
 
-	ppy = (double)tex->height / wall_h;
+	ppy = (double)tex->width / wall_h;
 	texi = 0;
 	if (ray->wall_dist < 1)
 		texi = (ppy * ((wall_h >> 1) - (canv->height >> 1)));
-	while (xy->y < canv->height && xy->y < (canv->height >> 1) + (wall_h >> 1))
+	while (xy->y < (int)canv->height \
+	&& xy->y < (int)((canv->height >> 1) + (wall_h >> 1)))
 	{
-		texoff = (uint32_t)(ppy * xy->y + texi) * tex->width + texx;
+		texoff = (uint32_t)(ppy * xy->y + texi) + texx * tex->width;
 		put_pixel(canv, xy->x, xy->y, ((int *)tex->pixels)[texoff]);
 		++xy->y;
 	}
@@ -108,8 +109,8 @@ uint32_t	texture_x_offset(t_mlx_image *tex, t_ray *ray)
 {
 	uint32_t	texx;
 
-	texx = (uint32_t)(ray->wallx * (double)tex->width);
+	texx = (uint32_t)(ray->wallx * (double)tex->height);
 	if (!ray->side || ray->side == 3)
-		texx = tex->width - texx - 1;
+		texx = tex->height - texx - 1;
 	return (texx);
 }

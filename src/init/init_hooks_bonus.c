@@ -13,7 +13,6 @@
 #include "cub3D.h"
 #include "cub3D_bonus.h"
 
-static int	game_loop_bonus(void *param);
 static int	keydown_hook(int key, void *param);
 static int	keyup_hook(int key, void *param);
 
@@ -36,21 +35,6 @@ int	close_hook_bonus(void *param)
 	free(cub->mlx);
 	ft_printf("Exiting\n");
 	exit(EXIT_SUCCESS);
-}
-
-int	game_loop_bonus(void *param)
-{
-	t_cub	*cub;
-
-	cub = param;
-	render_scene(cub, cub->canvas);
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->canvas->img, 0, 0);
-	mlx_do_sync(cub->mlx);
-	do_frame_sync(cub);
-	display_fps(cub);
-	turn_player(cub->player, cub->camera);
-	move_player(cub->player, &cub->scene->map);
-	return (0);
 }
 
 int	keydown_hook(int key, void *param)
